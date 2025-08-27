@@ -5,6 +5,7 @@ import '../features/charity/charity_page.dart';
 import '../features/temples/temples_page.dart';
 import '../features/shop/shop_page.dart';
 import '../features/events/events_page.dart';
+import '../features/eats/eats_page.dart';
 
 class AppRouter {
   static Route<dynamic> generateRoute(RouteSettings settings) {
@@ -21,6 +22,8 @@ class AppRouter {
         return MaterialPageRoute(builder: (_) => const ShopPage());
       case '/events':
         return MaterialPageRoute(builder: (_) => const EventsPage());
+      case '/eats':
+        return MaterialPageRoute(builder: (_) => const EatsPage());
       default:
         return MaterialPageRoute(
           builder: (_) => const Scaffold(

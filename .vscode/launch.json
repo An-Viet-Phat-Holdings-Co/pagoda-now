@@ -1,0 +1,10 @@
+{
+    "configurations": [
+        {
+            "name": "Flutter (lib\\features\\eats\\eats_detail_page.dart)",
+            "type": "dart",
+            "request": "launch",
+            "program": "lib\\features\\eats\\eats_detail_page.dart"
+        }
+    ]
+}
