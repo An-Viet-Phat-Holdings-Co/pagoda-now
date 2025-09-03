@@ -6,7 +6,13 @@ import 'mailing.dart';
 
 class AppLayout extends StatelessWidget {
   final Widget child;
-  const AppLayout({super.key, required this.child});
+  final bool isHome;
+
+  const AppLayout({
+    super.key,
+    required this.child,
+    this.isHome = false, // 👈 defaults to false
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -18,12 +24,12 @@ class AppLayout extends StatelessWidget {
             child: SingleChildScrollView(
               child: Column(
                 children: [
-                  const HeroSection(),
+                  if (isHome) const HeroSection(), // homepage only
                   Padding(
                     padding: const EdgeInsets.all(16),
                     child: child,
                   ),
-                  const MailingSection(),
+                  if (isHome) const MailingSection(), // homepage only
                   const FooterSection(),
                 ],
               ),

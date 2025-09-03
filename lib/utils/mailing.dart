@@ -6,35 +6,43 @@ class MailingSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final emailController = TextEditingController();
+    final theme = Theme.of(context);
+    final colorScheme = theme.colorScheme;
+    final textTheme = theme.textTheme;
 
     return Container(
       margin: const EdgeInsets.symmetric(vertical: 40, horizontal: 24),
       child: Center(
         child: Container(
-          constraints: const BoxConstraints(maxWidth: 600), // keeps it compact
+          constraints: const BoxConstraints(maxWidth: 600),
           padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 32),
           decoration: BoxDecoration(
-            color: Colors.white,
+            color: colorScheme.surface, // theme-aware background
             borderRadius: BorderRadius.circular(16),
+            boxShadow: [
+              BoxShadow(
+                color: colorScheme.shadow.withOpacity(0.1),
+                blurRadius: 6,
+                offset: const Offset(0, 3),
+              ),
+            ],
           ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              const Text(
+              Text(
                 "Đăng ký nhận tin",
-                style: TextStyle(
-                  fontSize: 22,
+                style: textTheme.titleLarge?.copyWith(
                   fontWeight: FontWeight.bold,
-                  color: Colors.purple,
+                  color: colorScheme.primary,
                 ),
               ),
               const SizedBox(height: 8),
-              const Text(
+              Text(
                 "Nhận thông báo sự kiện, bài viết và tin tức Phật giáo mới nhất.",
                 textAlign: TextAlign.center,
-                style: TextStyle(
+                style: textTheme.bodyMedium?.copyWith(
                   fontSize: 14,
-                  color: Colors.black87,
                   height: 1.5,
                 ),
               ),
@@ -49,14 +57,14 @@ class MailingSection extends StatelessWidget {
                       decoration: InputDecoration(
                         hintText: "Nhập email của bạn",
                         contentPadding: const EdgeInsets.symmetric(
-                            horizontal: 16, vertical: 14),
+                          horizontal: 16,
+                          vertical: 14,
+                        ),
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(30),
-                          borderSide:
-                              BorderSide(color: Colors.grey.shade400),
                         ),
                         filled: true,
-                        fillColor: Colors.grey.shade50,
+                        fillColor: colorScheme.surfaceContainerLowest,
                       ),
                     ),
                   ),
@@ -73,10 +81,12 @@ class MailingSection extends StatelessWidget {
                       }
                     },
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.purple,
-                      foregroundColor: Colors.white,
+                      backgroundColor: colorScheme.primary,
+                      foregroundColor: colorScheme.onPrimary,
                       padding: const EdgeInsets.symmetric(
-                          horizontal: 24, vertical: 16),
+                        horizontal: 24,
+                        vertical: 16,
+                      ),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(30),
                       ),

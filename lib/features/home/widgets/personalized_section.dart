@@ -5,6 +5,10 @@ class PersonalizedSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final colorScheme = theme.colorScheme;
+    final textTheme = theme.textTheme;
+
     // "Database" of 10 images
     final items = [
       {
@@ -75,9 +79,12 @@ class PersonalizedSection extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Text(
+        Text(
           "Dành cho bạn",
-          style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+          style: textTheme.titleLarge?.copyWith(
+            fontWeight: FontWeight.bold,
+            color: colorScheme.onBackground,
+          ),
         ),
         const SizedBox(height: 16),
         GridView.builder(
@@ -85,7 +92,7 @@ class PersonalizedSection extends StatelessWidget {
           physics: const NeverScrollableScrollPhysics(),
           gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
             crossAxisCount: 3, // 3 images per row → 2 rows = 6 images
-            childAspectRatio: 1, // Taller to fit image + caption
+            childAspectRatio: 1,
             crossAxisSpacing: 8,
             mainAxisSpacing: 8,
           ),
@@ -93,7 +100,7 @@ class PersonalizedSection extends StatelessWidget {
           itemBuilder: (context, index) {
             final item = displayItems[index];
             return ClipRRect(
-              borderRadius: BorderRadius.circular(8),
+              borderRadius: BorderRadius.circular(12),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -106,7 +113,8 @@ class PersonalizedSection extends StatelessWidget {
                       filterQuality: FilterQuality.high,
                     ),
                   ),
-                  // Bottom "thingy" with text
+
+                  // Caption area
                   Container(
                     width: double.infinity,
                     padding: const EdgeInsets.symmetric(
@@ -114,10 +122,10 @@ class PersonalizedSection extends StatelessWidget {
                       vertical: 6,
                     ),
                     decoration: BoxDecoration(
-                      color: Colors.grey.shade50,
+                      color: colorScheme.surfaceContainerLowest,
                       border: Border(
                         top: BorderSide(
-                          color: Colors.grey.shade300,
+                          color: colorScheme.outlineVariant,
                           width: 0.5,
                         ),
                       ),
@@ -127,9 +135,10 @@ class PersonalizedSection extends StatelessWidget {
                       children: [
                         Text(
                           item["title"]!,
-                          style: const TextStyle(
-                            fontSize: 13,
+                          style: textTheme.bodyMedium?.copyWith(
                             fontWeight: FontWeight.w600,
+                            color: colorScheme.onSurface,
+                            fontSize: 13,
                           ),
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
@@ -137,9 +146,9 @@ class PersonalizedSection extends StatelessWidget {
                         const SizedBox(height: 2),
                         Text(
                           item["subtitle"]!,
-                          style: TextStyle(
+                          style: textTheme.bodySmall?.copyWith(
+                            color: colorScheme.onSurfaceVariant,
                             fontSize: 11,
-                            color: Colors.grey.shade600,
                           ),
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,

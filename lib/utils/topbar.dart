@@ -1,6 +1,13 @@
 import 'dart:async';
 import 'dart:math';
 import 'package:flutter/material.dart';
+import '../features/home/home_page.dart';
+import '../features/community/community_page.dart';
+import '../features/charity/charity_page.dart';
+import '../features/temples/temples_page.dart';
+import '../features/shop/shop_page.dart';
+import '../features/events/events_page.dart';
+import '../features/eats/eats_page.dart';
 
 class TopBar extends StatefulWidget {
   const TopBar({super.key});
@@ -11,12 +18,9 @@ class TopBar extends StatefulWidget {
 
 class _TopBarState extends State<TopBar> {
   final List<String> monkImages = [
-    "https://images.unsplash.com/photo-1549887534-4e4b2f4b5c1c?q=80&w=1920&h=1080&fit=crop", 
-    // Monk meditating
-    "https://images.unsplash.com/photo-1504215680853-026ed2a45def?q=80&w=1920&h=1080&fit=crop", 
-    // Praying hands close-up
-    "https://images.unsplash.com/photo-1506744038136-46273834b3fb?q=80&w=1920&h=1080&fit=crop", 
-    // Temple silhouette with monk
+    "https://images.unsplash.com/photo-1549887534-4e4b2f4b5c1c?q=80&w=1920&h=1080&fit=crop",
+    "https://images.unsplash.com/photo-1504215680853-026ed2a45def?q=80&w=1920&h=1080&fit=crop",
+    "https://images.unsplash.com/photo-1506744038136-46273834b3fb?q=80&w=1920&h=1080&fit=crop",
   ];
 
   late String currentImage;
@@ -30,7 +34,8 @@ class _TopBarState extends State<TopBar> {
     // Rotate monk images every 2 minutes
     timer = Timer.periodic(const Duration(minutes: 2), (_) {
       setState(() {
-        final available = monkImages.where((img) => img != currentImage).toList();
+        final available =
+            monkImages.where((img) => img != currentImage).toList();
         currentImage = available[Random().nextInt(available.length)];
       });
     });
@@ -42,74 +47,159 @@ class _TopBarState extends State<TopBar> {
     super.dispose();
   }
 
+  void _navigateTo(BuildContext context, Widget page) {
+    Navigator.push(context, MaterialPageRoute(builder: (_) => page));
+  }
+
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+
     return Container(
       height: 72,
       padding: const EdgeInsets.symmetric(horizontal: 16),
       decoration: BoxDecoration(
-        color: Colors.white,
-        border: Border(bottom: BorderSide(color: Colors.grey.shade300)),
-        boxShadow: [BoxShadow(color: Colors.black12, blurRadius: 4)],
-      ),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          // Logo
-          Row(
-            children: const [
-              Icon(Icons.spa, color: Colors.purple, size: 32),
-              SizedBox(width: 10),
-              Text(
-                "Pagoda",
-                style: TextStyle(
-                  fontSize: 22,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.purple,
-                ),
-              ),
-            ],
+        color: theme.appBarTheme.backgroundColor ?? theme.colorScheme.surface,
+        border: Border(
+          bottom: BorderSide(
+            color: theme.dividerColor,
           ),
-
-          // Menu items
-          Row(
-            children: const [
-              _NavItem(label: "Chùa"),
-              _NavItem(label: "Sự kiện"),
-              _NavItem(label: "Cộng đồng"),
-              _NavItem(label: "Cửa hàng"),
-              _NavItem(label: "Từ thiện"),
-            ],
-          ),
-
-          // Actions
-          Row(
-            children: [
-              const Icon(Icons.search, size: 24),
-              const SizedBox(width: 12),
-              const Icon(Icons.notifications_outlined, size: 24),
-              const SizedBox(width: 12),
-
-              // Avatar with fallback
-              CircleAvatar(
-                radius: 20,
-                backgroundColor: Colors.grey.shade200,
-                child: ClipOval(
-                  child: Image.network(
-                    currentImage,
-                    fit: BoxFit.cover,
-                    width: 40,
-                    height: 40,
-                    errorBuilder: (_, __, ___) {
-                      return const Icon(Icons.person, color: Colors.grey);
-                    },
-                  ),
-                ),
-              ),
-              const SizedBox(width: 16),
-            ],
-          ),
+        ),
+        boxShadow: const [
+          BoxShadow(color: Colors.black12, blurRadius: 4),
         ],
+      ),
+      child: LayoutBuilder(
+        builder: (context, constraints) {
+          bool isMobile = constraints.maxWidth < 800;
+
+          return Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              // Logo
+              InkWell(
+                onTap: () => _navigateTo(context, const HomePage()),
+                child: Row(
+                  children: [
+                    Icon(Icons.spa,
+                        color: theme.colorScheme.primary, size: 32),
+                    const SizedBox(width: 10),
+                    Text(
+                      "Pagoda",
+                      style: theme.textTheme.titleLarge?.copyWith(
+                        color: theme.colorScheme.primary,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+
+              // Center navigation (desktop only)
+              if (!isMobile)
+                Row(
+                  children: [
+                    _NavItem(
+                      label: "Chùa",
+                      onTap: () => _navigateTo(context, const TemplesPage()),
+                    ),
+                    _NavItem(
+                      label: "Sự kiện",
+                      onTap: () => _navigateTo(context, const EventsPage()),
+                    ),
+                    _NavItem(
+                      label: "Cộng đồng",
+                      onTap: () => _navigateTo(context, const CommunityPage()),
+                    ),
+                    _NavItem(
+                      label: "Cửa hàng",
+                      onTap: () => _navigateTo(context, const ShopPage()),
+                    ),
+                    _NavItem(
+                      label: "Từ thiện",
+                      onTap: () => _navigateTo(context, const CharityPage()),
+                    ),
+                    _NavItem(
+                      label: "Ăn uống",
+                      onTap: () => _navigateTo(context, const EatsPage()),
+                    ),
+                  ],
+                ),
+
+              // Actions (right side)
+              Row(
+                children: [
+                  Icon(Icons.search,
+                      size: 24, color: theme.iconTheme.color),
+                  const SizedBox(width: 12),
+                  Icon(Icons.notifications_outlined,
+                      size: 24, color: theme.iconTheme.color),
+                  const SizedBox(width: 12),
+
+                  // Avatar with fallback
+                  CircleAvatar(
+                    radius: 20,
+                    backgroundColor: theme.colorScheme.surfaceVariant,
+                    child: ClipOval(
+                      child: Image.network(
+                        currentImage,
+                        fit: BoxFit.cover,
+                        width: 40,
+                        height: 40,
+                        errorBuilder: (_, __, ___) {
+                          return Icon(Icons.person,
+                              color: theme.colorScheme.onSurfaceVariant);
+                        },
+                      ),
+                    ),
+                  ),
+                  const SizedBox(width: 8),
+
+                  // Hamburger (mobile only)
+                  if (isMobile)
+                    PopupMenuButton<String>(
+                      icon: Icon(Icons.menu,
+                          size: 28, color: theme.iconTheme.color),
+                      onSelected: (value) {
+                        switch (value) {
+                          case "Chùa":
+                            _navigateTo(context, const TemplesPage());
+                            break;
+                          case "Sự kiện":
+                            _navigateTo(context, const EventsPage());
+                            break;
+                          case "Cộng đồng":
+                            _navigateTo(context, const CommunityPage());
+                            break;
+                          case "Cửa hàng":
+                            _navigateTo(context, const ShopPage());
+                            break;
+                          case "Từ thiện":
+                            _navigateTo(context, const CharityPage());
+                            break;
+                          case "Ăn uống":
+                            _navigateTo(context, const EatsPage());
+                            break;
+                        }
+                      },
+                      itemBuilder: (context) => [
+                        const PopupMenuItem(value: "Chùa", child: Text("Chùa")),
+                        const PopupMenuItem(
+                            value: "Sự kiện", child: Text("Sự kiện")),
+                        const PopupMenuItem(
+                            value: "Cộng đồng", child: Text("Cộng đồng")),
+                        const PopupMenuItem(
+                            value: "Cửa hàng", child: Text("Cửa hàng")),
+                        const PopupMenuItem(
+                            value: "Từ thiện", child: Text("Từ thiện")),
+                        const PopupMenuItem(
+                            value: "Ăn uống", child: Text("Ăn uống")),
+                      ],
+                    ),
+                ],
+              ),
+            ],
+          );
+        },
       ),
     );
   }
@@ -117,15 +207,25 @@ class _TopBarState extends State<TopBar> {
 
 class _NavItem extends StatelessWidget {
   final String label;
-  const _NavItem({required this.label});
+  final VoidCallback onTap;
+  const _NavItem({required this.label, required this.onTap});
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 12),
-      child: Text(
-        label,
-        style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
+    final theme = Theme.of(context);
+
+    return InkWell(
+      onTap: onTap,
+      borderRadius: BorderRadius.circular(8),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+        child: Text(
+          label,
+          style: theme.textTheme.bodyMedium?.copyWith(
+            fontWeight: FontWeight.w500,
+            color: theme.textTheme.bodyMedium?.color,
+          ),
+        ),
       ),
     );
   }

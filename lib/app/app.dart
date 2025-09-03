@@ -10,7 +10,9 @@ class PagodaNowApp extends StatelessWidget {
     return MaterialApp(
       title: "Pagoda Now",
       debugShowCheckedModeBanner: false,
-      theme: AppTheme.light,
+      theme: AppTheme.light,       // light theme
+      darkTheme: AppTheme.dark,    // dark theme support
+      themeMode: ThemeMode.system, // 👈 respects system setting automatically
       initialRoute: '/',
       onGenerateRoute: AppRouter.generateRoute,
     );

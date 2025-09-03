@@ -5,11 +5,18 @@ class FooterSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final colorScheme = theme.colorScheme;
+    final textTheme = theme.textTheme;
+
+    // NOTE: requires Flutter with the new ColorScheme roles (see note below)
+    final background = colorScheme.surfaceContainerHighest;
+
     return Column(
       children: [
         // Main footer content
         Container(
-          color: Colors.grey.shade100,
+          color: background,
           padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 24),
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -22,41 +29,39 @@ class FooterSection extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Row(
-                      children: const [
-                        Icon(Icons.spa, color: Colors.purple, size: 36),
-                        SizedBox(width: 10),
+                      children: [
+                        Icon(Icons.spa, color: colorScheme.primary, size: 36),
+                        const SizedBox(width: 10),
                         Text(
                           "Pagoda",
-                          style: TextStyle(
-                            fontSize: 22,
+                          style: textTheme.titleLarge?.copyWith(
+                            color: colorScheme.primary,
                             fontWeight: FontWeight.bold,
-                            color: Colors.purple,
                           ),
                         ),
                       ],
                     ),
                     const SizedBox(height: 12),
                     SizedBox(
-                      width: 360, // 👈 adjust to taste
-                      child: const Text(
+                      width: 360,
+                      child: Text(
                         "Kết nối cộng đồng Phật tử toàn cầu với chùa, sự kiện và tài nguyên Phật giáo. Hành trình tâm linh của bạn bắt đầu từ đây.",
-                        style: TextStyle(fontSize: 14, height: 1.5),
+                        style: textTheme.bodyMedium?.copyWith(
+                          fontSize: 14,
+                          height: 1.5,
+                        ),
                       ),
                     ),
                     const SizedBox(height: 16),
                     Row(
-                      children: const [
-                        Icon(Icons.facebook, size: 26, color: Colors.black54),
-                        SizedBox(width: 14),
-                        Icon(
-                          Icons.ondemand_video,
-                          size: 26,
-                          color: Colors.black54,
-                        ),
-                        SizedBox(width: 14),
-                        Icon(Icons.camera_alt, size: 26, color: Colors.black54),
-                        SizedBox(width: 14),
-                        Icon(Icons.send, size: 26, color: Colors.black54),
+                      children: [
+                        Icon(Icons.facebook, size: 26, color: theme.iconTheme.color),
+                        const SizedBox(width: 14),
+                        Icon(Icons.ondemand_video, size: 26, color: theme.iconTheme.color),
+                        const SizedBox(width: 14),
+                        Icon(Icons.camera_alt, size: 26, color: theme.iconTheme.color),
+                        const SizedBox(width: 14),
+                        Icon(Icons.send, size: 26, color: theme.iconTheme.color),
                       ],
                     ),
                   ],
@@ -118,12 +123,15 @@ class FooterSection extends StatelessWidget {
         // Divider line
         Container(
           width: double.infinity,
-          color: Colors.grey.shade300,
+          color: theme.dividerColor,
           padding: const EdgeInsets.symmetric(vertical: 12),
-          child: const Center(
+          child: Center(
             child: Text(
               "© 2025 Pagoda. All rights reserved.",
-              style: TextStyle(fontSize: 12, color: Colors.black54),
+              style: textTheme.bodySmall?.copyWith(
+                fontSize: 12,
+                color: textTheme.bodySmall?.color?.withOpacity(0.7),
+              ),
             ),
           ),
         ),
@@ -140,12 +148,18 @@ class _FooterNav extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final textTheme = theme.textTheme;
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
           title,
-          style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
+          style: textTheme.titleSmall?.copyWith(
+            fontWeight: FontWeight.bold,
+            fontSize: 15,
+          ),
         ),
         const SizedBox(height: 12),
         ...links.map(
@@ -153,7 +167,9 @@ class _FooterNav extends StatelessWidget {
             padding: const EdgeInsets.symmetric(vertical: 6),
             child: Text(
               link,
-              style: const TextStyle(fontSize: 13, color: Colors.black87),
+              style: textTheme.bodySmall?.copyWith(
+                fontSize: 13,
+              ),
             ),
           ),
         ),

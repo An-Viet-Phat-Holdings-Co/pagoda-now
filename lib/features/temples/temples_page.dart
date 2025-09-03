@@ -1,48 +1,23 @@
 import 'package:flutter/material.dart';
-import 'temples_detail_page.dart';
-import 'widgets/temple_card.dart';
+import '../../utils/layout.dart';
+import 'widgets/filter_bar.dart';
+import 'widgets/popular_temples_display.dart';
+import 'widgets/all_temples_display.dart';
 
 class TemplesPage extends StatelessWidget {
   const TemplesPage({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: const Text("Temples")),
-      body: ListView(
-        children: [
-          TempleCard(
-            name: "Giac Lam Pagoda",
-            location: "Ho Chi Minh City",
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => const TemplesDetailPage(
-                    name: "Giac Lam Pagoda",
-                    description:
-                        "One of the oldest temples in Saigon, built in 1744. Known for its historical significance and peaceful atmosphere.",
-                  ),
-                ),
-              );
-            },
-          ),
-          TempleCard(
-            name: "Tran Quoc Pagoda",
-            location: "Hanoi",
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => const TemplesDetailPage(
-                    name: "Tran Quoc Pagoda",
-                    description:
-                        "The oldest Buddhist temple in Hanoi, located on West Lake, dating back to the 6th century.",
-                  ),
-                ),
-              );
-            },
-          ),
+    return AppLayout(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: const [
+          FilterBar(),
+          SizedBox(height: 24),
+          PopularTemplesDisplay(),
+          SizedBox(height: 32),
+          AllTemplesDisplay(),
         ],
       ),
     );
