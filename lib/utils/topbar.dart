@@ -18,9 +18,9 @@ class TopBar extends StatefulWidget {
 
 class _TopBarState extends State<TopBar> {
   final List<String> monkImages = [
-    "https://images.unsplash.com/photo-1549887534-4e4b2f4b5c1c?q=80&w=1920&h=1080&fit=crop",
-    "https://images.unsplash.com/photo-1504215680853-026ed2a45def?q=80&w=1920&h=1080&fit=crop",
-    "https://images.unsplash.com/photo-1506744038136-46273834b3fb?q=80&w=1920&h=1080&fit=crop",
+    "https://images.unsplash.com/photo-1509099836639-18ba1795216d?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80",
+    "https://images.unsplash.com/photo-1504215680853-026ed2a45def?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80",
+    "https://images.unsplash.com/photo-1506744038136-46273834b3fb?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80",
   ];
 
   late String currentImage;
@@ -34,8 +34,9 @@ class _TopBarState extends State<TopBar> {
     // Rotate monk images every 2 minutes
     timer = Timer.periodic(const Duration(minutes: 2), (_) {
       setState(() {
-        final available =
-            monkImages.where((img) => img != currentImage).toList();
+        final available = monkImages
+            .where((img) => img != currentImage)
+            .toList();
         currentImage = available[Random().nextInt(available.length)];
       });
     });
@@ -60,14 +61,8 @@ class _TopBarState extends State<TopBar> {
       padding: const EdgeInsets.symmetric(horizontal: 16),
       decoration: BoxDecoration(
         color: theme.appBarTheme.backgroundColor ?? theme.colorScheme.surface,
-        border: Border(
-          bottom: BorderSide(
-            color: theme.dividerColor,
-          ),
-        ),
-        boxShadow: const [
-          BoxShadow(color: Colors.black12, blurRadius: 4),
-        ],
+        border: Border(bottom: BorderSide(color: theme.dividerColor)),
+        boxShadow: const [BoxShadow(color: Colors.black12, blurRadius: 4)],
       ),
       child: LayoutBuilder(
         builder: (context, constraints) {
@@ -81,8 +76,7 @@ class _TopBarState extends State<TopBar> {
                 onTap: () => _navigateTo(context, const HomePage()),
                 child: Row(
                   children: [
-                    Icon(Icons.spa,
-                        color: theme.colorScheme.primary, size: 32),
+                    Icon(Icons.spa, color: theme.colorScheme.primary, size: 32),
                     const SizedBox(width: 10),
                     Text(
                       "Pagoda",
@@ -128,11 +122,13 @@ class _TopBarState extends State<TopBar> {
               // Actions (right side)
               Row(
                 children: [
-                  Icon(Icons.search,
-                      size: 24, color: theme.iconTheme.color),
+                  Icon(Icons.search, size: 24, color: theme.iconTheme.color),
                   const SizedBox(width: 12),
-                  Icon(Icons.notifications_outlined,
-                      size: 24, color: theme.iconTheme.color),
+                  Icon(
+                    Icons.notifications_outlined,
+                    size: 24,
+                    color: theme.iconTheme.color,
+                  ),
                   const SizedBox(width: 12),
 
                   // Avatar with fallback
@@ -146,8 +142,10 @@ class _TopBarState extends State<TopBar> {
                         width: 40,
                         height: 40,
                         errorBuilder: (_, __, ___) {
-                          return Icon(Icons.person,
-                              color: theme.colorScheme.onSurfaceVariant);
+                          return Icon(
+                            Icons.person,
+                            color: theme.colorScheme.onSurfaceVariant,
+                          );
                         },
                       ),
                     ),
@@ -157,8 +155,11 @@ class _TopBarState extends State<TopBar> {
                   // Hamburger (mobile only)
                   if (isMobile)
                     PopupMenuButton<String>(
-                      icon: Icon(Icons.menu,
-                          size: 28, color: theme.iconTheme.color),
+                      icon: Icon(
+                        Icons.menu,
+                        size: 28,
+                        color: theme.iconTheme.color,
+                      ),
                       onSelected: (value) {
                         switch (value) {
                           case "Chùa":
@@ -184,15 +185,25 @@ class _TopBarState extends State<TopBar> {
                       itemBuilder: (context) => [
                         const PopupMenuItem(value: "Chùa", child: Text("Chùa")),
                         const PopupMenuItem(
-                            value: "Sự kiện", child: Text("Sự kiện")),
+                          value: "Sự kiện",
+                          child: Text("Sự kiện"),
+                        ),
                         const PopupMenuItem(
-                            value: "Cộng đồng", child: Text("Cộng đồng")),
+                          value: "Cộng đồng",
+                          child: Text("Cộng đồng"),
+                        ),
                         const PopupMenuItem(
-                            value: "Cửa hàng", child: Text("Cửa hàng")),
+                          value: "Cửa hàng",
+                          child: Text("Cửa hàng"),
+                        ),
                         const PopupMenuItem(
-                            value: "Từ thiện", child: Text("Từ thiện")),
+                          value: "Từ thiện",
+                          child: Text("Từ thiện"),
+                        ),
                         const PopupMenuItem(
-                            value: "Ăn uống", child: Text("Ăn uống")),
+                          value: "Ăn uống",
+                          child: Text("Ăn uống"),
+                        ),
                       ],
                     ),
                 ],

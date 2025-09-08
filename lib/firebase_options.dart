@@ -55,6 +55,7 @@ class DefaultFirebaseOptions {
     messagingSenderId: '833560150062',
     projectId: 'pagoda-now-b6c09',
     authDomain: 'pagoda-now-b6c09.firebaseapp.com',
+    databaseURL: 'https://pagoda-now-b6c09-default-rtdb.firebaseio.com',
     storageBucket: 'pagoda-now-b6c09.firebasestorage.app',
     measurementId: 'G-YJG51LKLWG',
   );
@@ -65,7 +66,9 @@ class DefaultFirebaseOptions {
     messagingSenderId: '833560150062',
     projectId: 'pagoda-now-b6c09',
     authDomain: 'pagoda-now-b6c09.firebaseapp.com',
+    databaseURL: 'https://pagoda-now-b6c09-default-rtdb.firebaseio.com',
     storageBucket: 'pagoda-now-b6c09.firebasestorage.app',
     measurementId: 'G-YJVEBT70WB',
   );
+
 }
