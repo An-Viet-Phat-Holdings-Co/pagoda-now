@@ -1,47 +1,36 @@
 import 'package:flutter/material.dart';
-import 'post_detail_page.dart';
-import 'widgets/post_card.dart';
+import '../../utils/layout.dart';
+import './widgets/community/filter_bar.dart';
+import './widgets/community/forum_posts_display.dart';
+import './widgets/community/livestream_display.dart';
+import './widgets/community/news_display.dart';
 
 class CommunityPage extends StatelessWidget {
   const CommunityPage({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: const Text("Community")),
-      body: ListView(
-        children: [
-          PostCard(
-            title: "Welcome to Pagoda Community",
-            author: "Admin",
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => const PostDetailPage(
-                    title: "Welcome to Pagoda Community",
-                    content: "This is the first community post! 🌸",
-                  ),
-                ),
-              );
-            },
-          ),
-          PostCard(
-            title: "Upcoming Dharma Talk",
-            author: "Thay Minh",
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => const PostDetailPage(
-                    title: "Upcoming Dharma Talk",
-                    content: "Join us this weekend for a special Dharma talk 🙏",
-                  ),
-                ),
-              );
-            },
-          ),
-        ],
+    return AppLayout(
+      child: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: const [
+            // Filter tabs like Forum | Livestream | News
+            CommunityFilterBar(),
+            SizedBox(height: 24),
+
+            // Section: Forum posts
+            ForumPostsDisplay(),
+            SizedBox(height: 32),
+
+            // Section: Livestream highlights
+            LivestreamDisplay(),
+            SizedBox(height: 32),
+
+            // Section: Community news
+            CommunityNewsDisplay(),
+          ],
+        ),
       ),
     );
   }
