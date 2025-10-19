@@ -1,0 +1,1051 @@
+
+                <!DOCTYPE html>
+                <html lang="zh">
+                <head>
+                  <meta charset="UTF-8">
+                  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                  <title>Danh sách Từ thiện</title>
+                  <style>
+                    *,
+                    *::before,
+                    *::after {
+                      box-sizing: border-box;
+                      margin: 0;
+                    }
+                     .iframe-outer {
+                      position: fixed;
+                      inset: 0;
+                      display: flex;
+                      justify-content: center;
+                      background-color: #fff;
+                    }
+                    .iframe-wrapper {
+                      width: 100%;
+                      height: 100%;
+                      transform: none !important;
+                    }
+                    #dynamicIframe {
+                      border: none;
+                      width: 100%;
+                      height: 100%;
+                    }
+                  </style>
+                  <script>
+                const width = 1920
+                const height = 1080
+                const resolutionRatio = width && height ? width / height : 1
+                const pageNameMap = {
+                  'login_page': 'Đăng nhập',
+    'registration_page': 'Đăng ký',
+    'forgot_password_page': 'Quên mật khẩu',
+    'home_page': 'Trang chủ',
+    'temples_list_page': 'Danh sách Chùa',
+    'temple_detail_page': 'Chi tiết Chùa',
+    'temples_map_view_page': 'Bản đồ Chùa',
+    'events_list_page': 'Danh sách Sự kiện',
+    'event_detail_page': 'Chi tiết Sự kiện',
+    'community_hub_page': 'Trung tâm Cộng đồng',
+    'community_news_page': 'Tin tức Cộng đồng',
+    'community_livestream_page': 'Phát trực tiếp Cộng đồng',
+    'community_forum_main_page': 'Diễn đàn Cộng đồng',
+    'shops_list_page': 'Danh sách Cửa hàng',
+    'shop_product_detail_page': 'Chi tiết Sản phẩm',
+    'checkout_page': 'Thanh toán',
+    'payment_confirmation_page': 'Xác nhận Thanh toán',
+    'eats_list_page': 'Danh sách Món chay',
+    'eats_detail_page': 'Chi tiết Món chay',
+    'charity_list_page': 'Danh sách Từ thiện',
+    'charity_detail_page': 'Chi tiết Tổ chức Từ thiện',
+    'donation_page': 'Quyên góp',
+    'donation_confirmation_page': 'Xác nhận Quyên góp',
+    'search_page': 'Tìm kiếm',
+    'notifications_page': 'Thông báo',
+    'user_profile_page': 'Hồ sơ người dùng',
+    'account_settings_page': 'Cài đặt tài khoản',
+    'about_us_page': 'Về chúng tôi',
+    'contact_us_page': 'Liên hệ',
+    'privacy_policy_page': 'Chính sách bảo mật',
+    'terms_of_service_page': 'Điều khoản dịch vụ'
+                }
+                function setIframeSize(w, h) {
+                  const currentContainerRadio = w / h
+                  let widthValue = w
+                  let heightValue = h
+                  let zoom = 1
+                  if (currentContainerRadio > resolutionRatio) {
+                    widthValue = h * resolutionRatio
+                    heightValue = h
+                  } else {
+                    widthValue = w
+                    heightValue = w / resolutionRatio
+                  }
+                  zoom = width ? widthValue / width : 1
+                  return {
+                    width: widthValue / zoom + 'px',
+                    height: heightValue / zoom + 'px',
+                    zoom,
+                  }
+                }
+                function adjustIframeSize() {
+                  const iframeWrapper = document.querySelector(".iframe-wrapper")
+                  const { width, height, zoom } = setIframeSize(window.innerWidth, window.innerHeight)
+                  iframeWrapper.style.height = height
+                  iframeWrapper.style.width = width
+                  iframeWrapper.style.transform = 'scale(' + zoom + ')'
+                }
+                function sanitizeFilename(name) {
+                  return name.replace(/[\/:*?"<>|]/g, '_')
+                }
+                function handlePostMessage(event) {
+                  if (!event.data) {
+                    return
+                  }
+                  const { type, targetPageId } = event.data
+                  const targetPageName = pageNameMap[targetPageId]
+                  if (type === "iframeNavigation" && targetPageId && targetPageName) {
+                    window.location.href = targetPageName + '.html'
+                  }
+                }
+                window.addEventListener('message', handlePostMessage)
+                window.onload = adjustIframeSize
+                window.onresize = adjustIframeSize
+                window.onunload = () => {
+                  window.removeEventListener('message', handlePostMessage)
+                }
+              </script>
+                </head>
+                <body>
+                  <div class="iframe-outer">
+                    <div class="iframe-wrapper">
+                      <iframe id="dynamicIframe" srcdoc='<html lang="vi" data-theme="light"><head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Danh sách Từ thiện - Pagoda</title>
+    <link href="./assets/aec0181c/npm/daisyui@5.css" rel="stylesheet" type="text/css">
+    <script src="./assets/1f17f226/npm/@tailwindcss/browser@4.js"></script>
+    <link href="./assets/npm/daisyui@5/themes.css" rel="stylesheet" type="text/css">
+    <script src="./assets/3/3.1.1/iconify.min.js"></script>
+    <style>
+/* Import Inter font family */
+@import url(&#39;https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;display=swap&#39;);
+
+/* daisyUI Theme Variables Customization
+ * Based on the Pagoda Buddhist app requirements and UI guidance
+ */
+:root {
+    /* Brand colors from Pagoda design document */
+    --color-primary: rgba(142, 68, 173, 1); /* #8E44AD purple lotus */
+    --color-primary-content: rgba(255, 255, 255, 1);
+    --color-secondary: rgba(241, 196, 15, 1); /* #F1C40F earth yellow */
+    --color-secondary-content: rgba(26, 39, 50, 1);
+    --color-accent: rgba(142, 68, 173, 1);
+    --color-accent-content: rgba(255, 255, 255, 1);
+
+    /* Background colors - clean and serene */
+    --color-base-100: rgba(255, 255, 255, 1); /* Pure white for cards */
+    --color-base-200: rgba(248, 249, 250, 1); /* Light neutral #F8F9FA */
+    --color-base-300: rgba(229, 231, 235, 1);
+    --color-base-content: rgba(46, 58, 69, 1); /* Dark charcoal #2E3A45 */
+
+    /* Semantic colors */
+    --color-success: rgba(67, 160, 71, 1); /* #43A047 */
+    --color-success-content: rgba(255, 255, 255, 1);
+    --color-warning: rgba(253, 216, 53, 1); /* #FDD835 */
+    --color-warning-content: rgba(26, 39, 50, 1);
+    --color-error: rgba(229, 57, 53, 1); /* #E53935 */
+    --color-error-content: rgba(255, 255, 255, 1);
+    --color-info: rgba(142, 68, 173, 1);
+    --color-info-content: rgba(255, 255, 255, 1);
+
+    /* Typography and styling */
+    --radius-box: 0.5rem; /* 8px border radius for Buddhist serenity */
+    --radius-btn: 0.5rem;
+    --border: 1px;
+}
+
+/* Typography settings */
+body {
+    font-family: &#39;Inter&#39;, sans-serif;
+    font-size: 16px;
+    line-height: 1.6;
+    color: var(--color-base-content);
+    letter-spacing: 0.02em;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: &#39;Inter&#39;, sans-serif;
+    font-weight: 600;
+    line-height: 1.3;
+    color: rgba(26, 39, 50, 1); /* #1A2732 for headings */
+    letter-spacing: 0.02em;
+}
+
+h1 { font-size: 2rem; } /* 32px */
+h2 { font-size: 1.5rem; } /* 24px */
+h3 { font-size: 1.25rem; } /* 20px */
+
+/* Custom shadow for floating panels - subtle and serene */
+.custom-shadow {
+    box-shadow: 0px 4px 12px rgba(142, 68, 173, 0.08);
+}
+
+/* Smooth transitions */
+.smooth-transition {
+    transition: all 0.2s ease-out;
+}
+
+.smooth-transition-long {
+    transition: all 0.3s ease-in-out;
+}
+
+/* Buddhist-inspired decorative elements */
+.lotus-gradient {
+    background: linear-gradient(135deg, var(--color-primary), var(--color-secondary));
+}
+
+.serene-bg {
+    background: linear-gradient(180deg, rgba(248, 249, 250, 1), rgba(255, 255, 255, 1));
+}
+</style>
+    <style>
+/* Custom styles for Charity List page */
+body {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+.hero-overlay {
+    transition: background-color 0.5s ease;
+}
+
+.filter-group-content {
+    transition: max-height 0.4s ease-in-out, opacity 0.3s ease-in-out, transform 0.4s ease-in-out;
+    max-height: 0;
+    opacity: 0;
+    overflow: hidden;
+    transform: translateY(-10px);
+}
+
+.filter-group-content.active {
+    max-height: 500px; /* Adjust as needed */
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.card:hover {
+    transform: translateY(-4px);
+}
+</style>
+</head>
+<body class="bg-base-200">
+
+    <!-- Global Header -->
+    <div data-section-id="navbar_web" data-section-type="common_header" class="navbar bg-base-100 shadow-sm border-b border-base-200 sticky top-0 z-50" style="height: 72px;">
+    <!-- Logo Section -->
+    <div class="navbar-start">
+        <div class="dropdown lg:hidden">
+            <div tabindex="0" role="button" class="btn btn-ghost btn-circle" onclick="PagodaUtils.toggleMobileMenu()">
+                <span class="iconify" data-icon="heroicons:bars-3" data-width="24"></span>
+            </div>
+            <ul id="mobile-menu" tabindex="0" class="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52 hidden">
+                <li><a onclick="navigateTo(&#39;temples_list_page&#39;)">Chùa</a></li>
+                <li><a onclick="navigateTo(&#39;events_list_page&#39;)">Sự kiện</a></li>
+                <li><a onclick="navigateTo(&#39;community_hub_page&#39;)">Cộng đồng</a></li>
+                <li><a onclick="navigateTo(&#39;shops_list_page&#39;)">Cửa hàng</a></li>
+                <li><a onclick="navigateTo(&#39;charity_list_page&#39;)">Từ thiện</a></li>
+            </ul>
+        </div>
+        <a onclick="navigateTo(&#39;home_page&#39;)" class="btn btn-ghost text-xl font-bold text-primary cursor-pointer">
+            <span class="iconify text-primary" data-icon="mdi:lotus" data-width="32"></span>
+            <span>Pagoda</span>
+        </a>
+    </div>
+
+    <!-- Center Navigation -->
+    <div class="navbar-center hidden lg:flex">
+        <ul class="menu menu-horizontal px-1 text-base">
+            <li><a onclick="navigateTo(&#39;temples_list_page&#39;)" class="hover:text-primary smooth-transition">Chùa</a></li>
+            <li><a onclick="navigateTo(&#39;events_list_page&#39;)" class="hover:text-primary smooth-transition">Sự kiện</a></li>
+            <li><a onclick="navigateTo(&#39;community_hub_page&#39;)" class="hover:text-primary smooth-transition">Cộng đồng</a></li>
+            <li><a onclick="navigateTo(&#39;shops_list_page&#39;)" class="hover:text-primary smooth-transition">Cửa hàng</a></li>
+            <li><a onclick="navigateTo(&#39;charity_list_page&#39;)" class="hover:text-primary smooth-transition">Từ thiện</a></li>
+        </ul>
+    </div>
+
+    <!-- Right Section -->
+    <div class="navbar-end gap-2">
+        <!-- Search Button -->
+        <button onclick="navigateTo(&#39;search_page&#39;)" class="btn btn-ghost btn-circle">
+            <span class="iconify" data-icon="heroicons:magnifying-glass" data-width="20"></span>
+        </button>
+
+        <!-- Notifications -->
+        <button onclick="navigateTo(&#39;notifications_page&#39;)" class="btn btn-ghost btn-circle">
+            <div class="indicator">
+                <span class="iconify" data-icon="heroicons:bell" data-width="20"></span>
+                <span class="badge badge-xs badge-primary indicator-item"></span>
+            </div>
+        </button>
+
+        <!-- Language Selector -->
+        <div class="dropdown dropdown-end hidden sm:block">
+            <div tabindex="0" role="button" class="btn btn-ghost btn-sm">
+                <span class="iconify" data-icon="heroicons:language" data-width="20"></span>
+                <span>VI</span>
+                <span class="iconify" data-icon="heroicons:chevron-down" data-width="16"></span>
+            </div>
+            <ul tabindex="0" class="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-40">
+                <li><a onclick="PagodaUtils.handleLanguageChange(&#39;vi&#39;)">Tiếng Việt</a></li>
+                <li><a onclick="PagodaUtils.handleLanguageChange(&#39;en&#39;)">English</a></li>
+                <li><a onclick="PagodaUtils.handleLanguageChange(&#39;zh&#39;)">中文</a></li>
+                <li><a onclick="PagodaUtils.handleLanguageChange(&#39;th&#39;)">ไทย</a></li>
+            </ul>
+        </div>
+
+        <!-- User Account Menu -->
+        <div class="dropdown dropdown-end">
+            <div tabindex="0" role="button" class="btn btn-ghost btn-circle avatar">
+                <div class="w-8 rounded-full bg-base-200 flex items-center justify-center">
+                    <span class="iconify text-base-content" data-icon="heroicons:user" data-width="20"></span>
+                </div>
+            </div>
+            <ul tabindex="0" class="mt-3 z-[1] p-2 shadow menu menu-sm dropdown-content bg-base-100 rounded-box w-52">
+                <li><a onclick="navigateTo(&#39;user_profile_page&#39;)">Hồ sơ cá nhân</a></li>
+                <li><a onclick="navigateTo(&#39;account_settings_page&#39;)">Cài đặt tài khoản</a></li>
+                <li class="border-t border-base-200 mt-1 pt-1">
+                    <a onclick="navigateTo(&#39;login_page&#39;)">Đăng nhập</a>
+                </li>
+                <li><a onclick="navigateTo(&#39;registration_page&#39;)" class="text-primary font-semibold">Đăng ký</a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<style>
+[data-section-id="navbar_web"] .navbar {
+    padding-left: 1rem;
+    padding-right: 1rem;
+}
+
+[data-section-id="navbar_web"] .menu a:hover {
+    background-color: transparent;
+}
+
+[data-section-id="navbar_web"] .dropdown-content {
+    margin-top: 0.5rem;
+}
+</style>
+
+<script>
+(function() {
+    // Navbar specific functionality
+    const navbar = document.querySelector(&#39;[data-section-id="navbar_web"]&#39;);
+
+    // Close mobile menu when clicking outside
+    document.addEventListener(&#39;click&#39;, function(event) {
+        const mobileMenu = document.getElementById(&#39;mobile-menu&#39;);
+        const menuToggle = navbar.querySelector(&#39;.btn-circle&#39;);
+        
+        if (mobileMenu &amp;&amp; !mobileMenu.contains(event.target) &amp;&amp; !menuToggle.contains(event.target)) {
+            mobileMenu.classList.add(&#39;hidden&#39;);
+        }
+    });
+
+    // Update active navigation state
+    window.setActiveNavigation = function(pageId) {
+        const navLinks = navbar.querySelectorAll(&#39;.menu a&#39;);
+        navLinks.forEach(link => {
+            link.classList.remove(&#39;text-primary&#39;, &#39;font-semibold&#39;);
+        });
+
+        // Map pageId to navigation items
+        const navMap = {
+            &#39;temples_list_page&#39;: &#39;Chùa&#39;,
+            &#39;temple_detail_page&#39;: &#39;Chùa&#39;,
+            &#39;temples_map_view_page&#39;: &#39;Chùa&#39;,
+            &#39;events_list_page&#39;: &#39;Sự kiện&#39;,
+            &#39;event_detail_page&#39;: &#39;Sự kiện&#39;,
+            &#39;community_hub_page&#39;: &#39;Cộng đồng&#39;,
+            &#39;community_news_page&#39;: &#39;Cộng đồng&#39;,
+            &#39;community_livestream_page&#39;: &#39;Cộng đồng&#39;,
+            &#39;community_forum_main_page&#39;: &#39;Cộng đồng&#39;,
+            &#39;shops_list_page&#39;: &#39;Cửa hàng&#39;,
+            &#39;shop_product_detail_page&#39;: &#39;Cửa hàng&#39;,
+            &#39;charity_list_page&#39;: &#39;Từ thiện&#39;,
+            &#39;charity_detail_page&#39;: &#39;Từ thiện&#39;
+        };
+
+        if (navMap[pageId]) {
+            const activeLink = Array.from(navLinks).find(link => 
+                link.textContent.trim() === navMap[pageId]
+            );
+            if (activeLink) {
+                activeLink.classList.add(&#39;text-primary&#39;, &#39;font-semibold&#39;);
+            }
+        }
+    };
+})();
+</script>
+
+    <div class="bg-base-100">
+        <main class="container mx-auto px-4">
+            
+            <!-- Breadcrumb Navigation -->
+            <div class="py-4">
+                <div data-section-id="breadcrumb_component" data-section-type="common_section" class="py-4">
+    <div class="text-sm breadcrumbs">
+        <ul id="breadcrumb-list">
+            <!-- Breadcrumb items will be dynamically inserted here -->
+        </ul>
+    </div>
+</div>
+
+<style>
+[data-section-id="breadcrumb_component"] .breadcrumbs ul li a {
+    color: var(--color-primary);
+    text-decoration: none;
+}
+
+[data-section-id="breadcrumb_component"] .breadcrumbs ul li a:hover {
+    text-decoration: underline;
+}
+
+[data-section-id="breadcrumb_component"] .breadcrumbs ul li:last-child {
+    color: var(--color-base-content);
+    font-weight: 500;
+}
+</style>
+
+<script>
+(function() {
+    // Function to set breadcrumb navigation
+    window.setBreadcrumb = function(breadcrumbItems) {
+        const breadcrumbList = document.getElementById(&#39;breadcrumb-list&#39;);
+        if (!breadcrumbList || !Array.isArray(breadcrumbItems)) return;
+
+        breadcrumbList.innerHTML = &#39;&#39;;
+
+        breadcrumbItems.forEach((item, index) => {
+            const li = document.createElement(&#39;li&#39;);
+            
+            if (index === breadcrumbItems.length - 1) {
+                // Last item - current page (no link)
+                const span = document.createElement(&#39;span&#39;);
+                span.className = &#39;flex items-center gap-1&#39;;
+                
+                if (item.icon) {
+                    const iconSpan = document.createElement(&#39;span&#39;);
+                    iconSpan.className = &#39;iconify&#39;;
+                    iconSpan.setAttribute(&#39;data-icon&#39;, item.icon);
+                    iconSpan.setAttribute(&#39;data-width&#39;, &#39;16&#39;);
+                    span.appendChild(iconSpan);
+                }
+                
+                const textNode = document.createTextNode(item.text);
+                span.appendChild(textNode);
+                li.appendChild(span);
+            } else {
+                // Previous items - clickable links
+                const a = document.createElement(&#39;a&#39;);
+                a.className = &#39;flex items-center gap-1 cursor-pointer&#39;;
+                
+                if (item.pageId) {
+                    a.onclick = () => navigateTo(item.pageId);
+                }
+                
+                if (item.icon) {
+                    const iconSpan = document.createElement(&#39;span&#39;);
+                    iconSpan.className = &#39;iconify&#39;;
+                    iconSpan.setAttribute(&#39;data-icon&#39;, item.icon);
+                    iconSpan.setAttribute(&#39;data-width&#39;, &#39;16&#39;);
+                    a.appendChild(iconSpan);
+                }
+                
+                const textNode = document.createTextNode(item.text);
+                a.appendChild(textNode);
+                li.appendChild(a);
+            }
+            
+            breadcrumbList.appendChild(li);
+        });
+    };
+
+    // Common breadcrumb patterns for Pagoda app
+    window.BreadcrumbPatterns = {
+        // Home -> Temples
+        templesList: function() {
+            return [
+                { text: &#39;Trang chủ&#39;, icon: &#39;heroicons:home-solid&#39;, pageId: &#39;home_page&#39; },
+                { text: &#39;Danh sách Chùa&#39; }
+            ];
+        },
+
+        // Home -> Temples -> Temple Details
+        templeDetails: function(templeName) {
+            return [
+                { text: &#39;Trang chủ&#39;, icon: &#39;heroicons:home-solid&#39;, pageId: &#39;home_page&#39; },
+                { text: &#39;Danh sách Chùa&#39;, pageId: &#39;temples_list_page&#39; },
+                { text: templeName || &#39;Chi tiết Chùa&#39; }
+            ];
+        },
+
+        // Home -> Events -> Event Details
+        eventDetails: function(eventName) {
+            return [
+                { text: &#39;Trang chủ&#39;, icon: &#39;heroicons:home-solid&#39;, pageId: &#39;home_page&#39; },
+                { text: &#39;Sự kiện&#39;, pageId: &#39;events_list_page&#39; },
+                { text: eventName || &#39;Chi tiết Sự kiện&#39; }
+            ];
+        },
+
+        // Home -> Community -> Specific page
+        communityPages: function(pageName) {
+            return [
+                { text: &#39;Trang chủ&#39;, icon: &#39;heroicons:home-solid&#39;, pageId: &#39;home_page&#39; },
+                { text: &#39;Cộng đồng&#39;, pageId: &#39;community_hub_page&#39; },
+                { text: pageName }
+            ];
+        },
+
+        // Home -> Shops -> Product Details
+        shopProductDetails: function(productName) {
+            return [
+                { text: &#39;Trang chủ&#39;, icon: &#39;heroicons:home-solid&#39;, pageId: &#39;home_page&#39; },
+                { text: &#39;Cửa hàng&#39;, pageId: &#39;shops_list_page&#39; },
+                { text: productName || &#39;Chi tiết Sản phẩm&#39; }
+            ];
+        },
+
+        // Home -> Charity -> Charity Details
+        charityDetails: function(charityName) {
+            return [
+                { text: &#39;Trang chủ&#39;, icon: &#39;heroicons:home-solid&#39;, pageId: &#39;home_page&#39; },
+                { text: &#39;Từ thiện&#39;, pageId: &#39;charity_list_page&#39; },
+                { text: charityName || &#39;Chi tiết Tổ chức&#39; }
+            ];
+        },
+
+        // User profile pages
+        userPages: function(pageName) {
+            return [
+                { text: &#39;Trang chủ&#39;, icon: &#39;heroicons:home-solid&#39;, pageId: &#39;home_page&#39; },
+                { text: &#39;Hồ sơ cá nhân&#39;, pageId: &#39;user_profile_page&#39; },
+                { text: pageName }
+            ];
+        }
+    };
+})();
+</script>
+            </div>
+
+            <!-- Hero Section -->
+            <section id="CharityListHero" class="hero rounded-box overflow-hidden min-h-[350px] bg-base-200" style="background-image: url(&amp;quot;https://spark-builder.s3.us-east-1.amazonaws.com/image/2025/8/13/e659531f-39d0-4282-bcee-964b2afe09dc.png&amp;quot;);" data-type="container">
+                <div class="hero-overlay bg-black/40"></div>
+                <div class="hero-content text-center text-neutral-content">
+                    <div class="max-w-xl">
+                        <h1 class="mb-5 text-4xl md:text-5xl font-bold" data-type="text">Chung Tay Gieo Duyên Lành</h1>
+                        <p class="mb-5 text-base md:text-lg" data-type="text">Khám phá các tổ chức và dự án từ thiện Phật giáo trong và ngoài nước. Mỗi đóng góp của bạn đều góp phần lan tỏa yêu thương và lòng nhân ái đến cộng đồng.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Filters and Charity List Section -->
+            <section id="CharityFilterAndList" class="py-12">
+                <div class="flex flex-col lg:flex-row gap-8">
+                    <!-- Left sidebar with filters -->
+                    <aside class="w-full lg:w-80 shrink-0 bg-base-100 rounded-box p-6 border border-base-200 self-start" data-type="container">
+                        <h2 data-type="text" class="text-xl font-semibold mb-6 text-base-content">Lọc kết quả</h2>
+
+                        <!-- Search Filter -->
+                        <div class="form-control mb-6">
+                           <label class="label py-1"><span class="label-text" data-type="text">Tìm kiếm theo tên</span></label>
+                           <div class="join">
+                             <input type="text" placeholder="Nhập tên tổ chức..." class="input input-bordered join-item w-full" data-type="input">
+                             <button class="btn btn-primary join-item" data-type="button">
+                               <span class="iconify" data-icon="heroicons:magnifying-glass" data-width="20" data-type="icon"></span>
+                             </button>
+                           </div>
+                         </div>
+
+                        <!-- Cause Type Filter -->
+                        <div class="filter-group mb-6">
+                            <button class="w-full flex items-center justify-between font-semibold" onclick="toggleFilterGroup(&#39;cause-filter&#39;)" data-type="button">
+                                <span data-type="text">Loại hình</span>
+                                <span data-type="icon" class="iconify" data-icon="heroicons:chevron-down" data-width="16"></span>
+                            </button>
+                            <div id="cause-filter" class="filter-group-content active pt-4" data-type="container">
+                                <div class="space-y-3">
+                                    <label class="flex items-center justify-between cursor-pointer" data-repeatable="true">
+                                        <span data-type="text">Giáo dục</span>
+                                        <input type="checkbox" checked="" class="checkbox checkbox-primary checkbox-sm" data-type="input">
+                                    </label>
+                                    <label class="flex items-center justify-between cursor-pointer" data-repeatable="true">
+                                        <span data-type="text">Y tế</span>
+                                        <input type="checkbox" checked="" class="checkbox checkbox-primary checkbox-sm" data-type="input">
+                                    </label>
+                                    <label class="flex items-center justify-between cursor-pointer" data-repeatable="true">
+                                        <span data-type="text">Môi trường</span>
+                                        <input type="checkbox" class="checkbox checkbox-primary checkbox-sm" data-type="input">
+                                    </label>
+                                    <label class="flex items-center justify-between cursor-pointer" data-repeatable="true">
+                                        <span data-type="text">Xây dựng chùa</span>
+                                        <input type="checkbox" class="checkbox checkbox-primary checkbox-sm" data-type="input">
+                                    </label>
+                                    <label class="flex items-center justify-between cursor-pointer" data-repeatable="true">
+                                        <span data-type="text">Cứu trợ thiên tai</span>
+                                        <input type="checkbox" checked="" class="checkbox checkbox-primary checkbox-sm" data-type="input">
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Scope Filter -->
+                        <div class="filter-group mb-6">
+                            <button class="w-full flex items-center justify-between font-semibold" onclick="toggleFilterGroup(&#39;scope-filter&#39;)" data-type="button">
+                                <span data-type="text">Phạm vi</span>
+                                <span data-type="icon" class="iconify" data-icon="heroicons:chevron-down" data-width="16"></span>
+                            </button>
+                            <div id="scope-filter" class="filter-group-content active pt-4" data-type="container">
+                                <div class="space-y-3">
+                                    <label class="flex items-center justify-between cursor-pointer">
+                                        <span data-type="text">Trong nước</span>
+                                        <input type="checkbox" checked="" class="checkbox checkbox-primary checkbox-sm" data-type="input">
+                                    </label>
+                                    <label class="flex items-center justify-between cursor-pointer">
+                                        <span data-type="text">Quốc tế</span>
+                                        <input type="checkbox" class="checkbox checkbox-primary checkbox-sm" data-type="input">
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Funding Status Filter -->
+                         <div class="filter-group mb-6">
+                            <button class="w-full flex items-center justify-between font-semibold" onclick="toggleFilterGroup(&#39;status-filter&#39;)" data-type="button">
+                                <span data-type="text">Trạng thái gây quỹ</span>
+                                <span data-type="icon" class="iconify" data-icon="heroicons:chevron-down" data-width="16"></span>
+                            </button>
+                            <div id="status-filter" class="filter-group-content active pt-4" data-type="container">
+                                <div class="space-y-3">
+                                    <label class="flex items-center justify-between cursor-pointer">
+                                        <span data-type="text">Đang diễn ra</span>
+                                        <input type="checkbox" checked="" class="checkbox checkbox-primary checkbox-sm" data-type="input">
+                                    </label>
+                                    <label class="flex items-center justify-between cursor-pointer">
+                                        <span data-type="text">Sắp kết thúc</span>
+                                        <input type="checkbox" class="checkbox checkbox-primary checkbox-sm" data-type="input">
+                                    </label>
+                                     <label class="flex items-center justify-between cursor-pointer">
+                                        <span data-type="text">Đã hoàn thành</span>
+                                        <input type="checkbox" class="checkbox checkbox-primary checkbox-sm" data-type="input">
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </aside>
+
+                    <!-- Right content area with result cards -->
+                    <div class="flex-1">
+                        <!-- Top bar for sorting and results count -->
+                        <div class="flex flex-wrap items-center justify-between gap-4 mb-6">
+                            <div data-type="text" class="text-sm text-base-content/80">
+                                Hiển thị <span class="font-semibold text-base-content">1-9</span> trên <span class="font-semibold text-base-content">42</span> tổ chức
+                            </div>
+                            <div class="form-control">
+                                <label class="input-group input-group-sm">
+                                    <span data-type="text" class="bg-base-200 text-base-content font-medium">Sắp xếp theo</span>
+                                    <select class="select select-bordered select-sm" data-type="input">
+                                        <option value="recommended">Nổi bật</option>
+                                        <option value="newest">Mới nhất</option>
+                                        <option value="most_urgent">Khẩn cấp</option>
+                                    </select>
+                                </label>
+                            </div>
+                        </div>
+
+                        <!-- Charity cards list -->
+                        <div class="grid grid-cols-1 gap-6">
+                            <!-- Charity Card 1 -->
+                            <div class="card bg-base-100 shadow-md hover:shadow-xl transition-shadow duration-300 rounded-lg border border-base-200 cursor-pointer" onclick="navigateTo(&#39;charity_detail_page&#39;)" data-type="container" data-repeatable="true">
+                                <div class="flex flex-col md:flex-row">
+                                    <figure class="w-full md:w-1/3 md:max-w-xs shrink-0">
+                                        <img src="https://spark-builder.s3.us-east-1.amazonaws.com/image/2025/8/13/8494bca4-8a6f-47ca-9fba-036ef912d7e3.png" alt="Xây trường cho em" class="h-full w-full object-cover" data-type="image">
+                                    </figure>
+                                    <div class="card-body p-6 flex flex-col">
+                                        <div class="flex justify-between items-start gap-2">
+                                            <div>
+                                                <h3 class="card-title text-xl font-bold text-base-content" data-type="text">Quỹ Từ Thiện Sen Vàng</h3>
+                                                <p class="text-base-content/70 mt-1" data-type="text">Mục tiêu: Hỗ trợ giáo dục cho trẻ em vùng cao.</p>
+                                            </div>
+                                            <div class="badge badge-primary badge-outline shrink-0 mt-1" data-type="text">Trong Nước</div>
+                                        </div>
+                                        <div class="flex flex-wrap gap-2 my-4">
+                                            <div class="badge badge-outline" data-type="text">Giáo Dục</div>
+                                            <div class="badge badge-outline" data-type="text">Trẻ Em</div>
+                                        </div>
+                                        <div class="mt-2 space-y-2">
+                                            <p class="font-semibold text-base-content" data-type="text">Dự án: Xây trường vùng cao</p>
+                                            <progress class="progress progress-primary w-full" value="70" max="100" data-type="progress"></progress>
+                                            <div class="flex justify-between text-sm">
+                                                <span class="font-medium text-primary" data-type="text">Đã đạt 70%</span>
+                                                <span class="text-base-content/70" data-type="text">Còn 30 ngày</span>
+                                            </div>
+                                        </div>
+                                        <div class="card-actions justify-end items-center mt-auto pt-4 border-t border-base-200/50">
+                                            <button class="btn btn-primary btn-sm" onclick="event.stopPropagation(); navigateTo(&#39;donation_page&#39;);" data-type="button">Quyên góp nhanh</button>
+                                            <button class="btn btn-ghost btn-sm" data-type="button">Tìm hiểu thêm</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Charity Card 2 -->
+                            <div class="card bg-base-100 shadow-md hover:shadow-xl transition-shadow duration-300 rounded-lg border border-base-200 cursor-pointer" onclick="navigateTo(&#39;charity_detail_page&#39;)" data-type="container" data-repeatable="true">
+                                <div class="flex flex-col md:flex-row">
+                                    <figure class="w-full md:w-1/3 md:max-w-xs shrink-0">
+                                        <img src="https://spark-builder.s3.us-east-1.amazonaws.com/image/2025/8/13/bbf0f8ce-2794-49e3-b758-8c04f49c444b.png" alt="Bảo tồn tượng Phật" class="h-full w-full object-cover" data-type="image">
+                                    </figure>
+                                    <div class="card-body p-6 flex flex-col">
+                                        <div class="flex justify-between items-start gap-2">
+                                            <div>
+                                                <h3 class="card-title text-xl font-bold text-base-content" data-type="text">An Lạc Tịnh Thất Foundation</h3>
+                                                <p class="text-base-content/70 mt-1" data-type="text">Mục tiêu: Bảo tồn và phát triển di sản văn hóa Phật giáo.</p>
+                                            </div>
+                                            <div class="badge badge-accent badge-outline shrink-0 mt-1" data-type="text">Quốc tế</div>
+                                        </div>
+                                        <div class="flex flex-wrap gap-2 my-4">
+                                            <div class="badge badge-outline" data-type="text">Văn Hóa</div>
+                                            <div class="badge badge-outline" data-type="text">Xây Dựng</div>
+                                        </div>
+                                        <div class="mt-2 space-y-2">
+                                            <p class="font-semibold text-base-content" data-type="text">Dự án: Tu bổ tượng Phật tại Nepal</p>
+                                            <progress class="progress progress-primary w-full" value="45" max="100" data-type="progress"></progress>
+                                            <div class="flex justify-between text-sm">
+                                                <span class="font-medium text-primary" data-type="text">Đã đạt 45%</span>
+                                                <span class="text-error font-semibold" data-type="text">Sắp kết thúc</span>
+                                            </div>
+                                        </div>
+                                        <div class="card-actions justify-end items-center mt-auto pt-4 border-t border-base-200/50">
+                                            <button class="btn btn-primary btn-sm" onclick="event.stopPropagation(); navigateTo(&#39;donation_page&#39;);" data-type="button">Quyên góp nhanh</button>
+                                            <button class="btn btn-ghost btn-sm" data-type="button">Tìm hiểu thêm</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                             <!-- Charity Card 3 -->
+                            <div class="card bg-base-100 shadow-md hover:shadow-xl transition-shadow duration-300 rounded-lg border border-base-200 cursor-pointer" onclick="navigateTo(&#39;charity_detail_page&#39;)" data-type="container" data-repeatable="true">
+                                <div class="flex flex-col md:flex-row">
+                                    <figure class="w-full md:w-1/3 md:max-w-xs shrink-0">
+                                        <img src="https://spark-builder.s3.us-east-1.amazonaws.com/image/2025/8/13/b6fd913e-b182-45eb-b66e-367d2a36c4a0.png" alt="Trồng cây xanh" class="h-full w-full object-cover" data-type="image">
+                                    </figure>
+                                    <div class="card-body p-6 flex flex-col">
+                                        <div class="flex justify-between items-start gap-2">
+                                            <div>
+                                                <h3 class="card-title text-xl font-bold text-base-content" data-type="text">Tổ Chức Từ Bi Xanh</h3>
+                                                <p class="text-base-content/70 mt-1" data-type="text">Mục tiêu: Bảo vệ môi trường và lan tỏa lối sống xanh.</p>
+                                            </div>
+                                            <div class="badge badge-primary badge-outline shrink-0 mt-1" data-type="text">Trong Nước</div>
+                                        </div>
+                                        <div class="flex flex-wrap gap-2 my-4">
+                                            <div class="badge badge-outline" data-type="text">Môi Trường</div>
+                                            <div class="badge badge-outline" data-type="text">Cộng Đồng</div>
+                                        </div>
+                                        <div class="mt-2 space-y-2">
+                                            <p class="font-semibold text-base-content" data-type="text">Dự án: Phủ xanh đồi trọc</p>
+                                            <progress class="progress progress-success w-full" value="100" max="100" data-type="progress"></progress>
+                                            <div class="flex justify-between text-sm">
+                                                <span class="font-medium text-success" data-type="text">Đã hoàn thành</span>
+                                            </div>
+                                        </div>
+                                        <div class="card-actions justify-end items-center mt-auto pt-4 border-t border-base-200/50">
+                                            <button class="btn btn-primary btn-sm btn-disabled" onclick="event.stopPropagation();" data-type="button">Đã kết thúc</button>
+                                            <button class="btn btn-ghost btn-sm" data-type="button">Xem dự án</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Pagination -->
+                        <div class="flex justify-center mt-12" data-type="container">
+                            <div class="join" data-type="container">
+                                <button class="join-item btn btn-sm" data-type="button">«</button>
+                                <button class="join-item btn btn-sm btn-active" data-type="button">1</button>
+                                <button class="join-item btn btn-sm" data-type="button">2</button>
+                                <button class="join-item btn btn-sm" data-type="button">3</button>
+                                <button class="join-item btn btn-sm btn-disabled" data-type="button">...</button>
+                                <button class="join-item btn btn-sm" data-type="button">5</button>
+                                <button class="join-item btn btn-sm" data-type="button">»</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Global Footer -->
+    <div data-section-id="footer_web" data-section-type="common_footer" class="bg-base-200">
+    <!-- Main Footer Content -->
+    <footer class="footer footer-horizontal p-10 text-base-content">
+        <!-- Company Info -->
+        <aside>
+            <div class="flex items-center gap-2 mb-4">
+                <span class="iconify text-primary" data-icon="mdi:lotus" data-width="32"></span>
+                <span class="text-xl font-bold text-primary">Pagoda</span>
+            </div>
+            <p class="text-sm text-base-content opacity-70 max-w-xs">
+                Kết nối cộng đồng Phật tử toàn cầu với chùa, sự kiện và tài nguyên Phật giáo. 
+                Hành trình tâm linh của bạn bắt đầu từ đây.
+            </p>
+            <div class="flex gap-4 mt-4">
+                <a class="text-base-content hover:text-primary smooth-transition cursor-pointer">
+                    <span class="iconify" data-icon="mdi:facebook" data-width="24"></span>
+                </a>
+                <a class="text-base-content hover:text-primary smooth-transition cursor-pointer">
+                    <span class="iconify" data-icon="mdi:youtube" data-width="24"></span>
+                </a>
+                <a class="text-base-content hover:text-primary smooth-transition cursor-pointer">
+                    <span class="iconify" data-icon="mdi:instagram" data-width="24"></span>
+                </a>
+                <a class="text-base-content hover:text-primary smooth-transition cursor-pointer">
+                    <span class="iconify" data-icon="mdi:telegram" data-width="24"></span>
+                </a>
+            </div>
+        </aside>
+
+        <!-- Services Navigation -->
+        <nav>
+            <header class="footer-title text-base-content font-semibold">Dịch vụ</header>
+            <a onclick="navigateTo(&#39;temples_list_page&#39;)" class="link link-hover cursor-pointer">Tìm chùa</a>
+            <a onclick="navigateTo(&#39;events_list_page&#39;)" class="link link-hover cursor-pointer">Sự kiện Phật giáo</a>
+            <a onclick="navigateTo(&#39;community_hub_page&#39;)" class="link link-hover cursor-pointer">Cộng đồng</a>
+            <a onclick="navigateTo(&#39;shops_list_page&#39;)" class="link link-hover cursor-pointer">Pháp cụ</a>
+            <a onclick="navigateTo(&#39;charity_list_page&#39;)" class="link link-hover cursor-pointer">Từ thiện</a>
+        </nav>
+
+        <!-- Company Navigation -->
+        <nav>
+            <header class="footer-title text-base-content font-semibold">Công ty</header>
+            <a onclick="navigateTo(&#39;about_us_page&#39;)" class="link link-hover cursor-pointer">Về chúng tôi</a>
+            <a onclick="navigateTo(&#39;community_news_page&#39;)" class="link link-hover cursor-pointer">Tin tức</a>
+            <a onclick="navigateTo(&#39;contact_us_page&#39;)" class="link link-hover cursor-pointer">Liên hệ</a>
+            <a class="link link-hover cursor-pointer">Tuyển dụng</a>
+            <a class="link link-hover cursor-pointer">Đối tác</a>
+        </nav>
+
+        <!-- Support Navigation -->
+        <nav>
+            <header class="footer-title text-base-content font-semibold">Hỗ trợ</header>
+            <a class="link link-hover cursor-pointer">Trung tâm trợ giúp</a>
+            <a class="link link-hover cursor-pointer">Câu hỏi thường gặp</a>
+            <a onclick="navigateTo(&#39;contact_us_page&#39;)" class="link link-hover cursor-pointer">Hỗ trợ kỹ thuật</a>
+            <a class="link link-hover cursor-pointer">Phản hồi</a>
+            <a onclick="navigateTo(&#39;privacy_policy_page&#39;)" class="link link-hover cursor-pointer">Chính sách bảo mật</a>
+            <a onclick="navigateTo(&#39;terms_of_service_page&#39;)" class="link link-hover cursor-pointer">Điều khoản dịch vụ</a>
+        </nav>
+    </footer>
+
+    <!-- Bottom Copyright Section -->
+    <footer class="footer footer-center p-4 bg-base-300 text-base-content border-t border-base-200">
+        <aside>
+            <p class="text-sm">
+                © 2025 Pagoda. Tất cả quyền được bảo lưu. |
+                <span onclick="navigateTo(&#39;privacy_policy_page&#39;)" class="text-primary cursor-pointer hover:underline">Chính sách bảo mật</span> |
+                <span onclick="navigateTo(&#39;terms_of_service_page&#39;)" class="text-primary cursor-pointer hover:underline">Điều khoản dịch vụ</span>
+            </p>
+        </aside>
+    </footer>
+</div>
+
+<style>
+[data-section-id="footer_web"] .footer-title {
+    margin-bottom: 1rem;
+}
+
+[data-section-id="footer_web"] .link-hover:hover {
+    color: var(--color-primary);
+    text-decoration: none;
+}
+
+[data-section-id="footer_web"] nav a {
+    display: block;
+    margin-bottom: 0.5rem;
+}
+</style>
+
+<script>
+(function() {
+    // Footer specific functionality
+    console.log(&#39;Pagoda footer component loaded&#39;);
+})();
+</script>
+
+    <script>
+(function() {
+    // Global navigation function
+    window.navigateTo = function(targetPageId) {
+        const isInIframe = window.self !== window.top;
+        const targetFileName = `${targetPageId}.html`;
+        
+        if (isInIframe) {
+            window.parent.postMessage({
+                type: &#39;iframeNavigation&#39;,
+                targetPageId: targetPageId
+            }, &#39;*&#39;);
+        } else {
+            window.location.href = targetFileName;
+        }
+    };
+
+    // Global utility functions for Pagoda app
+    window.PagodaUtils = {
+        // Toggle mobile menu
+        toggleMobileMenu: function() {
+            const menu = document.getElementById(&#39;mobile-menu&#39;);
+            if (menu) {
+                menu.classList.toggle(&#39;hidden&#39;);
+            }
+        },
+
+        // Handle search form submission
+        handleSearch: function(form) {
+            const formData = new FormData(form);
+            const searchQuery = formData.get(&#39;search&#39;) || formData.get(&#39;searchQuery&#39;);
+            const category = formData.get(&#39;category&#39;);
+            
+            if (searchQuery &amp;&amp; searchQuery.trim()) {
+                // Navigate to search results with parameters
+                navigateTo(&#39;search_page&#39;);
+                return true;
+            }
+            return false; // Prevent default form submission
+        },
+
+        // Handle language selection
+        handleLanguageChange: function(language) {
+            console.log(&#39;Language changed to:&#39;, language);
+            // Implementation for language change
+            localStorage.setItem(&#39;pagoda_language&#39;, language);
+        },
+
+        // Format numbers for donations and prices
+        formatCurrency: function(amount, currency = &#39;VND&#39;) {
+            if (currency === &#39;VND&#39;) {
+                return new Intl.NumberFormat(&#39;vi-VN&#39;, {
+                    style: &#39;currency&#39;,
+                    currency: &#39;VND&#39;
+                }).format(amount);
+            }
+            return new Intl.NumberFormat(&#39;en-US&#39;, {
+                style: &#39;currency&#39;,
+                currency: currency
+            }).format(amount);
+        },
+
+        // Format distance for temples and restaurants
+        formatDistance: function(distanceKm) {
+            if (distanceKm < 1) {
+                return `${Math.round(distanceKm * 1000)}m`;
+            }
+            return `${distanceKm.toFixed(1)}km`;
+        },
+
+        // Handle notification actions
+        toggleNotifications: function() {
+            // Implementation for notification toggle
+            console.log(&#39;Toggle notifications&#39;);
+        },
+
+        // Handle follow/unfollow temples
+        toggleTempleFollow: function(templeId) {
+            console.log(&#39;Toggle follow for temple:&#39;, templeId);
+            // Implementation for following temples
+        },
+
+        // Show toast messages
+        showToast: function(message, type = &#39;info&#39;) {
+            // Create and show toast notification
+            const toast = document.createElement(&#39;div&#39;);
+            toast.className = `toast toast-top toast-center z-50`;
+            toast.innerHTML = `
+                <div class="alert alert-${type}">
+                    <span>${message}</span>
+                </div>
+            `;
+            
+            document.body.appendChild(toast);
+            
+            // Auto remove after 3 seconds
+            setTimeout(() => {
+                if (document.body.contains(toast)) {
+                    document.body.removeChild(toast);
+                }
+            }, 3000);
+        }
+    };
+
+    // Initialize app globals
+    window.APP_GLOBALS = window.APP_GLOBALS || {};
+    window.APP_GLOBALS.currentUser = null;
+    window.APP_GLOBALS.currentLocation = null;
+    window.APP_GLOBALS.followedTemples = [];
+})();
+</script>
+    <script>
+document.addEventListener(&#39;DOMContentLoaded&#39;, function() {
+    // Set active navigation
+    if (typeof window.setActiveNavigation === &#39;function&#39;) {
+        window.setActiveNavigation(&#39;charity_list_page&#39;);
+    }
+
+    // Set breadcrumb
+    if (typeof window.setBreadcrumb === &#39;function&#39;) {
+        const breadcrumbData = [
+            { text: &#39;Trang chủ&#39;, icon: &#39;heroicons:home-solid&#39;, pageId: &#39;home_page&#39; },
+            { text: &#39;Từ thiện&#39; }
+        ];
+        window.setBreadcrumb(breadcrumbData);
+    }
+    
+    // Initialize filter groups
+    initializeFilterGroups();
+});
+
+// Toggle filter group expand/collapse
+function toggleFilterGroup(filterId) {
+    const filterContent = document.getElementById(filterId);
+    if (filterContent) {
+        filterContent.classList.toggle(&#39;active&#39;);
+
+        // Update the chevron icon
+        const button = filterContent.previousElementSibling;
+        const icon = button.querySelector(&#39;.iconify&#39;);
+
+        if (filterContent.classList.contains(&#39;active&#39;)) {
+            icon.setAttribute(&#39;data-icon&#39;, &#39;heroicons:chevron-up&#39;);
+        } else {
+            icon.setAttribute(&#39;data-icon&#39;, &#39;heroicons:chevron-down&#39;);
+        }
+    }
+}
+
+// Initialize filter groups to be expanded by default and set correct icons
+function initializeFilterGroups() {
+    const filterGroups = document.querySelectorAll(&#39;.filter-group-content&#39;);
+    filterGroups.forEach(group => {
+        if(group.classList.contains(&#39;active&#39;)){
+            const button = group.previousElementSibling;
+            const icon = button.querySelector(&#39;.iconify&#39;);
+            icon.setAttribute(&#39;data-icon&#39;, &#39;heroicons:chevron-up&#39;);
+        }
+    });
+}
+</script>
+
+</body></html>'></iframe>
+                    </div>
+                  </div>
+
+                </body>
+                </html>
+            

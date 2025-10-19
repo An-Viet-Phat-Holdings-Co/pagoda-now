@@ -1,0 +1,1340 @@
+
+                <!DOCTYPE html>
+                <html lang="zh">
+                <head>
+                  <meta charset="UTF-8">
+                  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                  <title>Thanh toán</title>
+                  <style>
+                    *,
+                    *::before,
+                    *::after {
+                      box-sizing: border-box;
+                      margin: 0;
+                    }
+                      .iframe-outer {
+                      position: fixed;
+                      inset: 0;
+                      display: flex;
+                      justify-content: center;
+                      background-color: #fff;
+                    }
+                    .iframe-wrapper {
+                      width: 100%;
+                      height: 100%;
+                      transform: none !important;
+                    }
+                    #dynamicIframe {
+                      border: none;
+                      width: 100%;
+                      height: 100%;
+                    }
+                  </style>
+                  <script>
+                const width = 1920
+                const height = 1080
+                const resolutionRatio = width && height ? width / height : 1
+                const pageNameMap = {
+                  'login_page': 'Đăng nhập',
+    'registration_page': 'Đăng ký',
+    'forgot_password_page': 'Quên mật khẩu',
+    'home_page': 'Trang chủ',
+    'temples_list_page': 'Danh sách Chùa',
+    'temple_detail_page': 'Chi tiết Chùa',
+    'temples_map_view_page': 'Bản đồ Chùa',
+    'events_list_page': 'Danh sách Sự kiện',
+    'event_detail_page': 'Chi tiết Sự kiện',
+    'community_hub_page': 'Trung tâm Cộng đồng',
+    'community_news_page': 'Tin tức Cộng đồng',
+    'community_livestream_page': 'Phát trực tiếp Cộng đồng',
+    'community_forum_main_page': 'Diễn đàn Cộng đồng',
+    'shops_list_page': 'Danh sách Cửa hàng',
+    'shop_product_detail_page': 'Chi tiết Sản phẩm',
+    'checkout_page': 'Thanh toán',
+    'payment_confirmation_page': 'Xác nhận Thanh toán',
+    'eats_list_page': 'Danh sách Món chay',
+    'eats_detail_page': 'Chi tiết Món chay',
+    'charity_list_page': 'Danh sách Từ thiện',
+    'charity_detail_page': 'Chi tiết Tổ chức Từ thiện',
+    'donation_page': 'Quyên góp',
+    'donation_confirmation_page': 'Xác nhận Quyên góp',
+    'search_page': 'Tìm kiếm',
+    'notifications_page': 'Thông báo',
+    'user_profile_page': 'Hồ sơ người dùng',
+    'account_settings_page': 'Cài đặt tài khoản',
+    'about_us_page': 'Về chúng tôi',
+    'contact_us_page': 'Liên hệ',
+    'privacy_policy_page': 'Chính sách bảo mật',
+    'terms_of_service_page': 'Điều khoản dịch vụ'
+                }
+                function setIframeSize(w, h) {
+                  const currentContainerRadio = w / h
+                  let widthValue = w
+                  let heightValue = h
+                  let zoom = 1
+                  if (currentContainerRadio > resolutionRatio) {
+                    widthValue = h * resolutionRatio
+                    heightValue = h
+                  } else {
+                    widthValue = w
+                    heightValue = w / resolutionRatio
+                  }
+                  zoom = width ? widthValue / width : 1
+                  return {
+                    width: widthValue / zoom + 'px',
+                    height: heightValue / zoom + 'px',
+                    zoom,
+                  }
+                }
+                function adjustIframeSize() {
+                  const iframeWrapper = document.querySelector(".iframe-wrapper")
+                  const { width, height, zoom } = setIframeSize(window.innerWidth, window.innerHeight)
+                  iframeWrapper.style.height = height
+                  iframeWrapper.style.width = width
+                  iframeWrapper.style.transform = 'scale(' + zoom + ')'
+                }
+                function sanitizeFilename(name) {
+                  return name.replace(/[\/:*?"<>|]/g, '_')
+                }
+                function handlePostMessage(event) {
+                  if (!event.data) {
+                    return
+                  }
+                  const { type, targetPageId } = event.data
+                  const targetPageName = pageNameMap[targetPageId]
+                  if (type === "iframeNavigation" && targetPageId && targetPageName) {
+                    window.location.href = targetPageName + '.html'
+                  }
+                }
+                window.addEventListener('message', handlePostMessage)
+                window.onload = adjustIframeSize
+                window.onresize = adjustIframeSize
+                window.onunload = () => {
+                  window.removeEventListener('message', handlePostMessage)
+                }
+              </script>
+                </head>
+                <body>
+                  <div class="iframe-outer">
+                    <div class="iframe-wrapper">
+                      <iframe id="dynamicIframe" srcdoc='<html lang="vi" data-theme="light"><head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thanh toán - Pagoda</title>
+    <link href="./assets/aec0181c/npm/daisyui@5.css" rel="stylesheet" type="text/css">
+    <script src="./assets/1f17f226/npm/@tailwindcss/browser@4.js"></script>
+    <link href="./assets/npm/daisyui@5/themes.css" rel="stylesheet" type="text/css">
+    <script src="./assets/3/3.1.1/iconify.min.js"></script>
+    <style>
+/* Import Inter font family */
+@import url(&#39;https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;display=swap&#39;);
+
+/* daisyUI Theme Variables Customization
+ * Based on the Pagoda Buddhist app requirements and UI guidance
+ */
+:root {
+    /* Brand colors from Pagoda design document */
+    --color-primary: rgba(142, 68, 173, 1); /* #8E44AD purple lotus */
+    --color-primary-content: rgba(255, 255, 255, 1);
+    --color-secondary: rgba(241, 196, 15, 1); /* #F1C40F earth yellow */
+    --color-secondary-content: rgba(26, 39, 50, 1);
+    --color-accent: rgba(142, 68, 173, 1);
+    --color-accent-content: rgba(255, 255, 255, 1);
+
+    /* Background colors - clean and serene */
+    --color-base-100: rgba(255, 255, 255, 1); /* Pure white for cards */
+    --color-base-200: rgba(248, 249, 250, 1); /* Light neutral #F8F9FA */
+    --color-base-300: rgba(229, 231, 235, 1);
+    --color-base-content: rgba(46, 58, 69, 1); /* Dark charcoal #2E3A45 */
+
+    /* Semantic colors */
+    --color-success: rgba(67, 160, 71, 1); /* #43A047 */
+    --color-success-content: rgba(255, 255, 255, 1);
+    --color-warning: rgba(253, 216, 53, 1); /* #FDD835 */
+    --color-warning-content: rgba(26, 39, 50, 1);
+    --color-error: rgba(229, 57, 53, 1); /* #E53935 */
+    --color-error-content: rgba(255, 255, 255, 1);
+    --color-info: rgba(142, 68, 173, 1);
+    --color-info-content: rgba(255, 255, 255, 1);
+
+    /* Typography and styling */
+    --radius-box: 0.5rem; /* 8px border radius for Buddhist serenity */
+    --radius-btn: 0.5rem;
+    --border: 1px;
+}
+
+/* Typography settings */
+body {
+    font-family: &#39;Inter&#39;, sans-serif;
+    font-size: 16px;
+    line-height: 1.6;
+    color: var(--color-base-content);
+    letter-spacing: 0.02em;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: &#39;Inter&#39;, sans-serif;
+    font-weight: 600;
+    line-height: 1.3;
+    color: rgba(26, 39, 50, 1); /* #1A2732 for headings */
+    letter-spacing: 0.02em;
+}
+
+h1 { font-size: 2rem; } /* 32px */
+h2 { font-size: 1.5rem; } /* 24px */
+h3 { font-size: 1.25rem; } /* 20px */
+
+/* Custom shadow for floating panels - subtle and serene */
+.custom-shadow {
+    box-shadow: 0px 4px 12px rgba(142, 68, 173, 0.08);
+}
+
+/* Smooth transitions */
+.smooth-transition {
+    transition: all 0.2s ease-out;
+}
+
+.smooth-transition-long {
+    transition: all 0.3s ease-in-out;
+}
+
+/* Buddhist-inspired decorative elements */
+.lotus-gradient {
+    background: linear-gradient(135deg, var(--color-primary), var(--color-secondary));
+}
+
+.serene-bg {
+    background: linear-gradient(180deg, rgba(248, 249, 250, 1), rgba(255, 255, 255, 1));
+}
+</style>
+    <style>
+/* Checkout page specific styles */
+.checkout-form-focus {
+    transition: all 0.2s ease-out;
+}
+
+.checkout-form-focus:focus {
+    box-shadow: 0 0 0 3px rgba(142, 68, 173, 0.1);
+    border-color: var(--color-primary);
+}
+
+/* Payment method selection animations */
+.payment-option {
+    transition: all 0.2s ease-out;
+}
+
+.payment-option:hover {
+    background-color: var(--color-base-50);
+    border-color: var(--color-primary);
+}
+
+.payment-option input[type="radio"]:checked + .payment-content {
+    border-color: var(--color-primary);
+    background-color: rgba(142, 68, 173, 0.05);
+}
+
+/* Checkout button animation */
+.checkout-btn-enabled {
+    animation: gentle-pulse 2s infinite;
+}
+
+@keyframes gentle-pulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.02); }
+}
+
+/* Form validation styles */
+.form-error {
+    border-color: var(--color-error) !important;
+    box-shadow: 0 0 0 3px rgba(229, 57, 53, 0.1) !important;
+}
+
+.form-success {
+    border-color: var(--color-success) !important;
+    box-shadow: 0 0 0 3px rgba(67, 160, 71, 0.1) !important;
+}
+
+/* Card hover effects */
+.checkout-card {
+    transition: all 0.2s ease-out;
+}
+
+.checkout-card:hover {
+    box-shadow: 0px 8px 24px rgba(142, 68, 173, 0.12);
+}
+
+/* Sticky order summary positioning */
+.order-summary-sticky {
+    position: sticky;
+    top: 96px; /* Account for navbar height */
+}
+
+/* Address option styling */
+.address-option {
+    transition: all 0.2s ease-out;
+}
+
+.address-option:hover {
+    background-color: var(--color-base-50);
+}
+
+/* Security badge styling */
+.security-badge {
+    background: linear-gradient(135deg, rgba(67, 160, 71, 0.1), rgba(67, 160, 71, 0.05));
+    border: 1px solid rgba(67, 160, 71, 0.2);
+}
+
+/* Product item hover effect */
+.product-item {
+    transition: all 0.2s ease-out;
+}
+
+.product-item:hover {
+    background-color: var(--color-base-100);
+    box-shadow: 0px 2px 8px rgba(142, 68, 173, 0.08);
+}
+
+/* Input field enhancements */
+.input:focus, .select:focus, .textarea:focus {
+    box-shadow: 0 0 0 3px rgba(142, 68, 173, 0.1);
+    border-color: var(--color-primary);
+}
+
+/* Terms agreement styling */
+.terms-agreement {
+    font-size: 0.875rem;
+    line-height: 1.4;
+}
+
+.terms-agreement .link {
+    text-decoration: underline;
+    text-underline-offset: 2px;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .order-summary-sticky {
+        position: static;
+    }
+    
+    .checkout-card {
+        margin-bottom: 1rem;
+    }
+}
+</style>
+</head>
+<body class="bg-base-100 min-h-screen flex flex-col">
+    <!-- Header -->
+    <div class="header-wrapper">
+        <div data-section-id="navbar_web" data-section-type="common_header" class="navbar bg-base-100 shadow-sm border-b border-base-200 sticky top-0 z-50" style="height: 72px;">
+    <!-- Logo Section -->
+    <div class="navbar-start">
+        <div class="dropdown lg:hidden">
+            <div tabindex="0" role="button" class="btn btn-ghost btn-circle" onclick="PagodaUtils.toggleMobileMenu()">
+                <span class="iconify" data-icon="heroicons:bars-3" data-width="24"></span>
+            </div>
+            <ul id="mobile-menu" tabindex="0" class="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52 hidden">
+                <li><a onclick="navigateTo(&#39;temples_list_page&#39;)">Chùa</a></li>
+                <li><a onclick="navigateTo(&#39;events_list_page&#39;)">Sự kiện</a></li>
+                <li><a onclick="navigateTo(&#39;community_hub_page&#39;)">Cộng đồng</a></li>
+                <li><a onclick="navigateTo(&#39;shops_list_page&#39;)">Cửa hàng</a></li>
+                <li><a onclick="navigateTo(&#39;charity_list_page&#39;)">Từ thiện</a></li>
+            </ul>
+        </div>
+        <a onclick="navigateTo(&#39;home_page&#39;)" class="btn btn-ghost text-xl font-bold text-primary cursor-pointer">
+            <span class="iconify text-primary" data-icon="mdi:lotus" data-width="32"></span>
+            <span>Pagoda</span>
+        </a>
+    </div>
+
+    <!-- Center Navigation -->
+    <div class="navbar-center hidden lg:flex">
+        <ul class="menu menu-horizontal px-1 text-base">
+            <li><a onclick="navigateTo(&#39;temples_list_page&#39;)" class="hover:text-primary smooth-transition">Chùa</a></li>
+            <li><a onclick="navigateTo(&#39;events_list_page&#39;)" class="hover:text-primary smooth-transition">Sự kiện</a></li>
+            <li><a onclick="navigateTo(&#39;community_hub_page&#39;)" class="hover:text-primary smooth-transition">Cộng đồng</a></li>
+            <li><a onclick="navigateTo(&#39;shops_list_page&#39;)" class="hover:text-primary smooth-transition">Cửa hàng</a></li>
+            <li><a onclick="navigateTo(&#39;charity_list_page&#39;)" class="hover:text-primary smooth-transition">Từ thiện</a></li>
+        </ul>
+    </div>
+
+    <!-- Right Section -->
+    <div class="navbar-end gap-2">
+        <!-- Search Button -->
+        <button onclick="navigateTo(&#39;search_page&#39;)" class="btn btn-ghost btn-circle">
+            <span class="iconify" data-icon="heroicons:magnifying-glass" data-width="20"></span>
+        </button>
+
+        <!-- Notifications -->
+        <button onclick="navigateTo(&#39;notifications_page&#39;)" class="btn btn-ghost btn-circle">
+            <div class="indicator">
+                <span class="iconify" data-icon="heroicons:bell" data-width="20"></span>
+                <span class="badge badge-xs badge-primary indicator-item"></span>
+            </div>
+        </button>
+
+        <!-- Language Selector -->
+        <div class="dropdown dropdown-end hidden sm:block">
+            <div tabindex="0" role="button" class="btn btn-ghost btn-sm">
+                <span class="iconify" data-icon="heroicons:language" data-width="20"></span>
+                <span>VI</span>
+                <span class="iconify" data-icon="heroicons:chevron-down" data-width="16"></span>
+            </div>
+            <ul tabindex="0" class="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-40">
+                <li><a onclick="PagodaUtils.handleLanguageChange(&#39;vi&#39;)">Tiếng Việt</a></li>
+                <li><a onclick="PagodaUtils.handleLanguageChange(&#39;en&#39;)">English</a></li>
+                <li><a onclick="PagodaUtils.handleLanguageChange(&#39;zh&#39;)">中文</a></li>
+                <li><a onclick="PagodaUtils.handleLanguageChange(&#39;th&#39;)">ไทย</a></li>
+            </ul>
+        </div>
+
+        <!-- User Account Menu -->
+        <div class="dropdown dropdown-end">
+            <div tabindex="0" role="button" class="btn btn-ghost btn-circle avatar">
+                <div class="w-8 rounded-full bg-base-200 flex items-center justify-center">
+                    <span class="iconify text-base-content" data-icon="heroicons:user" data-width="20"></span>
+                </div>
+            </div>
+            <ul tabindex="0" class="mt-3 z-[1] p-2 shadow menu menu-sm dropdown-content bg-base-100 rounded-box w-52">
+                <li><a onclick="navigateTo(&#39;user_profile_page&#39;)">Hồ sơ cá nhân</a></li>
+                <li><a onclick="navigateTo(&#39;account_settings_page&#39;)">Cài đặt tài khoản</a></li>
+                <li class="border-t border-base-200 mt-1 pt-1">
+                    <a onclick="navigateTo(&#39;login_page&#39;)">Đăng nhập</a>
+                </li>
+                <li><a onclick="navigateTo(&#39;registration_page&#39;)" class="text-primary font-semibold">Đăng ký</a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<style>
+[data-section-id="navbar_web"] .navbar {
+    padding-left: 1rem;
+    padding-right: 1rem;
+}
+
+[data-section-id="navbar_web"] .menu a:hover {
+    background-color: transparent;
+}
+
+[data-section-id="navbar_web"] .dropdown-content {
+    margin-top: 0.5rem;
+}
+</style>
+
+<script>
+(function() {
+    // Navbar specific functionality
+    const navbar = document.querySelector(&#39;[data-section-id="navbar_web"]&#39;);
+
+    // Close mobile menu when clicking outside
+    document.addEventListener(&#39;click&#39;, function(event) {
+        const mobileMenu = document.getElementById(&#39;mobile-menu&#39;);
+        const menuToggle = navbar.querySelector(&#39;.btn-circle&#39;);
+        
+        if (mobileMenu &amp;&amp; !mobileMenu.contains(event.target) &amp;&amp; !menuToggle.contains(event.target)) {
+            mobileMenu.classList.add(&#39;hidden&#39;);
+        }
+    });
+
+    // Update active navigation state
+    window.setActiveNavigation = function(pageId) {
+        const navLinks = navbar.querySelectorAll(&#39;.menu a&#39;);
+        navLinks.forEach(link => {
+            link.classList.remove(&#39;text-primary&#39;, &#39;font-semibold&#39;);
+        });
+
+        // Map pageId to navigation items
+        const navMap = {
+            &#39;temples_list_page&#39;: &#39;Chùa&#39;,
+            &#39;temple_detail_page&#39;: &#39;Chùa&#39;,
+            &#39;temples_map_view_page&#39;: &#39;Chùa&#39;,
+            &#39;events_list_page&#39;: &#39;Sự kiện&#39;,
+            &#39;event_detail_page&#39;: &#39;Sự kiện&#39;,
+            &#39;community_hub_page&#39;: &#39;Cộng đồng&#39;,
+            &#39;community_news_page&#39;: &#39;Cộng đồng&#39;,
+            &#39;community_livestream_page&#39;: &#39;Cộng đồng&#39;,
+            &#39;community_forum_main_page&#39;: &#39;Cộng đồng&#39;,
+            &#39;shops_list_page&#39;: &#39;Cửa hàng&#39;,
+            &#39;shop_product_detail_page&#39;: &#39;Cửa hàng&#39;,
+            &#39;charity_list_page&#39;: &#39;Từ thiện&#39;,
+            &#39;charity_detail_page&#39;: &#39;Từ thiện&#39;
+        };
+
+        if (navMap[pageId]) {
+            const activeLink = Array.from(navLinks).find(link => 
+                link.textContent.trim() === navMap[pageId]
+            );
+            if (activeLink) {
+                activeLink.classList.add(&#39;text-primary&#39;, &#39;font-semibold&#39;);
+            }
+        }
+    };
+})();
+</script>
+    </div>
+
+    <!-- Breadcrumb -->
+    <div class="container mx-auto px-4 lg:px-8">
+        <div data-section-id="breadcrumb_component" data-section-type="common_section" class="py-4">
+    <div class="text-sm breadcrumbs">
+        <ul id="breadcrumb-list">
+            <!-- Breadcrumb items will be dynamically inserted here -->
+        </ul>
+    </div>
+</div>
+
+<style>
+[data-section-id="breadcrumb_component"] .breadcrumbs ul li a {
+    color: var(--color-primary);
+    text-decoration: none;
+}
+
+[data-section-id="breadcrumb_component"] .breadcrumbs ul li a:hover {
+    text-decoration: underline;
+}
+
+[data-section-id="breadcrumb_component"] .breadcrumbs ul li:last-child {
+    color: var(--color-base-content);
+    font-weight: 500;
+}
+</style>
+
+<script>
+(function() {
+    // Function to set breadcrumb navigation
+    window.setBreadcrumb = function(breadcrumbItems) {
+        const breadcrumbList = document.getElementById(&#39;breadcrumb-list&#39;);
+        if (!breadcrumbList || !Array.isArray(breadcrumbItems)) return;
+
+        breadcrumbList.innerHTML = &#39;&#39;;
+
+        breadcrumbItems.forEach((item, index) => {
+            const li = document.createElement(&#39;li&#39;);
+            
+            if (index === breadcrumbItems.length - 1) {
+                // Last item - current page (no link)
+                const span = document.createElement(&#39;span&#39;);
+                span.className = &#39;flex items-center gap-1&#39;;
+                
+                if (item.icon) {
+                    const iconSpan = document.createElement(&#39;span&#39;);
+                    iconSpan.className = &#39;iconify&#39;;
+                    iconSpan.setAttribute(&#39;data-icon&#39;, item.icon);
+                    iconSpan.setAttribute(&#39;data-width&#39;, &#39;16&#39;);
+                    span.appendChild(iconSpan);
+                }
+                
+                const textNode = document.createTextNode(item.text);
+                span.appendChild(textNode);
+                li.appendChild(span);
+            } else {
+                // Previous items - clickable links
+                const a = document.createElement(&#39;a&#39;);
+                a.className = &#39;flex items-center gap-1 cursor-pointer&#39;;
+                
+                if (item.pageId) {
+                    a.onclick = () => navigateTo(item.pageId);
+                }
+                
+                if (item.icon) {
+                    const iconSpan = document.createElement(&#39;span&#39;);
+                    iconSpan.className = &#39;iconify&#39;;
+                    iconSpan.setAttribute(&#39;data-icon&#39;, item.icon);
+                    iconSpan.setAttribute(&#39;data-width&#39;, &#39;16&#39;);
+                    a.appendChild(iconSpan);
+                }
+                
+                const textNode = document.createTextNode(item.text);
+                a.appendChild(textNode);
+                li.appendChild(a);
+            }
+            
+            breadcrumbList.appendChild(li);
+        });
+    };
+
+    // Common breadcrumb patterns for Pagoda app
+    window.BreadcrumbPatterns = {
+        // Home -> Temples
+        templesList: function() {
+            return [
+                { text: &#39;Trang chủ&#39;, icon: &#39;heroicons:home-solid&#39;, pageId: &#39;home_page&#39; },
+                { text: &#39;Danh sách Chùa&#39; }
+            ];
+        },
+
+        // Home -> Temples -> Temple Details
+        templeDetails: function(templeName) {
+            return [
+                { text: &#39;Trang chủ&#39;, icon: &#39;heroicons:home-solid&#39;, pageId: &#39;home_page&#39; },
+                { text: &#39;Danh sách Chùa&#39;, pageId: &#39;temples_list_page&#39; },
+                { text: templeName || &#39;Chi tiết Chùa&#39; }
+            ];
+        },
+
+        // Home -> Events -> Event Details
+        eventDetails: function(eventName) {
+            return [
+                { text: &#39;Trang chủ&#39;, icon: &#39;heroicons:home-solid&#39;, pageId: &#39;home_page&#39; },
+                { text: &#39;Sự kiện&#39;, pageId: &#39;events_list_page&#39; },
+                { text: eventName || &#39;Chi tiết Sự kiện&#39; }
+            ];
+        },
+
+        // Home -> Community -> Specific page
+        communityPages: function(pageName) {
+            return [
+                { text: &#39;Trang chủ&#39;, icon: &#39;heroicons:home-solid&#39;, pageId: &#39;home_page&#39; },
+                { text: &#39;Cộng đồng&#39;, pageId: &#39;community_hub_page&#39; },
+                { text: pageName }
+            ];
+        },
+
+        // Home -> Shops -> Product Details
+        shopProductDetails: function(productName) {
+            return [
+                { text: &#39;Trang chủ&#39;, icon: &#39;heroicons:home-solid&#39;, pageId: &#39;home_page&#39; },
+                { text: &#39;Cửa hàng&#39;, pageId: &#39;shops_list_page&#39; },
+                { text: productName || &#39;Chi tiết Sản phẩm&#39; }
+            ];
+        },
+
+        // Home -> Charity -> Charity Details
+        charityDetails: function(charityName) {
+            return [
+                { text: &#39;Trang chủ&#39;, icon: &#39;heroicons:home-solid&#39;, pageId: &#39;home_page&#39; },
+                { text: &#39;Từ thiện&#39;, pageId: &#39;charity_list_page&#39; },
+                { text: charityName || &#39;Chi tiết Tổ chức&#39; }
+            ];
+        },
+
+        // User profile pages
+        userPages: function(pageName) {
+            return [
+                { text: &#39;Trang chủ&#39;, icon: &#39;heroicons:home-solid&#39;, pageId: &#39;home_page&#39; },
+                { text: &#39;Hồ sơ cá nhân&#39;, pageId: &#39;user_profile_page&#39; },
+                { text: pageName }
+            ];
+        }
+    };
+})();
+</script>
+    </div>
+
+    <!-- Main Content -->
+    <div class="flex-1 container mx-auto px-4 lg:px-8 py-8">
+        <!-- Checkout Summary Section -->
+        <section class="max-w-4xl mx-auto">
+            <!-- Page Title -->
+            <div class="text-center mb-8">
+                <h1 class="text-3xl font-bold text-base-content mb-2">Hoàn tất thanh toán</h1>
+                <p class="text-base-content/70">Xem lại đơn hàng và hoàn tất giao dịch của bạn</p>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                <!-- Left Column: Order Details &amp; Forms -->
+                <div class="lg:col-span-2 space-y-8">
+                    <!-- Order Summary -->
+                    <div class="card bg-base-100 shadow-lg border border-base-200">
+                        <div class="card-body">
+                            <h2 class="card-title text-xl mb-4 flex items-center gap-2">
+                                <span class="iconify text-primary" data-icon="heroicons:shopping-bag" data-width="24"></span>
+                                Tổng quan đơn hàng
+                            </h2>
+                            
+                            <div class="space-y-4">
+                                <!-- Product Item 1 -->
+                                <div class="flex items-center gap-4 p-4 bg-base-50 rounded-lg border border-base-200" data-repeatable="true" data-type="product-item">
+                                    <div class="w-16 h-16 rounded-lg overflow-hidden bg-base-200">
+                                        <img src="https://spark-builder.s3.us-east-1.amazonaws.com/image/2025/8/13/3a70e282-1f00-4a81-8a93-c1745113b6a2.png" alt="Tượng Phật Quan Âm" class="w-full h-full object-cover">
+                                    </div>
+                                    <div class="flex-1">
+                                        <h3 class="font-semibold text-base-content">Tượng Phật Quan Âm</h3>
+                                        <p class="text-sm text-base-content/70">Chất liệu: Gỗ mít cao cấp</p>
+                                        <div class="flex items-center gap-4 mt-2">
+                                            <span class="text-sm text-base-content/70">Số lượng: 1</span>
+                                            <span class="font-semibold text-primary">1.200.000 ₫</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Product Item 2 -->
+                                <div class="flex items-center gap-4 p-4 bg-base-50 rounded-lg border border-base-200" data-repeatable="true" data-type="product-item">
+                                    <div class="w-16 h-16 rounded-lg overflow-hidden bg-base-200">
+                                        <img src="https://spark-builder.s3.us-east-1.amazonaws.com/image/2025/8/13/4aef43c2-7ee5-49ce-a657-e5439487eebf.png" alt="Nhang trầm hương" class="w-full h-full object-cover">
+                                    </div>
+                                    <div class="flex-1">
+                                        <h3 class="font-semibold text-base-content">Nhang trầm hương cao cấp</h3>
+                                        <p class="text-sm text-base-content/70">Hộp 50 que, hương thơm tự nhiên</p>
+                                        <div class="flex items-center gap-4 mt-2">
+                                            <span class="text-sm text-base-content/70">Số lượng: 2</span>
+                                            <span class="font-semibold text-primary">450.000 ₫</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Continue Shopping Link -->
+                                <div class="pt-4 border-t border-base-200">
+                                    <button onclick="navigateTo(&#39;shops_list_page&#39;)" class="btn btn-ghost btn-sm gap-2">
+                                        <span class="iconify" data-icon="heroicons:arrow-left" data-width="16"></span>
+                                        Tiếp tục mua sắm
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Shipping Information -->
+                    <div class="card bg-base-100 shadow-lg border border-base-200">
+                        <div class="card-body">
+                            <h2 class="card-title text-xl mb-4 flex items-center gap-2">
+                                <span class="iconify text-primary" data-icon="heroicons:truck" data-width="24"></span>
+                                Địa chỉ giao hàng
+                            </h2>
+
+                            <!-- Address Options -->
+                            <div class="form-control mb-4">
+                                <label class="label cursor-pointer justify-start gap-4">
+                                    <input type="radio" name="address-option" class="radio radio-primary" value="saved" checked="">
+                                    <span class="label-text">Sử dụng địa chỉ đã lưu</span>
+                                </label>
+                                <label class="label cursor-pointer justify-start gap-4">
+                                    <input type="radio" name="address-option" class="radio radio-primary" value="new">
+                                    <span class="label-text">Thêm địa chỉ mới</span>
+                                </label>
+                            </div>
+
+                            <!-- Saved Address Display -->
+                            <div id="saved-address" class="p-4 bg-base-50 rounded-lg border border-base-200 mb-4">
+                                <div class="flex items-start justify-between">
+                                    <div>
+                                        <p class="font-semibold">Nguyễn Văn An</p>
+                                        <p class="text-sm text-base-content/70">123 Đường Lê Lợi, Phường Bến Nghé</p>
+                                        <p class="text-sm text-base-content/70">Quận 1, TP. Hồ Chí Minh 700000</p>
+                                        <p class="text-sm text-base-content/70">Điện thoại: 0901234567</p>
+                                    </div>
+                                    <button class="btn btn-ghost btn-sm">Chỉnh sửa</button>
+                                </div>
+                            </div>
+
+                            <!-- New Address Form -->
+                            <div id="new-address-form" class="hidden space-y-4">
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                    <div class="form-control">
+                                        <label class="label"><span class="label-text">Họ và tên *</span></label>
+                                        <input type="text" placeholder="Nhập họ và tên" class="input input-bordered" required="">
+                                    </div>
+                                    <div class="form-control">
+                                        <label class="label"><span class="label-text">Số điện thoại *</span></label>
+                                        <input type="tel" placeholder="Nhập số điện thoại" class="input input-bordered" required="">
+                                    </div>
+                                </div>
+                                <div class="form-control">
+                                    <label class="label"><span class="label-text">Địa chỉ *</span></label>
+                                    <input type="text" placeholder="Số nhà, tên đường" class="input input-bordered" required="">
+                                </div>
+                                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                                    <div class="form-control">
+                                        <label class="label"><span class="label-text">Thành phố *</span></label>
+                                        <select class="select select-bordered" required="">
+                                            <option disabled="" selected="">Chọn thành phố</option>
+                                            <option>TP. Hồ Chí Minh</option>
+                                            <option>Hà Nội</option>
+                                            <option>Đà Nẵng</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-control">
+                                        <label class="label"><span class="label-text">Quận/Huyện *</span></label>
+                                        <select class="select select-bordered" required="">
+                                            <option disabled="" selected="">Chọn quận/huyện</option>
+                                            <option>Quận 1</option>
+                                            <option>Quận 3</option>
+                                            <option>Quận 5</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-control">
+                                        <label class="label"><span class="label-text">Mã bưu điện</span></label>
+                                        <input type="text" placeholder="700000" class="input input-bordered">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Payment Method -->
+                    <div class="card bg-base-100 shadow-lg border border-base-200">
+                        <div class="card-body">
+                            <h2 class="card-title text-xl mb-4 flex items-center gap-2">
+                                <span class="iconify text-primary" data-icon="heroicons:credit-card" data-width="24"></span>
+                                Phương thức thanh toán
+                            </h2>
+
+                            <div class="space-y-4">
+                                <!-- Credit Card Option -->
+                                <div class="form-control">
+                                    <label class="label cursor-pointer justify-start gap-4 p-4 border border-base-200 rounded-lg hover:bg-base-50 transition-colors">
+                                        <input type="radio" name="payment-method" class="radio radio-primary" value="credit-card" checked="">
+                                        <div class="flex items-center gap-3">
+                                            <span class="iconify text-primary" data-icon="heroicons:credit-card" data-width="24"></span>
+                                            <span class="label-text font-medium">Thẻ tín dụng/ghi nợ</span>
+                                        </div>
+                                    </label>
+                                </div>
+
+                                <!-- Credit Card Form -->
+                                <div id="credit-card-form" class="pl-8 space-y-4">
+                                    <div class="form-control">
+                                        <label class="label"><span class="label-text">Số thẻ *</span></label>
+                                        <input type="text" placeholder="1234 5678 9012 3456" class="input input-bordered" maxlength="19">
+                                    </div>
+                                    <div class="grid grid-cols-2 gap-4">
+                                        <div class="form-control">
+                                            <label class="label"><span class="label-text">Ngày hết hạn *</span></label>
+                                            <input type="text" placeholder="MM/YY" class="input input-bordered" maxlength="5">
+                                        </div>
+                                        <div class="form-control">
+                                            <label class="label"><span class="label-text">CVV *</span></label>
+                                            <input type="text" placeholder="123" class="input input-bordered" maxlength="4">
+                                        </div>
+                                    </div>
+                                    <div class="form-control">
+                                        <label class="label"><span class="label-text">Tên chủ thẻ *</span></label>
+                                        <input type="text" placeholder="NGUYEN VAN AN" class="input input-bordered">
+                                    </div>
+                                </div>
+
+                                <!-- Bank Transfer Option -->
+                                <div class="form-control">
+                                    <label class="label cursor-pointer justify-start gap-4 p-4 border border-base-200 rounded-lg hover:bg-base-50 transition-colors">
+                                        <input type="radio" name="payment-method" class="radio radio-primary" value="bank-transfer">
+                                        <div class="flex items-center gap-3">
+                                            <span class="iconify text-primary" data-icon="heroicons:building-library" data-width="24"></span>
+                                            <span class="label-text font-medium">Chuyển khoản ngân hàng</span>
+                                        </div>
+                                    </label>
+                                </div>
+
+                                <!-- E-Wallet Option -->
+                                <div class="form-control">
+                                    <label class="label cursor-pointer justify-start gap-4 p-4 border border-base-200 rounded-lg hover:bg-base-50 transition-colors">
+                                        <input type="radio" name="payment-method" class="radio radio-primary" value="e-wallet">
+                                        <div class="flex items-center gap-3">
+                                            <span class="iconify text-primary" data-icon="heroicons:device-phone-mobile" data-width="24"></span>
+                                            <span class="label-text font-medium">Ví điện tử (MoMo, ZaloPay)</span>
+                                        </div>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Additional Information -->
+                    <div class="card bg-base-100 shadow-lg border border-base-200">
+                        <div class="card-body">
+                            <h2 class="card-title text-xl mb-4 flex items-center gap-2">
+                                <span class="iconify text-primary" data-icon="heroicons:chat-bubble-left-right" data-width="24"></span>
+                                Thông tin bổ sung
+                            </h2>
+                            
+                            <div class="space-y-4">
+                                <div class="form-control">
+                                    <label class="label"><span class="label-text">Email liên hệ</span></label>
+                                    <input type="email" placeholder="your.email@example.com" class="input input-bordered">
+                                    <label class="label"><span class="label-text-alt">Chúng tôi sẽ gửi xác nhận đơn hàng qua email này</span></label>
+                                </div>
+                                
+                                <div class="form-control">
+                                    <label class="label"><span class="label-text">Ghi chú đặc biệt</span></label>
+                                    <textarea class="textarea textarea-bordered h-24" placeholder="Ghi chú về đơn hàng (tùy chọn)"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right Column: Order Total -->
+                <div class="lg:col-span-1">
+                    <div class="card bg-base-100 shadow-lg border border-base-200 sticky top-24">
+                        <div class="card-body">
+                            <h2 class="card-title text-xl mb-4 flex items-center gap-2">
+                                <span class="iconify text-primary" data-icon="heroicons:calculator" data-width="24"></span>
+                                Tổng cộng
+                            </h2>
+                            
+                            <div class="space-y-3">
+                                <div class="flex justify-between">
+                                    <span class="text-base-content/70">Tạm tính</span>
+                                    <span class="font-medium">1.650.000 ₫</span>
+                                </div>
+                                <div class="flex justify-between">
+                                    <span class="text-base-content/70">Phí vận chuyển</span>
+                                    <span class="font-medium">30.000 ₫</span>
+                                </div>
+                                <div class="flex justify-between">
+                                    <span class="text-base-content/70">Giảm giá</span>
+                                    <span class="font-medium text-success">-50.000 ₫</span>
+                                </div>
+                                <div class="divider my-2"></div>
+                                <div class="flex justify-between text-lg font-bold">
+                                    <span>Tổng thanh toán</span>
+                                    <span class="text-primary">1.630.000 ₫</span>
+                                </div>
+                            </div>
+
+                            <!-- Terms Agreement -->
+                            <div class="form-control mt-6">
+                                <label class="label cursor-pointer justify-start gap-3">
+                                    <input type="checkbox" class="checkbox checkbox-primary" id="terms-agreement" required="">
+                                    <span class="label-text text-sm">
+                                        Tôi đồng ý với 
+                                        <a href="#" class="link link-primary">Điều khoản dịch vụ</a> 
+                                        và 
+                                        <a href="#" class="link link-primary">Chính sách bảo mật</a>
+                                    </span>
+                                </label>
+                            </div>
+
+                            <!-- Checkout Button -->
+                            <button onclick="handleCheckout()" class="btn btn-primary btn-lg w-full mt-6 gap-2" id="checkout-btn" disabled="">
+                                <span class="iconify" data-icon="heroicons:lock-closed" data-width="20"></span>
+                                Hoàn tất thanh toán
+                            </button>
+
+                            <!-- Security Notice -->
+                            <div class="mt-4 p-3 bg-base-50 rounded-lg border border-base-200">
+                                <div class="flex items-center gap-2 text-sm text-base-content/70">
+                                    <span class="iconify text-success" data-icon="heroicons:shield-check" data-width="16"></span>
+                                    <span>Giao dịch được bảo mật bằng SSL 256-bit</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-base-200 border-t border-base-300 mt-16">
+        <div class="container mx-auto px-4 lg:px-8 py-8">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <div class="md:col-span-2">
+                    <div class="flex items-center gap-3 mb-4">
+                        <div class="w-8 h-8 bg-primary rounded-lg flex items-center justify-center">
+                            <span class="iconify text-primary-content" data-icon="heroicons:building-library" data-width="20"></span>
+                        </div>
+                        <span class="text-xl font-bold text-base-content">Pagoda</span>
+                    </div>
+                    <p class="text-base-content/70 mb-4">Ứng dụng kết nối cộng đồng Phật giáo Việt Nam</p>
+                    <p class="text-sm text-base-content/60">© 2025 Tất cả quyền được bảo lưu</p>
+                </div>
+                
+                <div>
+                    <h3 class="font-semibold text-base-content mb-3">Liên kết</h3>
+                    <ul class="space-y-2 text-sm">
+                        <li><a href="#" onclick="navigateTo(&#39;privacy_policy_page&#39;)" class="text-base-content/70 hover:text-primary transition-colors">Chính sách bảo mật</a></li>
+                        <li><a href="#" onclick="navigateTo(&#39;terms_of_service_page&#39;)" class="text-base-content/70 hover:text-primary transition-colors">Điều khoản dịch vụ</a></li>
+                        <li><a href="#" onclick="navigateTo(&#39;contact_us_page&#39;)" class="text-base-content/70 hover:text-primary transition-colors">Liên hệ chúng tôi</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h3 class="font-semibold text-base-content mb-3">Theo dõi chúng tôi</h3>
+                    <div class="flex gap-3">
+                        <a href="#" onclick="navigateTo(&#39;external_facebook&#39;)" class="w-8 h-8 bg-base-300 rounded-lg flex items-center justify-center hover:bg-primary hover:text-primary-content transition-colors">
+                            <span class="iconify" data-icon="heroicons:globe-alt" data-width="16"></span>
+                        </a>
+                        <a href="#" onclick="navigateTo(&#39;external_twitter&#39;)" class="w-8 h-8 bg-base-300 rounded-lg flex items-center justify-center hover:bg-primary hover:text-primary-content transition-colors">
+                            <span class="iconify" data-icon="heroicons:globe-alt" data-width="16"></span>
+                        </a>
+                        <a href="#" onclick="navigateTo(&#39;external_linkedin&#39;)" class="w-8 h-8 bg-base-300 rounded-lg flex items-center justify-center hover:bg-primary hover:text-primary-content transition-colors">
+                            <span class="iconify" data-icon="heroicons:globe-alt" data-width="16"></span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+(function() {
+    // Global navigation function
+    window.navigateTo = function(targetPageId) {
+        const isInIframe = window.self !== window.top;
+        const targetFileName = `${targetPageId}.html`;
+        
+        if (isInIframe) {
+            window.parent.postMessage({
+                type: &#39;iframeNavigation&#39;,
+                targetPageId: targetPageId
+            }, &#39;*&#39;);
+        } else {
+            window.location.href = targetFileName;
+        }
+    };
+
+    // Global utility functions for Pagoda app
+    window.PagodaUtils = {
+        // Toggle mobile menu
+        toggleMobileMenu: function() {
+            const menu = document.getElementById(&#39;mobile-menu&#39;);
+            if (menu) {
+                menu.classList.toggle(&#39;hidden&#39;);
+            }
+        },
+
+        // Handle search form submission
+        handleSearch: function(form) {
+            const formData = new FormData(form);
+            const searchQuery = formData.get(&#39;search&#39;) || formData.get(&#39;searchQuery&#39;);
+            const category = formData.get(&#39;category&#39;);
+            
+            if (searchQuery &amp;&amp; searchQuery.trim()) {
+                // Navigate to search results with parameters
+                navigateTo(&#39;search_page&#39;);
+                return true;
+            }
+            return false; // Prevent default form submission
+        },
+
+        // Handle language selection
+        handleLanguageChange: function(language) {
+            console.log(&#39;Language changed to:&#39;, language);
+            // Implementation for language change
+            localStorage.setItem(&#39;pagoda_language&#39;, language);
+        },
+
+        // Format numbers for donations and prices
+        formatCurrency: function(amount, currency = &#39;VND&#39;) {
+            if (currency === &#39;VND&#39;) {
+                return new Intl.NumberFormat(&#39;vi-VN&#39;, {
+                    style: &#39;currency&#39;,
+                    currency: &#39;VND&#39;
+                }).format(amount);
+            }
+            return new Intl.NumberFormat(&#39;en-US&#39;, {
+                style: &#39;currency&#39;,
+                currency: currency
+            }).format(amount);
+        },
+
+        // Format distance for temples and restaurants
+        formatDistance: function(distanceKm) {
+            if (distanceKm < 1) {
+                return `${Math.round(distanceKm * 1000)}m`;
+            }
+            return `${distanceKm.toFixed(1)}km`;
+        },
+
+        // Handle notification actions
+        toggleNotifications: function() {
+            // Implementation for notification toggle
+            console.log(&#39;Toggle notifications&#39;);
+        },
+
+        // Handle follow/unfollow temples
+        toggleTempleFollow: function(templeId) {
+            console.log(&#39;Toggle follow for temple:&#39;, templeId);
+            // Implementation for following temples
+        },
+
+        // Show toast messages
+        showToast: function(message, type = &#39;info&#39;) {
+            // Create and show toast notification
+            const toast = document.createElement(&#39;div&#39;);
+            toast.className = `toast toast-top toast-center z-50`;
+            toast.innerHTML = `
+                <div class="alert alert-${type}">
+                    <span>${message}</span>
+                </div>
+            `;
+            
+            document.body.appendChild(toast);
+            
+            // Auto remove after 3 seconds
+            setTimeout(() => {
+                if (document.body.contains(toast)) {
+                    document.body.removeChild(toast);
+                }
+            }, 3000);
+        }
+    };
+
+    // Initialize app globals
+    window.APP_GLOBALS = window.APP_GLOBALS || {};
+    window.APP_GLOBALS.currentUser = null;
+    window.APP_GLOBALS.currentLocation = null;
+    window.APP_GLOBALS.followedTemples = [];
+})();
+</script>
+    <script>
+(function() {
+    // Initialize page
+    document.addEventListener(&#39;DOMContentLoaded&#39;, function() {
+        // Set navigation state
+        if (typeof setActiveNavigation === &#39;function&#39;) {
+            setActiveNavigation(&#39;checkout_page&#39;);
+        }
+
+        // Set breadcrumb
+        if (typeof setBreadcrumb === &#39;function&#39; &amp;&amp; typeof BreadcrumbPatterns !== &#39;undefined&#39;) {
+            setBreadcrumb(BreadcrumbPatterns.shopProductDetails(&#39;Thanh toán&#39;));
+        }
+
+        initializeCheckoutForm();
+    });
+
+    // Initialize checkout form functionality
+    function initializeCheckoutForm() {
+        // Address option toggle
+        const addressOptions = document.querySelectorAll(&#39;input[name="address-option"]&#39;);
+        const savedAddress = document.getElementById(&#39;saved-address&#39;);
+        const newAddressForm = document.getElementById(&#39;new-address-form&#39;);
+
+        addressOptions.forEach(option => {
+            option.addEventListener(&#39;change&#39;, function() {
+                if (this.value === &#39;saved&#39;) {
+                    savedAddress.classList.remove(&#39;hidden&#39;);
+                    newAddressForm.classList.add(&#39;hidden&#39;);
+                } else {
+                    savedAddress.classList.add(&#39;hidden&#39;);
+                    newAddressForm.classList.remove(&#39;hidden&#39;);
+                }
+                validateForm();
+            });
+        });
+
+        // Payment method toggle
+        const paymentMethods = document.querySelectorAll(&#39;input[name="payment-method"]&#39;);
+        const creditCardForm = document.getElementById(&#39;credit-card-form&#39;);
+
+        paymentMethods.forEach(method => {
+            method.addEventListener(&#39;change&#39;, function() {
+                if (this.value === &#39;credit-card&#39;) {
+                    creditCardForm.classList.remove(&#39;hidden&#39;);
+                } else {
+                    creditCardForm.classList.add(&#39;hidden&#39;);
+                }
+                validateForm();
+            });
+        });
+
+        // Terms agreement checkbox
+        const termsCheckbox = document.getElementById(&#39;terms-agreement&#39;);
+        termsCheckbox.addEventListener(&#39;change&#39;, validateForm);
+
+        // Form validation for all inputs
+        const formInputs = document.querySelectorAll(&#39;input, select, textarea&#39;);
+        formInputs.forEach(input => {
+            input.addEventListener(&#39;input&#39;, validateForm);
+            input.addEventListener(&#39;blur&#39;, function() {
+                validateField(this);
+            });
+        });
+
+        // Credit card number formatting
+        const cardNumberInput = document.querySelector(&#39;input[placeholder="1234 5678 9012 3456"]&#39;);
+        if (cardNumberInput) {
+            cardNumberInput.addEventListener(&#39;input&#39;, function(e) {
+                let value = e.target.value.replace(/\s/g, &#39;&#39;).replace(/[^0-9]/gi, &#39;&#39;);
+                let formattedValue = value.match(/.{1,4}/g)?.join(&#39; &#39;) || value;
+                e.target.value = formattedValue;
+            });
+        }
+
+        // Expiry date formatting
+        const expiryInput = document.querySelector(&#39;input[placeholder="MM/YY"]&#39;);
+        if (expiryInput) {
+            expiryInput.addEventListener(&#39;input&#39;, function(e) {
+                let value = e.target.value.replace(/\D/g, &#39;&#39;);
+                if (value.length >= 2) {
+                    value = value.substring(0, 2) + &#39;/&#39; + value.substring(2, 4);
+                }
+                e.target.value = value;
+            });
+        }
+
+        // Initial validation
+        validateForm();
+    }
+
+    // Validate individual field
+    function validateField(field) {
+        const value = field.value.trim();
+        let isValid = true;
+
+        // Remove previous validation classes
+        field.classList.remove(&#39;form-error&#39;, &#39;form-success&#39;);
+
+        // Skip validation for optional fields
+        if (!field.required &amp;&amp; !value) {
+            return true;
+        }
+
+        // Email validation
+        if (field.type === &#39;email&#39; &amp;&amp; value) {
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            isValid = emailRegex.test(value);
+        }
+
+        // Phone validation
+        if (field.type === &#39;tel&#39; &amp;&amp; value) {
+            const phoneRegex = /^[0-9]{10,11}$/;
+            isValid = phoneRegex.test(value.replace(/\D/g, &#39;&#39;));
+        }
+
+        // Credit card validation
+        if (field.placeholder === &#39;1234 5678 9012 3456&#39; &amp;&amp; value) {
+            const cardNumber = value.replace(/\s/g, &#39;&#39;);
+            isValid = cardNumber.length >= 13 &amp;&amp; cardNumber.length <= 19;
+        }
+
+        // CVV validation
+        if (field.placeholder === &#39;123&#39; &amp;&amp; value) {
+            isValid = value.length >= 3 &amp;&amp; value.length <= 4;
+        }
+
+        // Expiry date validation
+        if (field.placeholder === &#39;MM/YY&#39; &amp;&amp; value) {
+            const parts = value.split(&#39;/&#39;);
+            if (parts.length === 2) {
+                const month = parseInt(parts[0]);
+                const year = parseInt(&#39;20&#39; + parts[1]);
+                const currentYear = new Date().getFullYear();
+                const currentMonth = new Date().getMonth() + 1;
+                
+                isValid = month >= 1 &amp;&amp; month <= 12 &amp;&amp; 
+                         (year > currentYear || (year === currentYear &amp;&amp; month >= currentMonth));
+            } else {
+                isValid = false;
+            }
+        }
+
+        // Required field validation
+        if (field.required &amp;&amp; !value) {
+            isValid = false;
+        }
+
+        // Apply validation styling
+        if (value) {
+            field.classList.add(isValid ? &#39;form-success&#39; : &#39;form-error&#39;);
+        }
+
+        return isValid;
+    }
+
+    // Validate entire form
+    function validateForm() {
+        const termsCheckbox = document.getElementById(&#39;terms-agreement&#39;);
+        const checkoutBtn = document.getElementById(&#39;checkout-btn&#39;);
+        
+        let isFormValid = true;
+
+        // Check terms agreement
+        if (!termsCheckbox.checked) {
+            isFormValid = false;
+        }
+
+        // Check required fields based on selected options
+        const addressOption = document.querySelector(&#39;input[name="address-option"]:checked&#39;);
+        if (addressOption &amp;&amp; addressOption.value === &#39;new&#39;) {
+            const requiredFields = document.querySelectorAll(&#39;#new-address-form input[required], #new-address-form select[required]&#39;);
+            requiredFields.forEach(field => {
+                if (!field.value.trim()) {
+                    isFormValid = false;
+                }
+            });
+        }
+
+        // Check payment method fields
+        const paymentMethod = document.querySelector(&#39;input[name="payment-method"]:checked&#39;);
+        if (paymentMethod &amp;&amp; paymentMethod.value === &#39;credit-card&#39;) {
+            const creditCardFields = document.querySelectorAll(&#39;#credit-card-form input&#39;);
+            creditCardFields.forEach(field => {
+                if (!validateField(field)) {
+                    isFormValid = false;
+                }
+            });
+        }
+
+        // Update checkout button state
+        checkoutBtn.disabled = !isFormValid;
+        if (isFormValid) {
+            checkoutBtn.classList.add(&#39;checkout-btn-enabled&#39;);
+        } else {
+            checkoutBtn.classList.remove(&#39;checkout-btn-enabled&#39;);
+        }
+    }
+
+    // Handle checkout button click
+    window.handleCheckout = function() {
+        const checkoutBtn = document.getElementById(&#39;checkout-btn&#39;);
+        
+        if (checkoutBtn.disabled) {
+            PagodaUtils.showToast(&#39;Vui lòng hoàn thành tất cả thông tin bắt buộc&#39;, &#39;warning&#39;);
+            return;
+        }
+
+        // Show loading state
+        checkoutBtn.disabled = true;
+        checkoutBtn.innerHTML = `
+            <span class="loading loading-spinner loading-sm"></span>
+            Đang xử lý...
+        `;
+
+        // Simulate processing time
+        setTimeout(() => {
+            // Navigate to confirmation page
+            navigateTo(&#39;payment_confirmation_page&#39;);
+        }, 2000);
+    };
+
+    // Handle back navigation
+    window.handleBackNavigation = function() {
+        navigateTo(&#39;shop_product_detail_page&#39;);
+    };
+
+    // Add smooth scrolling for mobile
+    function smoothScrollToTop() {
+        window.scrollTo({
+            top: 0,
+            behavior: &#39;smooth&#39;
+        });
+    }
+
+    // Real-time form validation feedback
+    function showFieldError(field, message) {
+        // Remove existing error message
+        const existingError = field.parentNode.querySelector(&#39;.field-error&#39;);
+        if (existingError) {
+            existingError.remove();
+        }
+
+        // Add new error message
+        const errorDiv = document.createElement(&#39;div&#39;);
+        errorDiv.className = &#39;field-error text-error text-xs mt-1&#39;;
+        errorDiv.textContent = message;
+        field.parentNode.appendChild(errorDiv);
+    }
+
+    // Initialize tooltips for payment security
+    function initializeTooltips() {
+        const securityElements = document.querySelectorAll(&#39;[data-tooltip]&#39;);
+        securityElements.forEach(element => {
+            element.addEventListener(&#39;mouseenter&#39;, function() {
+                // Show tooltip implementation
+            });
+        });
+    }
+
+})();
+</script>
+
+</body></html>'></iframe>
+                    </div>
+                  </div>
+
+                </body>
+                </html>
+            

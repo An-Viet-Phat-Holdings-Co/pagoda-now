@@ -1,0 +1,910 @@
+
+                <!DOCTYPE html>
+                <html lang="zh">
+                <head>
+                  <meta charset="UTF-8">
+                  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                  <title>Chính sách bảo mật</title>
+                  <style>
+                    *,
+                    *::before,
+                    *::after {
+                      box-sizing: border-box;
+                      margin: 0;
+                    }
+                    .iframe-outer {
+                      position: fixed;
+                      inset: 0;
+                      display: flex;
+                      justify-content: center;
+                      background-color: #fff;
+                    }
+                    .iframe-wrapper {
+                      width: 100%;
+                      height: 100%;
+                      transform: none !important;
+                    }
+                    #dynamicIframe {
+                      border: none;
+                      width: 100%;
+                      height: 100%;
+                    }
+                  </style>
+                  <script>
+                const width = 1920
+                const height = 1080
+                const resolutionRatio = width && height ? width / height : 1
+                const pageNameMap = {
+                  'login_page': 'Đăng nhập',
+    'registration_page': 'Đăng ký',
+    'forgot_password_page': 'Quên mật khẩu',
+    'home_page': 'Trang chủ',
+    'temples_list_page': 'Danh sách Chùa',
+    'temple_detail_page': 'Chi tiết Chùa',
+    'temples_map_view_page': 'Bản đồ Chùa',
+    'events_list_page': 'Danh sách Sự kiện',
+    'event_detail_page': 'Chi tiết Sự kiện',
+    'community_hub_page': 'Trung tâm Cộng đồng',
+    'community_news_page': 'Tin tức Cộng đồng',
+    'community_livestream_page': 'Phát trực tiếp Cộng đồng',
+    'community_forum_main_page': 'Diễn đàn Cộng đồng',
+    'shops_list_page': 'Danh sách Cửa hàng',
+    'shop_product_detail_page': 'Chi tiết Sản phẩm',
+    'checkout_page': 'Thanh toán',
+    'payment_confirmation_page': 'Xác nhận Thanh toán',
+    'eats_list_page': 'Danh sách Món chay',
+    'eats_detail_page': 'Chi tiết Món chay',
+    'charity_list_page': 'Danh sách Từ thiện',
+    'charity_detail_page': 'Chi tiết Tổ chức Từ thiện',
+    'donation_page': 'Quyên góp',
+    'donation_confirmation_page': 'Xác nhận Quyên góp',
+    'search_page': 'Tìm kiếm',
+    'notifications_page': 'Thông báo',
+    'user_profile_page': 'Hồ sơ người dùng',
+    'account_settings_page': 'Cài đặt tài khoản',
+    'about_us_page': 'Về chúng tôi',
+    'contact_us_page': 'Liên hệ',
+    'privacy_policy_page': 'Chính sách bảo mật',
+    'terms_of_service_page': 'Điều khoản dịch vụ'
+                }
+                function setIframeSize(w, h) {
+                  const currentContainerRadio = w / h
+                  let widthValue = w
+                  let heightValue = h
+                  let zoom = 1
+                  if (currentContainerRadio > resolutionRatio) {
+                    widthValue = h * resolutionRatio
+                    heightValue = h
+                  } else {
+                    widthValue = w
+                    heightValue = w / resolutionRatio
+                  }
+                  zoom = width ? widthValue / width : 1
+                  return {
+                    width: widthValue / zoom + 'px',
+                    height: heightValue / zoom + 'px',
+                    zoom,
+                  }
+                }
+                function adjustIframeSize() {
+                  const iframeWrapper = document.querySelector(".iframe-wrapper")
+                  const { width, height, zoom } = setIframeSize(window.innerWidth, window.innerHeight)
+                  iframeWrapper.style.height = height
+                  iframeWrapper.style.width = width
+                  iframeWrapper.style.transform = 'scale(' + zoom + ')'
+                }
+                function sanitizeFilename(name) {
+                  return name.replace(/[\/:*?"<>|]/g, '_')
+                }
+                function handlePostMessage(event) {
+                  if (!event.data) {
+                    return
+                  }
+                  const { type, targetPageId } = event.data
+                  const targetPageName = pageNameMap[targetPageId]
+                  if (type === "iframeNavigation" && targetPageId && targetPageName) {
+                    window.location.href = targetPageName + '.html'
+                  }
+                }
+                window.addEventListener('message', handlePostMessage)
+                window.onload = adjustIframeSize
+                window.onresize = adjustIframeSize
+                window.onunload = () => {
+                  window.removeEventListener('message', handlePostMessage)
+                }
+              </script>
+                </head>
+                <body>
+                  <div class="iframe-outer">
+                    <div class="iframe-wrapper">
+                      <iframe id="dynamicIframe" srcdoc='<html lang="vi" data-theme="light"><head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chính sách bảo mật - Pagoda</title>
+    <link href="./assets/aec0181c/npm/daisyui@5.css" rel="stylesheet" type="text/css">
+    <script src="./assets/1f17f226/npm/@tailwindcss/browser@4.js"></script>
+    <link href="./assets/npm/daisyui@5/themes.css" rel="stylesheet" type="text/css">
+    <script src="./assets/3/3.1.1/iconify.min.js"></script>
+    <style>
+/* Import Inter font family */
+@import url(&#39;https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;display=swap&#39;);
+
+/* daisyUI Theme Variables Customization
+ * Based on the Pagoda Buddhist app requirements and UI guidance
+ */
+:root {
+    /* Brand colors from Pagoda design document */
+    --color-primary: rgba(142, 68, 173, 1); /* #8E44AD purple lotus */
+    --color-primary-content: rgba(255, 255, 255, 1);
+    --color-secondary: rgba(241, 196, 15, 1); /* #F1C40F earth yellow */
+    --color-secondary-content: rgba(26, 39, 50, 1);
+    --color-accent: rgba(142, 68, 173, 1);
+    --color-accent-content: rgba(255, 255, 255, 1);
+
+    /* Background colors - clean and serene */
+    --color-base-100: rgba(255, 255, 255, 1); /* Pure white for cards */
+    --color-base-200: rgba(248, 249, 250, 1); /* Light neutral #F8F9FA */
+    --color-base-300: rgba(229, 231, 235, 1);
+    --color-base-content: rgba(46, 58, 69, 1); /* Dark charcoal #2E3A45 */
+
+    /* Semantic colors */
+    --color-success: rgba(67, 160, 71, 1); /* #43A047 */
+    --color-success-content: rgba(255, 255, 255, 1);
+    --color-warning: rgba(253, 216, 53, 1); /* #FDD835 */
+    --color-warning-content: rgba(26, 39, 50, 1);
+    --color-error: rgba(229, 57, 53, 1); /* #E53935 */
+    --color-error-content: rgba(255, 255, 255, 1);
+    --color-info: rgba(142, 68, 173, 1);
+    --color-info-content: rgba(255, 255, 255, 1);
+
+    /* Typography and styling */
+    --radius-box: 0.5rem; /* 8px border radius for Buddhist serenity */
+    --radius-btn: 0.5rem;
+    --border: 1px;
+}
+
+/* Typography settings */
+body {
+    font-family: &#39;Inter&#39;, sans-serif;
+    font-size: 16px;
+    line-height: 1.6;
+    color: var(--color-base-content);
+    letter-spacing: 0.02em;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: &#39;Inter&#39;, sans-serif;
+    font-weight: 600;
+    line-height: 1.3;
+    color: rgba(26, 39, 50, 1); /* #1A2732 for headings */
+    letter-spacing: 0.02em;
+}
+
+h1 { font-size: 2rem; } /* 32px */
+h2 { font-size: 1.5rem; } /* 24px */
+h3 { font-size: 1.25rem; } /* 20px */
+
+/* Custom shadow for floating panels - subtle and serene */
+.custom-shadow {
+    box-shadow: 0px 4px 12px rgba(142, 68, 173, 0.08);
+}
+
+/* Smooth transitions */
+.smooth-transition {
+    transition: all 0.2s ease-out;
+}
+
+.smooth-transition-long {
+    transition: all 0.3s ease-in-out;
+}
+
+/* Buddhist-inspired decorative elements */
+.lotus-gradient {
+    background: linear-gradient(135deg, var(--color-primary), var(--color-secondary));
+}
+
+.serene-bg {
+    background: linear-gradient(180deg, rgba(248, 249, 250, 1), rgba(255, 255, 255, 1));
+}
+</style> <style>
+/* Custom styles for Privacy Policy page */
+html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 100px; /* Offset for sticky header */
+}
+
+.policy-content p:first-of-type::first-letter {
+    font-size: 3.5rem;
+    line-height: 1;
+    float: left;
+    padding-right: 0.75rem;
+    padding-top: 0.25rem;
+    color: var(--color-primary);
+    font-weight: 600;
+}
+
+.policy-content h2 {
+    color: var(--color-base-content);
+    border-bottom: 2px solid var(--color-base-200);
+    padding-bottom: 0.5rem;
+}
+
+.policy-content ul li {
+    position: relative;
+    padding-left: 0.5rem;
+}
+.policy-content ul li::before {
+    content: &#39;•&#39;;
+    position: absolute;
+    left: -1rem;
+    color: var(--color-primary);
+    font-weight: bold;
+}
+.policy-content ul.list-none li::before {
+    content: none;
+}
+.policy-content ul.list-none li .iconify {
+    color: var(--color-primary);
+    vertical-align: middle;
+}
+
+.policy-section {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+}
+
+.policy-section.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+
+/* Table of Contents Styling */
+.toc-link.active {
+    color: var(--color-primary);
+    font-weight: 600;
+}
+
+.toc-indicator {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 3px;
+    height: 0; /* Initially hidden */
+    background-color: var(--color-primary);
+    border-radius: 99px;
+    transition: top 0.3s ease, height 0.3s ease;
+}
+
+aside {
+    scrollbar-width: thin;
+    scrollbar-color: var(--color-base-300) transparent;
+}
+
+aside::-webkit-scrollbar {
+    width: 5px;
+}
+
+aside::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+aside::-webkit-scrollbar-thumb {
+    background-color: var(--color-base-300);
+    border-radius: 10px;
+    border: 3px solid transparent;
+}
+</style>
+</head><body class="bg-base-200 min-h-screen flex flex-col">```
+@DELIMITER@@@
+page_script
+```html
+<script>
+document.addEventListener(&#39;DOMContentLoaded&#39;, () => {
+    // Set breadcrumb
+    if (window.setBreadcrumb) {
+        setBreadcrumb([
+            { text: &#39;Trang chủ&#39;, icon: &#39;heroicons:home-solid&#39;, pageId: &#39;home_page&#39; },
+            { text: &#39;Chính sách bảo mật&#39; }
+        ]);
+    }
+    
+    const sections = document.querySelectorAll(&#39;.policy-section&#39;);
+    const tocLinks = document.querySelectorAll(&#39;.toc-link&#39;);
+    const indicator = document.querySelector(&#39;.toc-indicator&#39;);
+
+    // Section fade-in animation observer
+    const sectionObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add(&#39;visible&#39;);
+            }
+        });
+    }, {
+        threshold: 0.1
+    });
+
+    sections.forEach(section => {
+        sectionObserver.observe(section);
+    });
+
+    // TOC active state observer
+    const tocObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                const id = entry.target.getAttribute(&#39;id&#39;);
+                const activeLink = document.querySelector(`.toc-link[href="#${id}"]`);
+
+                tocLinks.forEach(link => link.classList.remove(&#39;active&#39;));
+                
+                if (activeLink) {
+                    activeLink.classList.add(&#39;active&#39;);
+                    // Update indicator position
+                    if (indicator) {
+                        indicator.style.top = `${activeLink.offsetTop}px`;
+                        indicator.style.height = `${activeLink.offsetHeight}px`;
+                    }
+                }
+            }
+        });
+    }, {
+        rootMargin: "-40% 0px -60% 0px", // a thin line in the middle of the viewport
+        threshold: 0
+    });
+
+    sections.forEach(section => {
+        tocObserver.observe(section);
+    });
+    
+    // Set initial active link for ToC indicator
+    const firstLink = document.querySelector(&#39;.toc-link&#39;);
+    if (firstLink &amp;&amp; indicator) {
+        // We set it on load to the first item, the observer will correct it on scroll.
+        firstLink.classList.add(&#39;active&#39;);
+        indicator.style.top = `${firstLink.offsetTop}px`;
+        indicator.style.height = `${firstLink.offsetHeight}px`;
+    }
+});
+</script>
+  
+  
+    ``` @DELIMITER@@@ page_script ```html <div data-section-id="navbar_web" data-section-type="common_header" class="navbar bg-base-100 shadow-sm border-b border-base-200 sticky top-0 z-50" style="height: 72px;">
+    <!-- Logo Section -->
+    <div class="navbar-start">
+        <div class="dropdown lg:hidden">
+            <div tabindex="0" role="button" class="btn btn-ghost btn-circle" onclick="PagodaUtils.toggleMobileMenu()">
+                <span class="iconify" data-icon="heroicons:bars-3" data-width="24"></span>
+            </div>
+            <ul id="mobile-menu" tabindex="0" class="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52 hidden">
+                <li><a onclick="navigateTo(&#39;temples_list_page&#39;)">Chùa</a></li>
+                <li><a onclick="navigateTo(&#39;events_list_page&#39;)">Sự kiện</a></li>
+                <li><a onclick="navigateTo(&#39;community_hub_page&#39;)">Cộng đồng</a></li>
+                <li><a onclick="navigateTo(&#39;shops_list_page&#39;)">Cửa hàng</a></li>
+                <li><a onclick="navigateTo(&#39;charity_list_page&#39;)">Từ thiện</a></li>
+            </ul>
+        </div>
+        <a onclick="navigateTo(&#39;home_page&#39;)" class="btn btn-ghost text-xl font-bold text-primary cursor-pointer">
+            <span class="iconify text-primary" data-icon="mdi:lotus" data-width="32"></span>
+            <span>Pagoda</span>
+        </a>
+    </div>
+
+    <!-- Center Navigation -->
+    <div class="navbar-center hidden lg:flex">
+        <ul class="menu menu-horizontal px-1 text-base">
+            <li><a onclick="navigateTo(&#39;temples_list_page&#39;)" class="hover:text-primary smooth-transition">Chùa</a></li>
+            <li><a onclick="navigateTo(&#39;events_list_page&#39;)" class="hover:text-primary smooth-transition">Sự kiện</a></li>
+            <li><a onclick="navigateTo(&#39;community_hub_page&#39;)" class="hover:text-primary smooth-transition">Cộng đồng</a></li>
+            <li><a onclick="navigateTo(&#39;shops_list_page&#39;)" class="hover:text-primary smooth-transition">Cửa hàng</a></li>
+            <li><a onclick="navigateTo(&#39;charity_list_page&#39;)" class="hover:text-primary smooth-transition">Từ thiện</a></li>
+        </ul>
+    </div>
+
+    <!-- Right Section -->
+    <div class="navbar-end gap-2">
+        <!-- Search Button -->
+        <button onclick="navigateTo(&#39;search_page&#39;)" class="btn btn-ghost btn-circle">
+            <span class="iconify" data-icon="heroicons:magnifying-glass" data-width="20"></span>
+        </button>
+
+        <!-- Notifications -->
+        <button onclick="navigateTo(&#39;notifications_page&#39;)" class="btn btn-ghost btn-circle">
+            <div class="indicator">
+                <span class="iconify" data-icon="heroicons:bell" data-width="20"></span>
+                <span class="badge badge-xs badge-primary indicator-item"></span>
+            </div>
+        </button>
+
+        <!-- Language Selector -->
+        <div class="dropdown dropdown-end hidden sm:block">
+            <div tabindex="0" role="button" class="btn btn-ghost btn-sm">
+                <span class="iconify" data-icon="heroicons:language" data-width="20"></span>
+                <span>VI</span>
+                <span class="iconify" data-icon="heroicons:chevron-down" data-width="16"></span>
+            </div>
+            <ul tabindex="0" class="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-40">
+                <li><a onclick="PagodaUtils.handleLanguageChange(&#39;vi&#39;)">Tiếng Việt</a></li>
+                <li><a onclick="PagodaUtils.handleLanguageChange(&#39;en&#39;)">English</a></li>
+                <li><a onclick="PagodaUtils.handleLanguageChange(&#39;zh&#39;)">中文</a></li>
+                <li><a onclick="PagodaUtils.handleLanguageChange(&#39;th&#39;)">ไทย</a></li>
+            </ul>
+        </div>
+
+        <!-- User Account Menu -->
+        <div class="dropdown dropdown-end">
+            <div tabindex="0" role="button" class="btn btn-ghost btn-circle avatar">
+                <div class="w-8 rounded-full bg-base-200 flex items-center justify-center">
+                    <span class="iconify text-base-content" data-icon="heroicons:user" data-width="20"></span>
+                </div>
+            </div>
+            <ul tabindex="0" class="mt-3 z-[1] p-2 shadow menu menu-sm dropdown-content bg-base-100 rounded-box w-52">
+                <li><a onclick="navigateTo(&#39;user_profile_page&#39;)">Hồ sơ cá nhân</a></li>
+                <li><a onclick="navigateTo(&#39;account_settings_page&#39;)">Cài đặt tài khoản</a></li>
+                <li class="border-t border-base-200 mt-1 pt-1">
+                    <a onclick="navigateTo(&#39;login_page&#39;)">Đăng nhập</a>
+                </li>
+                <li><a onclick="navigateTo(&#39;registration_page&#39;)" class="text-primary font-semibold">Đăng ký</a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<style>
+[data-section-id="navbar_web"] .navbar {
+    padding-left: 1rem;
+    padding-right: 1rem;
+}
+
+[data-section-id="navbar_web"] .menu a:hover {
+    background-color: transparent;
+}
+
+[data-section-id="navbar_web"] .dropdown-content {
+    margin-top: 0.5rem;
+}
+</style>
+
+<script>
+(function() {
+    // Navbar specific functionality
+    const navbar = document.querySelector(&#39;[data-section-id="navbar_web"]&#39;);
+
+    // Close mobile menu when clicking outside
+    document.addEventListener(&#39;click&#39;, function(event) {
+        const mobileMenu = document.getElementById(&#39;mobile-menu&#39;);
+        const menuToggle = navbar.querySelector(&#39;.btn-circle&#39;);
+        
+        if (mobileMenu &amp;&amp; !mobileMenu.contains(event.target) &amp;&amp; !menuToggle.contains(event.target)) {
+            mobileMenu.classList.add(&#39;hidden&#39;);
+        }
+    });
+
+    // Update active navigation state
+    window.setActiveNavigation = function(pageId) {
+        const navLinks = navbar.querySelectorAll(&#39;.menu a&#39;);
+        navLinks.forEach(link => {
+            link.classList.remove(&#39;text-primary&#39;, &#39;font-semibold&#39;);
+        });
+
+        // Map pageId to navigation items
+        const navMap = {
+            &#39;temples_list_page&#39;: &#39;Chùa&#39;,
+            &#39;temple_detail_page&#39;: &#39;Chùa&#39;,
+            &#39;temples_map_view_page&#39;: &#39;Chùa&#39;,
+            &#39;events_list_page&#39;: &#39;Sự kiện&#39;,
+            &#39;event_detail_page&#39;: &#39;Sự kiện&#39;,
+            &#39;community_hub_page&#39;: &#39;Cộng đồng&#39;,
+            &#39;community_news_page&#39;: &#39;Cộng đồng&#39;,
+            &#39;community_livestream_page&#39;: &#39;Cộng đồng&#39;,
+            &#39;community_forum_main_page&#39;: &#39;Cộng đồng&#39;,
+            &#39;shops_list_page&#39;: &#39;Cửa hàng&#39;,
+            &#39;shop_product_detail_page&#39;: &#39;Cửa hàng&#39;,
+            &#39;charity_list_page&#39;: &#39;Từ thiện&#39;,
+            &#39;charity_detail_page&#39;: &#39;Từ thiện&#39;
+        };
+
+        if (navMap[pageId]) {
+            const activeLink = Array.from(navLinks).find(link => 
+                link.textContent.trim() === navMap[pageId]
+            );
+            if (activeLink) {
+                activeLink.classList.add(&#39;text-primary&#39;, &#39;font-semibold&#39;);
+            }
+        }
+    };
+})();
+</script>
+    <main class="flex-grow">
+      <div id="HeroCallToAction" class="bg-base-100 border-b border-base-300">
+        <div class="container mx-auto px-4 lg:px-8 py-16 text-center">
+          <h1 class="text-4xl md:text-5xl font-bold text-base-content mb-4">
+            Chính sách bảo mật
+          </h1>
+          <p class="max-w-3xl mx-auto text-base-content/70 mb-6">
+            Tại Pagoda, chúng tôi cam kết bảo vệ quyền riêng tư của bạn. Chính
+            sách này giải thích cách chúng tôi thu thập, sử dụng, tiết lộ và bảo
+            vệ thông tin của bạn khi bạn sử dụng ứng dụng của chúng tôi.
+          </p>
+          <div class="flex items-center justify-center gap-4 text-sm text-base-content/60">
+            <span><span class="font-semibold">Ngày cập nhật cuối cùng:</span> 13
+              tháng 8, 2025
+            </span>
+          </div>
+        </div>
+      </div>
+      <div class="container mx-auto px-4 lg:px-8 py-12">
+        <div class="lg:grid lg:grid-cols-12 lg:gap-12">
+          <!-- Table of Contents Sidebar -->
+          <aside data-type="container" class="hidden lg:block lg:col-span-3 sticky top-24 self-start h-[calc(100vh-150px)] overflow-auto">
+            <div class="bg-base-100 rounded-lg p-6 custom-shadow">
+              <h3 class="text-lg font-semibold mb-4 text-base-content">
+                Mục lục
+              </h3>
+              <div class="relative">
+                <div class="toc-indicator"></div>
+                <nav class="toc-navigation space-y-3 text-sm">
+                  <a href="#section-1" class="toc-link block pl-4 hover:text-primary transition-colors">Giới thiệu</a><a href="#section-2" class="toc-link block pl-4 hover:text-primary transition-colors">Thông tin chúng tôi thu thập</a><a href="#section-3" class="toc-link block pl-4 hover:text-primary transition-colors">Cách chúng tôi sử dụng thông tin</a><a href="#section-4" class="toc-link block pl-4 hover:text-primary transition-colors">Chia sẻ và Tiết lộ thông tin</a><a href="#section-5" class="toc-link block pl-4 hover:text-primary transition-colors">Bảo mật dữ liệu</a><a href="#section-6" class="toc-link block pl-4 hover:text-primary transition-colors">Quyền của bạn</a><a href="#section-7" class="toc-link block pl-4 hover:text-primary transition-colors">Chính sách dành cho trẻ em</a><a href="#section-8" class="toc-link block pl-4 hover:text-primary transition-colors">Thay đổi Chính sách</a><a href="#section-9" class="toc-link block pl-4 hover:text-primary transition-colors">Thông tin liên hệ</a>
+                </nav>
+              </div>
+            </div>
+          </aside>
+          <!-- Main Privacy Policy Content -->
+          <article data-type="container" class="lg:col-span-9 bg-base-100 rounded-lg p-8 md:p-12 custom-shadow policy-content">
+            <section id="section-1" data-type="container" class="policy-section mb-10">
+              <p class="text-lg mb-6">
+                Chào mừng bạn đến với Pagoda. Chúng tôi tôn trọng quyền riêng tư
+                của bạn và cam kết bảo vệ dữ liệu cá nhân của bạn. Chính sách
+                bảo mật này sẽ thông báo cho bạn về cách chúng tôi xử lý dữ liệu
+                cá nhân của bạn khi bạn sử dụng ứng dụng của chúng tôi và cho
+                bạn biết về các quyền riêng tư của bạn và cách luật pháp bảo vệ
+                bạn.
+              </p>
+            </section>
+            <section id="section-2" data-type="container" class="policy-section mb-10">
+              <h2 class="text-2xl font-semibold mb-6">
+                Thông tin chúng tôi thu thập
+              </h2>
+              <p class="mb-4">
+                Chúng tôi có thể thu thập, sử dụng, lưu trữ và chuyển giao các
+                loại dữ liệu cá nhân khác nhau về bạn mà chúng tôi đã nhóm lại
+                với nhau như sau:
+              </p>
+              <ul class="list-disc pl-6 space-y-2 mb-4">
+                <li>
+                  <strong>Dữ liệu nhận dạng:</strong> bao gồm tên, tên người
+                  dùng hoặc định danh tương tự, ngày sinh và giới tính.
+                </li>
+                <li>
+                  <strong>Dữ liệu liên lạc:</strong> bao gồm địa chỉ email và số
+                  điện thoại.
+                </li>
+                <li>
+                  <strong>Dữ liệu kỹ thuật:</strong> bao gồm địa chỉ giao thức
+                  internet (IP), dữ liệu đăng nhập, loại và phiên bản trình
+                  duyệt, cài đặt múi giờ và vị trí, các loại và phiên bản
+                  plug-in của trình duyệt, hệ điều hành và nền tảng.
+                </li>
+                <li>
+                  <strong>Dữ liệu hồ sơ:</strong> bao gồm tên người dùng và mật
+                  khẩu của bạn, các giao dịch mua hoặc đơn đặt hàng do bạn thực
+                  hiện, sở thích, tùy chọn, phản hồi và trả lời khảo sát.
+                </li>
+                <li>
+                  <strong>Dữ liệu sử dụng:</strong> bao gồm thông tin về cách
+                  bạn sử dụng ứng dụng, sản phẩm và dịch vụ của chúng tôi.
+                </li>
+              </ul>
+            </section>
+            <section id="section-3" data-type="container" class="policy-section mb-10">
+              <h2 class="text-2xl font-semibold mb-6">
+                Cách chúng tôi sử dụng thông tin của bạn
+              </h2>
+              <p class="mb-4">
+                Chúng tôi sẽ chỉ sử dụng dữ liệu cá nhân của bạn khi luật pháp
+                cho phép. Phổ biến nhất, chúng tôi sẽ sử dụng dữ liệu cá nhân
+                của bạn trong các trường hợp sau:
+              </p>
+              <ul class="list-disc pl-6 space-y-2 mb-4">
+                <li>Để cung cấp và duy trì Dịch vụ của chúng tôi.</li>
+                <li>Để quản lý Tài khoản của bạn.</li>
+                <li>
+                  Để liên lạc với bạn: cung cấp cho bạn tin tức, ưu đãi đặc biệt
+                  và thông tin chung về các hàng hóa, dịch vụ và sự kiện khác.
+                </li>
+                <li>Để quản lý các yêu cầu của bạn.</li>
+                <li>
+                  Vì các mục đích khác: chẳng hạn như phân tích dữ liệu, xác
+                  định xu hướng sử dụng, để đánh giá và cải thiện Dịch vụ, sản
+                  phẩm, tiếp thị và trải nghiệm của bạn.
+                </li>
+              </ul>
+            </section>
+            <section id="section-4" data-type="container" class="policy-section mb-10">
+              <h2 class="text-2xl font-semibold mb-6">
+                Chia sẻ và Tiết lộ thông tin
+              </h2>
+              <p>
+                Chúng tôi không bán hoặc cho thuê thông tin cá nhân của bạn cho
+                bên thứ ba. Chúng tôi có thể chia sẻ thông tin với các nhà cung
+                cấp dịch vụ đáng tin cậy giúp chúng tôi vận hành ứng dụng, tiến
+                hành kinh doanh hoặc phục vụ bạn, miễn là các bên đó đồng ý giữ
+                bí mật thông tin này.
+              </p>
+            </section>
+            <section id="section-5" data-type="container" class="policy-section mb-10">
+              <h2 class="text-2xl font-semibold mb-6">Bảo mật dữ liệu</h2>
+              <p>
+                Chúng tôi đã áp dụng các biện pháp bảo mật phù hợp để ngăn chặn
+                dữ liệu cá nhân của bạn vô tình bị mất, sử dụng hoặc truy cập
+                một cách trái phép, bị thay đổi hoặc tiết lộ. Tuy nhiên, không
+                có phương thức truyền qua Internet hoặc phương thức lưu trữ điện
+                tử nào là an toàn 100%.
+              </p>
+            </section>
+            <section id="section-6" data-type="container" class="policy-section mb-10">
+              <h2 class="text-2xl font-semibold mb-6">Quyền của bạn</h2>
+              <p>
+                Bạn có quyền truy cập, sửa chữa, cập nhật hoặc yêu cầu xóa thông
+                tin cá nhân của mình. Bạn có thể thực hiện các quyền này bằng
+                cách liên hệ với chúng tôi qua các thông tin chi tiết được cung
+                cấp bên dưới.
+              </p>
+            </section>
+            <section id="section-7" data-type="container" class="policy-section mb-10">
+              <h2 class="text-2xl font-semibold mb-6">
+                Chính sách dành cho trẻ em
+              </h2>
+              <p>
+                Dịch vụ của chúng tôi không dành cho bất kỳ ai dưới 13 tuổi.
+                Chúng tôi không cố ý thu thập thông tin nhận dạng cá nhân từ trẻ
+                em dưới 13 tuổi.
+              </p>
+            </section>
+            <section id="section-8" data-type="container" class="policy-section mb-10">
+              <h2 class="text-2xl font-semibold mb-6">
+                Thay đổi đối với Chính sách này
+              </h2>
+              <p>
+                Chúng tôi có thể cập nhật Chính sách bảo mật của mình theo thời
+                gian. Chúng tôi sẽ thông báo cho bạn về bất kỳ thay đổi nào bằng
+                cách đăng Chính sách bảo mật mới trên trang này. Bạn nên xem lại
+                Chính sách bảo mật này định kỳ để biết bất kỳ thay đổi nào.
+              </p>
+            </section>
+            <section id="section-9" data-type="container" class="policy-section">
+              <h2 class="text-2xl font-semibold mb-6">Thông tin liên hệ</h2>
+              <p>
+                Nếu bạn có bất kỳ câu hỏi nào về Chính sách bảo mật này, bạn có
+                thể liên hệ với chúng tôi:
+              </p>
+              <ul class="list-none space-y-2 mt-4">
+                <li>
+                  <span class="iconify mr-2" data-icon="heroicons:envelope" data-width="20"></span>Email: privacy@pagoda-app.com
+                </li>
+                <li>
+                  <span class="iconify mr-2" data-icon="heroicons:phone" data-width="20"></span>Điện thoại: +84 123 456 789
+                </li>
+                <li>
+                  <span class="iconify mr-2" data-icon="heroicons:map-pin" data-width="20"></span>Địa chỉ: 123 Đường Chùa, Quận 1, TP. Hồ Chí Minh, Việt Nam
+                </li>
+              </ul>
+            </section>
+          </article>
+        </div>
+      </div>
+    </main>
+    <div data-section-id="footer_web" data-section-type="common_footer" class="bg-base-200">
+    <!-- Main Footer Content -->
+    <footer class="footer footer-horizontal p-10 text-base-content">
+        <!-- Company Info -->
+        <aside>
+            <div class="flex items-center gap-2 mb-4">
+                <span class="iconify text-primary" data-icon="mdi:lotus" data-width="32"></span>
+                <span class="text-xl font-bold text-primary">Pagoda</span>
+            </div>
+            <p class="text-sm text-base-content opacity-70 max-w-xs">
+                Kết nối cộng đồng Phật tử toàn cầu với chùa, sự kiện và tài nguyên Phật giáo. 
+                Hành trình tâm linh của bạn bắt đầu từ đây.
+            </p>
+            <div class="flex gap-4 mt-4">
+                <a class="text-base-content hover:text-primary smooth-transition cursor-pointer">
+                    <span class="iconify" data-icon="mdi:facebook" data-width="24"></span>
+                </a>
+                <a class="text-base-content hover:text-primary smooth-transition cursor-pointer">
+                    <span class="iconify" data-icon="mdi:youtube" data-width="24"></span>
+                </a>
+                <a class="text-base-content hover:text-primary smooth-transition cursor-pointer">
+                    <span class="iconify" data-icon="mdi:instagram" data-width="24"></span>
+                </a>
+                <a class="text-base-content hover:text-primary smooth-transition cursor-pointer">
+                    <span class="iconify" data-icon="mdi:telegram" data-width="24"></span>
+                </a>
+            </div>
+        </aside>
+
+        <!-- Services Navigation -->
+        <nav>
+            <header class="footer-title text-base-content font-semibold">Dịch vụ</header>
+            <a onclick="navigateTo(&#39;temples_list_page&#39;)" class="link link-hover cursor-pointer">Tìm chùa</a>
+            <a onclick="navigateTo(&#39;events_list_page&#39;)" class="link link-hover cursor-pointer">Sự kiện Phật giáo</a>
+            <a onclick="navigateTo(&#39;community_hub_page&#39;)" class="link link-hover cursor-pointer">Cộng đồng</a>
+            <a onclick="navigateTo(&#39;shops_list_page&#39;)" class="link link-hover cursor-pointer">Pháp cụ</a>
+            <a onclick="navigateTo(&#39;charity_list_page&#39;)" class="link link-hover cursor-pointer">Từ thiện</a>
+        </nav>
+
+        <!-- Company Navigation -->
+        <nav>
+            <header class="footer-title text-base-content font-semibold">Công ty</header>
+            <a onclick="navigateTo(&#39;about_us_page&#39;)" class="link link-hover cursor-pointer">Về chúng tôi</a>
+            <a onclick="navigateTo(&#39;community_news_page&#39;)" class="link link-hover cursor-pointer">Tin tức</a>
+            <a onclick="navigateTo(&#39;contact_us_page&#39;)" class="link link-hover cursor-pointer">Liên hệ</a>
+            <a class="link link-hover cursor-pointer">Tuyển dụng</a>
+            <a class="link link-hover cursor-pointer">Đối tác</a>
+        </nav>
+
+        <!-- Support Navigation -->
+        <nav>
+            <header class="footer-title text-base-content font-semibold">Hỗ trợ</header>
+            <a class="link link-hover cursor-pointer">Trung tâm trợ giúp</a>
+            <a class="link link-hover cursor-pointer">Câu hỏi thường gặp</a>
+            <a onclick="navigateTo(&#39;contact_us_page&#39;)" class="link link-hover cursor-pointer">Hỗ trợ kỹ thuật</a>
+            <a class="link link-hover cursor-pointer">Phản hồi</a>
+            <a onclick="navigateTo(&#39;privacy_policy_page&#39;)" class="link link-hover cursor-pointer">Chính sách bảo mật</a>
+            <a onclick="navigateTo(&#39;terms_of_service_page&#39;)" class="link link-hover cursor-pointer">Điều khoản dịch vụ</a>
+        </nav>
+    </footer>
+
+    <!-- Bottom Copyright Section -->
+    <footer class="footer footer-center p-4 bg-base-300 text-base-content border-t border-base-200">
+        <aside>
+            <p class="text-sm">
+                © 2025 Pagoda. Tất cả quyền được bảo lưu. |
+                <span onclick="navigateTo(&#39;privacy_policy_page&#39;)" class="text-primary cursor-pointer hover:underline">Chính sách bảo mật</span> |
+                <span onclick="navigateTo(&#39;terms_of_service_page&#39;)" class="text-primary cursor-pointer hover:underline">Điều khoản dịch vụ</span>
+            </p>
+        </aside>
+    </footer>
+</div>
+
+<style>
+[data-section-id="footer_web"] .footer-title {
+    margin-bottom: 1rem;
+}
+
+[data-section-id="footer_web"] .link-hover:hover {
+    color: var(--color-primary);
+    text-decoration: none;
+}
+
+[data-section-id="footer_web"] nav a {
+    display: block;
+    margin-bottom: 0.5rem;
+}
+</style>
+
+<script>
+(function() {
+    // Footer specific functionality
+    console.log(&#39;Pagoda footer component loaded&#39;);
+})();
+</script><script>
+(function() {
+    // Global navigation function
+    window.navigateTo = function(targetPageId) {
+        const isInIframe = window.self !== window.top;
+        const targetFileName = `${targetPageId}.html`;
+        
+        if (isInIframe) {
+            window.parent.postMessage({
+                type: &#39;iframeNavigation&#39;,
+                targetPageId: targetPageId
+            }, &#39;*&#39;);
+        } else {
+            window.location.href = targetFileName;
+        }
+    };
+
+    // Global utility functions for Pagoda app
+    window.PagodaUtils = {
+        // Toggle mobile menu
+        toggleMobileMenu: function() {
+            const menu = document.getElementById(&#39;mobile-menu&#39;);
+            if (menu) {
+                menu.classList.toggle(&#39;hidden&#39;);
+            }
+        },
+
+        // Handle search form submission
+        handleSearch: function(form) {
+            const formData = new FormData(form);
+            const searchQuery = formData.get(&#39;search&#39;) || formData.get(&#39;searchQuery&#39;);
+            const category = formData.get(&#39;category&#39;);
+            
+            if (searchQuery &amp;&amp; searchQuery.trim()) {
+                // Navigate to search results with parameters
+                navigateTo(&#39;search_page&#39;);
+                return true;
+            }
+            return false; // Prevent default form submission
+        },
+
+        // Handle language selection
+        handleLanguageChange: function(language) {
+            console.log(&#39;Language changed to:&#39;, language);
+            // Implementation for language change
+            localStorage.setItem(&#39;pagoda_language&#39;, language);
+        },
+
+        // Format numbers for donations and prices
+        formatCurrency: function(amount, currency = &#39;VND&#39;) {
+            if (currency === &#39;VND&#39;) {
+                return new Intl.NumberFormat(&#39;vi-VN&#39;, {
+                    style: &#39;currency&#39;,
+                    currency: &#39;VND&#39;
+                }).format(amount);
+            }
+            return new Intl.NumberFormat(&#39;en-US&#39;, {
+                style: &#39;currency&#39;,
+                currency: currency
+            }).format(amount);
+        },
+
+        // Format distance for temples and restaurants
+        formatDistance: function(distanceKm) {
+            if (distanceKm < 1) {
+                return `${Math.round(distanceKm * 1000)}m`;
+            }
+            return `${distanceKm.toFixed(1)}km`;
+        },
+
+        // Handle notification actions
+        toggleNotifications: function() {
+            // Implementation for notification toggle
+            console.log(&#39;Toggle notifications&#39;);
+        },
+
+        // Handle follow/unfollow temples
+        toggleTempleFollow: function(templeId) {
+            console.log(&#39;Toggle follow for temple:&#39;, templeId);
+            // Implementation for following temples
+        },
+
+        // Show toast messages
+        showToast: function(message, type = &#39;info&#39;) {
+            // Create and show toast notification
+            const toast = document.createElement(&#39;div&#39;);
+            toast.className = `toast toast-top toast-center z-50`;
+            toast.innerHTML = `
+                <div class="alert alert-${type}">
+                    <span>${message}</span>
+                </div>
+            `;
+            
+            document.body.appendChild(toast);
+            
+            // Auto remove after 3 seconds
+            setTimeout(() => {
+                if (document.body.contains(toast)) {
+                    document.body.removeChild(toast);
+                }
+            }, 3000);
+        }
+    };
+
+    // Initialize app globals
+    window.APP_GLOBALS = window.APP_GLOBALS || {};
+    window.APP_GLOBALS.currentUser = null;
+    window.APP_GLOBALS.currentLocation = null;
+    window.APP_GLOBALS.followedTemples = [];
+})();
+</script><script></script>
+  
+
+</body></html>'></iframe>
+                    </div>
+                  </div>
+
+                </body>
+                </html>
+            

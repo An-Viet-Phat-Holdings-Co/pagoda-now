@@ -1,0 +1,989 @@
+
+                <!DOCTYPE html>
+                <html lang="zh">
+                <head>
+                  <meta charset="UTF-8">
+                  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                  <title>Danh sách Chùa</title>
+                  <style>
+                    *,
+                    *::before,
+                    *::after {
+                      box-sizing: border-box;
+                      margin: 0;
+                    }
+                      .iframe-outer {
+                      position: fixed;
+                      inset: 0;
+                      display: flex;
+                      justify-content: center;
+                      background-color: #fff;
+                    }
+                    .iframe-wrapper {
+                      width: 100%;
+                      height: 100%;
+                      transform: none !important;
+                    }
+              
+                    #dynamicIframe {
+                      border: none;
+                      width: 100%;
+                      height: 100%;
+                    }
+                  </style>
+                  <script>
+                const width = 1920
+                const height = 1080
+                const resolutionRatio = width && height ? width / height : 1
+                const pageNameMap = {
+                  'login_page': 'Đăng nhập',
+    'registration_page': 'Đăng ký',
+    'forgot_password_page': 'Quên mật khẩu',
+    'home_page': 'Trang chủ',
+    'temples_list_page': 'Danh sách Chùa',
+    'temple_detail_page': 'Chi tiết Chùa',
+    'temples_map_view_page': 'Bản đồ Chùa',
+    'events_list_page': 'Danh sách Sự kiện',
+    'event_detail_page': 'Chi tiết Sự kiện',
+    'community_hub_page': 'Trung tâm Cộng đồng',
+    'community_news_page': 'Tin tức Cộng đồng',
+    'community_livestream_page': 'Phát trực tiếp Cộng đồng',
+    'community_forum_main_page': 'Diễn đàn Cộng đồng',
+    'shops_list_page': 'Danh sách Cửa hàng',
+    'shop_product_detail_page': 'Chi tiết Sản phẩm',
+    'checkout_page': 'Thanh toán',
+    'payment_confirmation_page': 'Xác nhận Thanh toán',
+    'eats_list_page': 'Danh sách Món chay',
+    'eats_detail_page': 'Chi tiết Món chay',
+    'charity_list_page': 'Danh sách Từ thiện',
+    'charity_detail_page': 'Chi tiết Tổ chức Từ thiện',
+    'donation_page': 'Quyên góp',
+    'donation_confirmation_page': 'Xác nhận Quyên góp',
+    'search_page': 'Tìm kiếm',
+    'notifications_page': 'Thông báo',
+    'user_profile_page': 'Hồ sơ người dùng',
+    'account_settings_page': 'Cài đặt tài khoản',
+    'about_us_page': 'Về chúng tôi',
+    'contact_us_page': 'Liên hệ',
+    'privacy_policy_page': 'Chính sách bảo mật',
+    'terms_of_service_page': 'Điều khoản dịch vụ'
+                }
+                function setIframeSize(w, h) {
+                  const currentContainerRadio = w / h
+                  let widthValue = w
+                  let heightValue = h
+                  let zoom = 1
+                  if (currentContainerRadio > resolutionRatio) {
+                    widthValue = h * resolutionRatio
+                    heightValue = h
+                  } else {
+                    widthValue = w
+                    heightValue = w / resolutionRatio
+                  }
+                  zoom = width ? widthValue / width : 1
+                  return {
+                    width: widthValue / zoom + 'px',
+                    height: heightValue / zoom + 'px',
+                    zoom,
+                  }
+                }
+                function adjustIframeSize() {
+                  const iframeWrapper = document.querySelector(".iframe-wrapper")
+                  const { width, height, zoom } = setIframeSize(window.innerWidth, window.innerHeight)
+                  iframeWrapper.style.height = height
+                  iframeWrapper.style.width = width
+                  iframeWrapper.style.transform = 'scale(' + zoom + ')'
+                }
+                function sanitizeFilename(name) {
+                  return name.replace(/[\/:*?"<>|]/g, '_')
+                }
+                function handlePostMessage(event) {
+                  if (!event.data) {
+                    return
+                  }
+                  const { type, targetPageId } = event.data
+                  const targetPageName = pageNameMap[targetPageId]
+                  if (type === "iframeNavigation" && targetPageId && targetPageName) {
+                    window.location.href = targetPageName + '.html'
+                  }
+                }
+                window.addEventListener('message', handlePostMessage)
+                window.onload = adjustIframeSize
+                window.onresize = adjustIframeSize
+                window.onunload = () => {
+                  window.removeEventListener('message', handlePostMessage)
+                }
+              </script>
+                </head>
+                <body>
+                  <div class="iframe-outer">
+                    <div class="iframe-wrapper">
+                      <iframe id="dynamicIframe" srcdoc='<html lang="vi" data-theme="light"><head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Danh sách Chùa - Pagoda</title>
+    <link href="./assets/aec0181c/npm/daisyui@5.css" rel="stylesheet" type="text/css">
+    <script src="./assets/1f17f226/npm/@tailwindcss/browser@4.js"></script>
+    <link href="./assets/npm/daisyui@5/themes.css" rel="stylesheet" type="text/css">
+    <script src="./assets/3/3.1.1/iconify.min.js"></script>
+    <style>
+/* Import Inter font family */
+@import url(&#39;https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;display=swap&#39;);
+
+/* daisyUI Theme Variables Customization
+ * Based on the Pagoda Buddhist app requirements and UI guidance
+ */
+:root {
+    /* Brand colors from Pagoda design document */
+    --color-primary: rgba(142, 68, 173, 1); /* #8E44AD purple lotus */
+    --color-primary-content: rgba(255, 255, 255, 1);
+    --color-secondary: rgba(241, 196, 15, 1); /* #F1C40F earth yellow */
+    --color-secondary-content: rgba(26, 39, 50, 1);
+    --color-accent: rgba(142, 68, 173, 1);
+    --color-accent-content: rgba(255, 255, 255, 1);
+
+    /* Background colors - clean and serene */
+    --color-base-100: rgba(255, 255, 255, 1); /* Pure white for cards */
+    --color-base-200: rgba(248, 249, 250, 1); /* Light neutral #F8F9FA */
+    --color-base-300: rgba(229, 231, 235, 1);
+    --color-base-content: rgba(46, 58, 69, 1); /* Dark charcoal #2E3A45 */
+
+    /* Semantic colors */
+    --color-success: rgba(67, 160, 71, 1); /* #43A047 */
+    --color-success-content: rgba(255, 255, 255, 1);
+    --color-warning: rgba(253, 216, 53, 1); /* #FDD835 */
+    --color-warning-content: rgba(26, 39, 50, 1);
+    --color-error: rgba(229, 57, 53, 1); /* #E53935 */
+    --color-error-content: rgba(255, 255, 255, 1);
+    --color-info: rgba(142, 68, 173, 1);
+    --color-info-content: rgba(255, 255, 255, 1);
+
+    /* Typography and styling */
+    --radius-box: 0.5rem; /* 8px border radius for Buddhist serenity */
+    --radius-btn: 0.5rem;
+    --border: 1px;
+}
+
+/* Typography settings */
+body {
+    font-family: &#39;Inter&#39;, sans-serif;
+    font-size: 16px;
+    line-height: 1.6;
+    color: var(--color-base-content);
+    letter-spacing: 0.02em;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: &#39;Inter&#39;, sans-serif;
+    font-weight: 600;
+    line-height: 1.3;
+    color: rgba(26, 39, 50, 1); /* #1A2732 for headings */
+    letter-spacing: 0.02em;
+}
+
+h1 { font-size: 2rem; } /* 32px */
+h2 { font-size: 1.5rem; } /* 24px */
+h3 { font-size: 1.25rem; } /* 20px */
+
+/* Custom shadow for floating panels - subtle and serene */
+.custom-shadow {
+    box-shadow: 0px 4px 12px rgba(142, 68, 173, 0.08);
+}
+
+/* Smooth transitions */
+.smooth-transition {
+    transition: all 0.2s ease-out;
+}
+
+.smooth-transition-long {
+    transition: all 0.3s ease-in-out;
+}
+
+/* Buddhist-inspired decorative elements */
+.lotus-gradient {
+    background: linear-gradient(135deg, var(--color-primary), var(--color-secondary));
+}
+
+.serene-bg {
+    background: linear-gradient(180deg, rgba(248, 249, 250, 1), rgba(255, 255, 255, 1));
+}
+</style>
+    <style>
+/* Page-specific styles for Temples List, consistent with Apple&#39;s aesthetic */
+
+/* Tweak heading font for a more sophisticated feel */
+h1, h2, h3 {
+    font-family: &#39;Inter&#39;, sans-serif;
+    letter-spacing: -0.02em; /* Slightly tighter for large headings */
+}
+
+/* Subtle transition for interactive elements */
+.btn, .card, .badge {
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+/* Custom shadow for cards to be more subtle */
+.card {
+    border: 1px solid var(--color-base-300); /* A very light border for definition */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.card:hover {
+    border-color: var(--color-base-300);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.07);
+    transform: translateY(-4px);
+}
+
+.card.image-full:before {
+    content: &#39;&#39;;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(to top, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0) 50%);
+    border-radius: var(--radius-box);
+    opacity: 0.8;
+}
+
+.card.image-full:hover:before {
+    opacity: 1;
+}
+
+/* Style for the filter bar */
+#FilterAndMapViewToggle {
+    border: 1px solid var(--color-base-300);
+    box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05), 0 2px 4px -1px rgba(0,0,0,0.03);
+    backdrop-filter: blur(8px);
+    background-color: rgba(255, 255, 255, 0.8);
+}
+
+/* Aspect ratio for card images to maintain consistency */
+.aspect-w-16 {
+    position: relative;
+    width: 100%;
+    padding-bottom: 56.25%; /* 16:9 Aspect Ratio */
+}
+.aspect-h-9 {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+}
+.aspect-h-9 > img {
+    object-fit: cover;
+    width: 100%;
+    height: 100%;
+}
+</style>
+</head>
+<body class="bg-base-200 antialiased">
+
+    <!-- Header -->
+    <header class="sticky top-0 z-50">
+        <div data-section-id="navbar_web" data-section-type="common_header" class="navbar bg-base-100 shadow-sm border-b border-base-200 sticky top-0 z-50" style="height: 72px;">
+    <!-- Logo Section -->
+    <div class="navbar-start">
+        <div class="dropdown lg:hidden">
+            <div tabindex="0" role="button" class="btn btn-ghost btn-circle" onclick="PagodaUtils.toggleMobileMenu()">
+                <span class="iconify" data-icon="heroicons:bars-3" data-width="24"></span>
+            </div>
+            <ul id="mobile-menu" tabindex="0" class="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52 hidden">
+                <li><a onclick="navigateTo(&#39;temples_list_page&#39;)">Chùa</a></li>
+                <li><a onclick="navigateTo(&#39;events_list_page&#39;)">Sự kiện</a></li>
+                <li><a onclick="navigateTo(&#39;community_hub_page&#39;)">Cộng đồng</a></li>
+                <li><a onclick="navigateTo(&#39;shops_list_page&#39;)">Cửa hàng</a></li>
+                <li><a onclick="navigateTo(&#39;charity_list_page&#39;)">Từ thiện</a></li>
+            </ul>
+        </div>
+        <a onclick="navigateTo(&#39;home_page&#39;)" class="btn btn-ghost text-xl font-bold text-primary cursor-pointer">
+            <span class="iconify text-primary" data-icon="mdi:lotus" data-width="32"></span>
+            <span>Pagoda</span>
+        </a>
+    </div>
+
+    <!-- Center Navigation -->
+    <div class="navbar-center hidden lg:flex">
+        <ul class="menu menu-horizontal px-1 text-base">
+            <li><a onclick="navigateTo(&#39;temples_list_page&#39;)" class="hover:text-primary smooth-transition">Chùa</a></li>
+            <li><a onclick="navigateTo(&#39;events_list_page&#39;)" class="hover:text-primary smooth-transition">Sự kiện</a></li>
+            <li><a onclick="navigateTo(&#39;community_hub_page&#39;)" class="hover:text-primary smooth-transition">Cộng đồng</a></li>
+            <li><a onclick="navigateTo(&#39;shops_list_page&#39;)" class="hover:text-primary smooth-transition">Cửa hàng</a></li>
+            <li><a onclick="navigateTo(&#39;charity_list_page&#39;)" class="hover:text-primary smooth-transition">Từ thiện</a></li>
+        </ul>
+    </div>
+
+    <!-- Right Section -->
+    <div class="navbar-end gap-2">
+        <!-- Search Button -->
+        <button onclick="navigateTo(&#39;search_page&#39;)" class="btn btn-ghost btn-circle">
+            <span class="iconify" data-icon="heroicons:magnifying-glass" data-width="20"></span>
+        </button>
+
+        <!-- Notifications -->
+        <button onclick="navigateTo(&#39;notifications_page&#39;)" class="btn btn-ghost btn-circle">
+            <div class="indicator">
+                <span class="iconify" data-icon="heroicons:bell" data-width="20"></span>
+                <span class="badge badge-xs badge-primary indicator-item"></span>
+            </div>
+        </button>
+
+        <!-- Language Selector -->
+        <div class="dropdown dropdown-end hidden sm:block">
+            <div tabindex="0" role="button" class="btn btn-ghost btn-sm">
+                <span class="iconify" data-icon="heroicons:language" data-width="20"></span>
+                <span>VI</span>
+                <span class="iconify" data-icon="heroicons:chevron-down" data-width="16"></span>
+            </div>
+            <ul tabindex="0" class="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-40">
+                <li><a onclick="PagodaUtils.handleLanguageChange(&#39;vi&#39;)">Tiếng Việt</a></li>
+                <li><a onclick="PagodaUtils.handleLanguageChange(&#39;en&#39;)">English</a></li>
+                <li><a onclick="PagodaUtils.handleLanguageChange(&#39;zh&#39;)">中文</a></li>
+                <li><a onclick="PagodaUtils.handleLanguageChange(&#39;th&#39;)">ไทย</a></li>
+            </ul>
+        </div>
+
+        <!-- User Account Menu -->
+        <div class="dropdown dropdown-end">
+            <div tabindex="0" role="button" class="btn btn-ghost btn-circle avatar">
+                <div class="w-8 rounded-full bg-base-200 flex items-center justify-center">
+                    <span class="iconify text-base-content" data-icon="heroicons:user" data-width="20"></span>
+                </div>
+            </div>
+            <ul tabindex="0" class="mt-3 z-[1] p-2 shadow menu menu-sm dropdown-content bg-base-100 rounded-box w-52">
+                <li><a onclick="navigateTo(&#39;user_profile_page&#39;)">Hồ sơ cá nhân</a></li>
+                <li><a onclick="navigateTo(&#39;account_settings_page&#39;)">Cài đặt tài khoản</a></li>
+                <li class="border-t border-base-200 mt-1 pt-1">
+                    <a onclick="navigateTo(&#39;login_page&#39;)">Đăng nhập</a>
+                </li>
+                <li><a onclick="navigateTo(&#39;registration_page&#39;)" class="text-primary font-semibold">Đăng ký</a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<style>
+[data-section-id="navbar_web"] .navbar {
+    padding-left: 1rem;
+    padding-right: 1rem;
+}
+
+[data-section-id="navbar_web"] .menu a:hover {
+    background-color: transparent;
+}
+
+[data-section-id="navbar_web"] .dropdown-content {
+    margin-top: 0.5rem;
+}
+</style>
+
+<script>
+(function() {
+    // Navbar specific functionality
+    const navbar = document.querySelector(&#39;[data-section-id="navbar_web"]&#39;);
+
+    // Close mobile menu when clicking outside
+    document.addEventListener(&#39;click&#39;, function(event) {
+        const mobileMenu = document.getElementById(&#39;mobile-menu&#39;);
+        const menuToggle = navbar.querySelector(&#39;.btn-circle&#39;);
+        
+        if (mobileMenu &amp;&amp; !mobileMenu.contains(event.target) &amp;&amp; !menuToggle.contains(event.target)) {
+            mobileMenu.classList.add(&#39;hidden&#39;);
+        }
+    });
+
+    // Update active navigation state
+    window.setActiveNavigation = function(pageId) {
+        const navLinks = navbar.querySelectorAll(&#39;.menu a&#39;);
+        navLinks.forEach(link => {
+            link.classList.remove(&#39;text-primary&#39;, &#39;font-semibold&#39;);
+        });
+
+        // Map pageId to navigation items
+        const navMap = {
+            &#39;temples_list_page&#39;: &#39;Chùa&#39;,
+            &#39;temple_detail_page&#39;: &#39;Chùa&#39;,
+            &#39;temples_map_view_page&#39;: &#39;Chùa&#39;,
+            &#39;events_list_page&#39;: &#39;Sự kiện&#39;,
+            &#39;event_detail_page&#39;: &#39;Sự kiện&#39;,
+            &#39;community_hub_page&#39;: &#39;Cộng đồng&#39;,
+            &#39;community_news_page&#39;: &#39;Cộng đồng&#39;,
+            &#39;community_livestream_page&#39;: &#39;Cộng đồng&#39;,
+            &#39;community_forum_main_page&#39;: &#39;Cộng đồng&#39;,
+            &#39;shops_list_page&#39;: &#39;Cửa hàng&#39;,
+            &#39;shop_product_detail_page&#39;: &#39;Cửa hàng&#39;,
+            &#39;charity_list_page&#39;: &#39;Từ thiện&#39;,
+            &#39;charity_detail_page&#39;: &#39;Từ thiện&#39;
+        };
+
+        if (navMap[pageId]) {
+            const activeLink = Array.from(navLinks).find(link => 
+                link.textContent.trim() === navMap[pageId]
+            );
+            if (activeLink) {
+                activeLink.classList.add(&#39;text-primary&#39;, &#39;font-semibold&#39;);
+            }
+        }
+    };
+})();
+</script>
+    </header>
+
+    <!-- Main Content -->
+    <main class="flex-1">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-8">
+            
+            <div data-section-id="breadcrumb_component" data-section-type="common_section" class="py-4">
+    <div class="text-sm breadcrumbs">
+        <ul id="breadcrumb-list">
+            <!-- Breadcrumb items will be dynamically inserted here -->
+        </ul>
+    </div>
+</div>
+
+<style>
+[data-section-id="breadcrumb_component"] .breadcrumbs ul li a {
+    color: var(--color-primary);
+    text-decoration: none;
+}
+
+[data-section-id="breadcrumb_component"] .breadcrumbs ul li a:hover {
+    text-decoration: underline;
+}
+
+[data-section-id="breadcrumb_component"] .breadcrumbs ul li:last-child {
+    color: var(--color-base-content);
+    font-weight: 500;
+}
+</style>
+
+<script>
+(function() {
+    // Function to set breadcrumb navigation
+    window.setBreadcrumb = function(breadcrumbItems) {
+        const breadcrumbList = document.getElementById(&#39;breadcrumb-list&#39;);
+        if (!breadcrumbList || !Array.isArray(breadcrumbItems)) return;
+
+        breadcrumbList.innerHTML = &#39;&#39;;
+
+        breadcrumbItems.forEach((item, index) => {
+            const li = document.createElement(&#39;li&#39;);
+            
+            if (index === breadcrumbItems.length - 1) {
+                // Last item - current page (no link)
+                const span = document.createElement(&#39;span&#39;);
+                span.className = &#39;flex items-center gap-1&#39;;
+                
+                if (item.icon) {
+                    const iconSpan = document.createElement(&#39;span&#39;);
+                    iconSpan.className = &#39;iconify&#39;;
+                    iconSpan.setAttribute(&#39;data-icon&#39;, item.icon);
+                    iconSpan.setAttribute(&#39;data-width&#39;, &#39;16&#39;);
+                    span.appendChild(iconSpan);
+                }
+                
+                const textNode = document.createTextNode(item.text);
+                span.appendChild(textNode);
+                li.appendChild(span);
+            } else {
+                // Previous items - clickable links
+                const a = document.createElement(&#39;a&#39;);
+                a.className = &#39;flex items-center gap-1 cursor-pointer&#39;;
+                
+                if (item.pageId) {
+                    a.onclick = () => navigateTo(item.pageId);
+                }
+                
+                if (item.icon) {
+                    const iconSpan = document.createElement(&#39;span&#39;);
+                    iconSpan.className = &#39;iconify&#39;;
+                    iconSpan.setAttribute(&#39;data-icon&#39;, item.icon);
+                    iconSpan.setAttribute(&#39;data-width&#39;, &#39;16&#39;);
+                    a.appendChild(iconSpan);
+                }
+                
+                const textNode = document.createTextNode(item.text);
+                a.appendChild(textNode);
+                li.appendChild(a);
+            }
+            
+            breadcrumbList.appendChild(li);
+        });
+    };
+
+    // Common breadcrumb patterns for Pagoda app
+    window.BreadcrumbPatterns = {
+        // Home -> Temples
+        templesList: function() {
+            return [
+                { text: &#39;Trang chủ&#39;, icon: &#39;heroicons:home-solid&#39;, pageId: &#39;home_page&#39; },
+                { text: &#39;Danh sách Chùa&#39; }
+            ];
+        },
+
+        // Home -> Temples -> Temple Details
+        templeDetails: function(templeName) {
+            return [
+                { text: &#39;Trang chủ&#39;, icon: &#39;heroicons:home-solid&#39;, pageId: &#39;home_page&#39; },
+                { text: &#39;Danh sách Chùa&#39;, pageId: &#39;temples_list_page&#39; },
+                { text: templeName || &#39;Chi tiết Chùa&#39; }
+            ];
+        },
+
+        // Home -> Events -> Event Details
+        eventDetails: function(eventName) {
+            return [
+                { text: &#39;Trang chủ&#39;, icon: &#39;heroicons:home-solid&#39;, pageId: &#39;home_page&#39; },
+                { text: &#39;Sự kiện&#39;, pageId: &#39;events_list_page&#39; },
+                { text: eventName || &#39;Chi tiết Sự kiện&#39; }
+            ];
+        },
+
+        // Home -> Community -> Specific page
+        communityPages: function(pageName) {
+            return [
+                { text: &#39;Trang chủ&#39;, icon: &#39;heroicons:home-solid&#39;, pageId: &#39;home_page&#39; },
+                { text: &#39;Cộng đồng&#39;, pageId: &#39;community_hub_page&#39; },
+                { text: pageName }
+            ];
+        },
+
+        // Home -> Shops -> Product Details
+        shopProductDetails: function(productName) {
+            return [
+                { text: &#39;Trang chủ&#39;, icon: &#39;heroicons:home-solid&#39;, pageId: &#39;home_page&#39; },
+                { text: &#39;Cửa hàng&#39;, pageId: &#39;shops_list_page&#39; },
+                { text: productName || &#39;Chi tiết Sản phẩm&#39; }
+            ];
+        },
+
+        // Home -> Charity -> Charity Details
+        charityDetails: function(charityName) {
+            return [
+                { text: &#39;Trang chủ&#39;, icon: &#39;heroicons:home-solid&#39;, pageId: &#39;home_page&#39; },
+                { text: &#39;Từ thiện&#39;, pageId: &#39;charity_list_page&#39; },
+                { text: charityName || &#39;Chi tiết Tổ chức&#39; }
+            ];
+        },
+
+        // User profile pages
+        userPages: function(pageName) {
+            return [
+                { text: &#39;Trang chủ&#39;, icon: &#39;heroicons:home-solid&#39;, pageId: &#39;home_page&#39; },
+                { text: &#39;Hồ sơ cá nhân&#39;, pageId: &#39;user_profile_page&#39; },
+                { text: pageName }
+            ];
+        }
+    };
+})();
+</script>
+
+            <!-- Page Header Section -->
+            <section id="PageHeader" class="text-center py-8">
+                <h1 data-type="text" class="text-4xl md:text-5xl font-bold text-base-content mb-4 tracking-tight">Các ngôi chùa gần bạn</h1>
+                <p data-type="text" class="text-lg text-base-content/70 max-w-2xl mx-auto">
+                    Khám phá những ngôi chùa thanh tịnh, tìm hiểu văn hóa và tham gia các sự kiện tâm linh trong khu vực của bạn.
+                </p>
+            </section>
+
+            <!-- Filter and Map View Toggle Section -->
+            <section id="FilterAndMapViewToggle" class="py-6 bg-base-100 rounded-box shadow-sm mb-12 sticky top-[72px] z-40">
+                <div class="container mx-auto px-6">
+                    <div class="flex flex-col md:flex-row items-center justify-between gap-6">
+                        <div class="flex items-center gap-2 flex-wrap" data-type="container">
+                            <span class="font-semibold text-base-content/80 hidden md:block">Lọc nhanh:</span>
+                            <button data-type="button" class="btn btn-ghost btn-sm" onclick="handleFilterClick(&#39;nearby&#39;)">Gần đây</button>
+                            <button data-type="button" class="btn btn-ghost btn-sm" onclick="handleFilterClick(&#39;open_now&#39;)">Đang mở cửa</button>
+                            <button data-type="button" class="btn btn-ghost btn-sm" onclick="handleFilterClick(&#39;has_events&#39;)">Có sự kiện</button>
+                        </div>
+                        <div class="flex items-center gap-4 w-full md:w-auto" data-type="container">
+                            <div class="join w-full md:w-auto">
+                                <input class="input input-bordered join-item w-full" placeholder="Tìm kiếm chùa...">
+                                <button class="btn join-item btn-primary">
+                                    <span class="iconify" data-icon="heroicons:magnifying-glass" data-width="20"></span>
+                                </button>
+                            </div>
+                            <div class="btn-group">
+                                <button class="btn btn-primary btn-active" aria-current="page">
+                                    <span class="iconify" data-icon="heroicons:queue-list" data-width="20"></span>
+                                    Danh sách
+                                </button>
+                                <button class="btn btn-outline btn-primary" onclick="navigateTo(&#39;temples_map_view_page&#39;)">
+                                    <span class="iconify" data-icon="heroicons:map" data-width="20"></span>
+                                    Bản đồ
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- Featured Temples Section -->
+            <section id="FeaturedTemples" class="mb-12">
+                <h2 data-type="text" class="text-3xl font-bold text-base-content mb-6">Chùa nổi bật</h2>
+                <div data-type="container" class="carousel carousel-center w-full p-4 space-x-8 bg-base-100 rounded-box">
+                    <div id="featured-temple-1" class="carousel-item">
+                        <div class="card w-80 md:w-96 image-full cursor-pointer shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1" onclick="navigateTo(&#39;temple_detail_page&#39;)">
+                            <figure><img src="https://images.unsplash.com/photo-1671784013006-539dbd5698d4?crop=entropy&amp;amp;cs=tinysrgb&amp;amp;fit=crop&amp;amp;fm=jpg&amp;amp;ixid=M3w3MjkzNDZ8MHwxfHNlYXJjaHwxfHxiYWklMjBkaW5oJTIwcGFnb2RhfGVufDB8fHx8MTc1NTA1Mzg3MXww&amp;amp;ixlib=rb-4.1.0&amp;amp;q=80&amp;amp;w=600&amp;amp;h=400" alt="Chùa Bái Đính"></figure>
+                            <div class="card-body justify-end">
+                                <h3 class="card-title text-2xl">Chùa Bái Đính</h3>
+                                <p>Quần thể chùa lớn nhất Việt Nam với nhiều kỷ lục.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="featured-temple-2" class="carousel-item">
+                         <div class="card w-80 md:w-96 image-full cursor-pointer shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1" onclick="navigateTo(&#39;temple_detail_page&#39;)">
+                            <figure><img src="https://images.unsplash.com/photo-1680962200934-567951e5f4f5?crop=entropy&amp;amp;cs=tinysrgb&amp;amp;fit=crop&amp;amp;fm=jpg&amp;amp;ixid=M3w3MjkzNDZ8MHwxfHNlYXJjaHwxfHx0cmFuJTIwcXVvYyUyMHBhZ29kYXxlbnwwfHx8fDE3NTUwNTM4NzF8MA&amp;amp;ixlib=rb-4.1.0&amp;amp;q=80&amp;amp;w=600&amp;amp;h=400" alt="Chùa Trấn Quốc"></figure>
+                            <div class="card-body justify-end">
+                                <h3 class="card-title text-2xl">Chùa Trấn Quốc</h3>
+                                <p>Ngôi chùa cổ kính và linh thiêng bên Hồ Tây, Hà Nội.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="featured-temple-3" class="carousel-item">
+                         <div class="card w-80 md:w-96 image-full cursor-pointer shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1" onclick="navigateTo(&#39;temple_detail_page&#39;)">
+                            <figure><img src="https://images.unsplash.com/photo-1562521155-6bc21a075b02?crop=entropy&amp;amp;cs=tinysrgb&amp;amp;fit=crop&amp;amp;fm=jpg&amp;amp;ixid=M3w3MjkzNDZ8MHwxfHNlYXJjaHwzfHx0aGllbiUyMG11JTIwcGFnb2RhfGVufDB8fHx8MTc1NTA1Mzg3MXww&amp;amp;ixlib=rb-4.1.0&amp;amp;q=80&amp;amp;w=600&amp;amp;h=400" alt="Chùa Thiên Mụ"></figure>
+                            <div class="card-body justify-end">
+                                <h3 class="card-title text-2xl">Chùa Thiên Mụ</h3>
+                                <p>Biểu tượng của xứ Huế mộng mơ bên dòng sông Hương.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="featured-temple-4" class="carousel-item">
+                         <div class="card w-80 md:w-96 image-full cursor-pointer shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1" onclick="navigateTo(&#39;temple_detail_page&#39;)">
+                            <figure><img src="https://images.unsplash.com/photo-1679685808091-3ef6056dde59?crop=entropy&amp;amp;cs=tinysrgb&amp;amp;fit=crop&amp;amp;fm=jpg&amp;amp;ixid=M3w3MjkzNDZ8MHwxfHNlYXJjaHwxfHx2aW5oJTIwbmdoaWVtJTIwcGFnb2RhfGVufDB8fHx8MTc1NTA1Mzg3M3ww&amp;amp;ixlib=rb-4.1.0&amp;amp;q=80&amp;amp;w=600&amp;amp;h=400" alt="Chùa Vĩnh Nghiêm"></figure>
+                            <div class="card-body justify-end">
+                                <h3 class="card-title text-2xl">Chùa Vĩnh Nghiêm</h3>
+                                <p>Kiến trúc đá độc đáo và trung tâm Phật giáo lớn.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Temple List Grid Section -->
+            <section id="TempleListGrid" class="py-8">
+                 <h2 data-type="text" class="text-3xl font-bold text-base-content mb-6">Tất cả các chùa</h2>
+                <div data-type="container" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+                    <!-- Temple Card Example 1 -->
+                    <div data-repeatable="true" class="card bg-base-100 shadow-md hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 cursor-pointer" onclick="navigateTo(&#39;temple_detail_page&#39;)">
+                        <figure class="aspect-w-16 aspect-h-9"><img class="object-cover w-full h-full" src="https://images.unsplash.com/photo-1671726374905-7d2f959acb9d?crop=entropy&amp;amp;cs=tinysrgb&amp;amp;fit=crop&amp;amp;fm=jpg&amp;amp;ixid=M3w3MjkzNDZ8MHwxfHNlYXJjaHwzfHxsaW5oJTIwdW5nJTIwcGFnb2RhfGVufDB8fHx8MTc1NTA1Mzg3MHww&amp;amp;ixlib=rb-4.1.0&amp;amp;q=80&amp;amp;w=600&amp;amp;h=400" alt="Chùa Linh Ứng"></figure>
+                        <div class="card-body p-6">
+                            <h3 class="card-title text-xl font-semibold">Chùa Linh Ứng</h3>
+                            <div class="flex items-center gap-2 text-base-content/70 mt-2 text-sm">
+                                <span class="iconify" data-icon="heroicons:map-pin"></span>
+                                <span>2.5 km</span>
+                            </div>
+                             <div class="card-actions justify-end mt-4">
+                                <div class="badge badge-success badge-outline">Đang mở cửa</div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Temple Card Example 2 -->
+                    <div data-repeatable="true" class="card bg-base-100 shadow-md hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 cursor-pointer" onclick="navigateTo(&#39;temple_detail_page&#39;)">
+                        <figure class="aspect-w-16 aspect-h-9"><img class="object-cover w-full h-full" src="https://images.unsplash.com/photo-1608452644617-d892b9ccb543?crop=entropy&amp;amp;cs=tinysrgb&amp;amp;fit=crop&amp;amp;fm=jpg&amp;amp;ixid=M3w3MjkzNDZ8MHwxfHNlYXJjaHwxfHxwZXJmdW1lJTIwcGFnb2RhfGVufDB8fHx8MTc1NTA1Mzg3M3ww&amp;amp;ixlib=rb-4.1.0&amp;amp;q=80&amp;amp;w=600&amp;amp;h=400" alt="Chùa Hương"></figure>
+                        <div class="card-body p-6">
+                            <h3 class="card-title text-xl font-semibold">Chùa Hương</h3>
+                            <div class="flex items-center gap-2 text-base-content/70 mt-2 text-sm">
+                                <span class="iconify" data-icon="heroicons:map-pin"></span>
+                                <span>15.8 km</span>
+                            </div>
+                            <div class="card-actions justify-end mt-4">
+                                <div class="badge badge-error badge-outline">Đã đóng cửa</div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Temple Card Example 3 -->
+                    <div data-repeatable="true" class="card bg-base-100 shadow-md hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 cursor-pointer" onclick="navigateTo(&#39;temple_detail_page&#39;)">
+                        <figure class="aspect-w-16 aspect-h-9"><img class="object-cover w-full h-full" src="https://images.unsplash.com/photo-1608452644617-d892b9ccb543?crop=entropy&amp;amp;cs=tinysrgb&amp;amp;fit=crop&amp;amp;fm=jpg&amp;amp;ixid=M3w3MjkzNDZ8MHwxfHNlYXJjaHwzfHxvbmUlMjBwaWxsYXIlMjBwYWdvZGF8ZW58MHx8fHwxNzU1MDUzODczfDA&amp;amp;ixlib=rb-4.1.0&amp;amp;q=80&amp;amp;w=600&amp;amp;h=400" alt="Chùa Một Cột"></figure>
+                        <div class="card-body p-6">
+                            <h3 class="card-title text-xl font-semibold">Chùa Một Cột</h3>
+                            <div class="flex items-center gap-2 text-base-content/70 mt-2 text-sm">
+                                <span class="iconify" data-icon="heroicons:map-pin"></span>
+                                <span>5.1 km</span>
+                            </div>
+                             <div class="card-actions justify-end mt-4">
+                                <div class="badge badge-success badge-outline">Đang mở cửa</div>
+                                <div class="badge badge-info badge-outline">Sự kiện</div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Temple Card Example 4 -->
+                    <div data-repeatable="true" class="card bg-base-100 shadow-md hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 cursor-pointer" onclick="navigateTo(&#39;temple_detail_page&#39;)">
+                        <figure class="aspect-w-16 aspect-h-9"><img class="object-cover w-full h-full" src="https://images.unsplash.com/photo-1708918025913-3674375f616b?crop=entropy&amp;amp;cs=tinysrgb&amp;amp;fit=crop&amp;amp;fm=jpg&amp;amp;ixid=M3w3MjkzNDZ8MHwxfHNlYXJjaHwzfHx0YW0lMjBjaHVjJTIwcGFnb2RhfGVufDB8fHx8MTc1NTA1Mzg3NHww&amp;amp;ixlib=rb-4.1.0&amp;amp;q=80&amp;amp;w=600&amp;amp;h=400" alt="Chùa Tam Chúc"></figure>
+                        <div class="card-body p-6">
+                            <h3 class="card-title text-xl font-semibold">Chùa Tam Chúc</h3>
+                            <div class="flex items-center gap-2 text-base-content/70 mt-2 text-sm">
+                                <span class="iconify" data-icon="heroicons:map-pin"></span>
+                                <span>30.2 km</span>
+                            </div>
+                            <div class="card-actions justify-end mt-4">
+                                <div class="badge badge-success badge-outline">Đang mở cửa</div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Add more temple cards as needed -->
+                </div>
+                <!-- Pagination / Load More -->
+                <div class="text-center mt-12">
+                    <button class="btn btn-primary btn-wide" onclick="loadMoreTemples()">Tải thêm</button>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <div data-section-id="footer_web" data-section-type="common_footer" class="bg-base-200">
+    <!-- Main Footer Content -->
+    <footer class="footer footer-horizontal p-10 text-base-content">
+        <!-- Company Info -->
+        <aside>
+            <div class="flex items-center gap-2 mb-4">
+                <span class="iconify text-primary" data-icon="mdi:lotus" data-width="32"></span>
+                <span class="text-xl font-bold text-primary">Pagoda</span>
+            </div>
+            <p class="text-sm text-base-content opacity-70 max-w-xs">
+                Kết nối cộng đồng Phật tử toàn cầu với chùa, sự kiện và tài nguyên Phật giáo. 
+                Hành trình tâm linh của bạn bắt đầu từ đây.
+            </p>
+            <div class="flex gap-4 mt-4">
+                <a class="text-base-content hover:text-primary smooth-transition cursor-pointer">
+                    <span class="iconify" data-icon="mdi:facebook" data-width="24"></span>
+                </a>
+                <a class="text-base-content hover:text-primary smooth-transition cursor-pointer">
+                    <span class="iconify" data-icon="mdi:youtube" data-width="24"></span>
+                </a>
+                <a class="text-base-content hover:text-primary smooth-transition cursor-pointer">
+                    <span class="iconify" data-icon="mdi:instagram" data-width="24"></span>
+                </a>
+                <a class="text-base-content hover:text-primary smooth-transition cursor-pointer">
+                    <span class="iconify" data-icon="mdi:telegram" data-width="24"></span>
+                </a>
+            </div>
+        </aside>
+
+        <!-- Services Navigation -->
+        <nav>
+            <header class="footer-title text-base-content font-semibold">Dịch vụ</header>
+            <a onclick="navigateTo(&#39;temples_list_page&#39;)" class="link link-hover cursor-pointer">Tìm chùa</a>
+            <a onclick="navigateTo(&#39;events_list_page&#39;)" class="link link-hover cursor-pointer">Sự kiện Phật giáo</a>
+            <a onclick="navigateTo(&#39;community_hub_page&#39;)" class="link link-hover cursor-pointer">Cộng đồng</a>
+            <a onclick="navigateTo(&#39;shops_list_page&#39;)" class="link link-hover cursor-pointer">Pháp cụ</a>
+            <a onclick="navigateTo(&#39;charity_list_page&#39;)" class="link link-hover cursor-pointer">Từ thiện</a>
+        </nav>
+
+        <!-- Company Navigation -->
+        <nav>
+            <header class="footer-title text-base-content font-semibold">Công ty</header>
+            <a onclick="navigateTo(&#39;about_us_page&#39;)" class="link link-hover cursor-pointer">Về chúng tôi</a>
+            <a onclick="navigateTo(&#39;community_news_page&#39;)" class="link link-hover cursor-pointer">Tin tức</a>
+            <a onclick="navigateTo(&#39;contact_us_page&#39;)" class="link link-hover cursor-pointer">Liên hệ</a>
+            <a class="link link-hover cursor-pointer">Tuyển dụng</a>
+            <a class="link link-hover cursor-pointer">Đối tác</a>
+        </nav>
+
+        <!-- Support Navigation -->
+        <nav>
+            <header class="footer-title text-base-content font-semibold">Hỗ trợ</header>
+            <a class="link link-hover cursor-pointer">Trung tâm trợ giúp</a>
+            <a class="link link-hover cursor-pointer">Câu hỏi thường gặp</a>
+            <a onclick="navigateTo(&#39;contact_us_page&#39;)" class="link link-hover cursor-pointer">Hỗ trợ kỹ thuật</a>
+            <a class="link link-hover cursor-pointer">Phản hồi</a>
+            <a onclick="navigateTo(&#39;privacy_policy_page&#39;)" class="link link-hover cursor-pointer">Chính sách bảo mật</a>
+            <a onclick="navigateTo(&#39;terms_of_service_page&#39;)" class="link link-hover cursor-pointer">Điều khoản dịch vụ</a>
+        </nav>
+    </footer>
+
+    <!-- Bottom Copyright Section -->
+    <footer class="footer footer-center p-4 bg-base-300 text-base-content border-t border-base-200">
+        <aside>
+            <p class="text-sm">
+                © 2025 Pagoda. Tất cả quyền được bảo lưu. |
+                <span onclick="navigateTo(&#39;privacy_policy_page&#39;)" class="text-primary cursor-pointer hover:underline">Chính sách bảo mật</span> |
+                <span onclick="navigateTo(&#39;terms_of_service_page&#39;)" class="text-primary cursor-pointer hover:underline">Điều khoản dịch vụ</span>
+            </p>
+        </aside>
+    </footer>
+</div>
+
+<style>
+[data-section-id="footer_web"] .footer-title {
+    margin-bottom: 1rem;
+}
+
+[data-section-id="footer_web"] .link-hover:hover {
+    color: var(--color-primary);
+    text-decoration: none;
+}
+
+[data-section-id="footer_web"] nav a {
+    display: block;
+    margin-bottom: 0.5rem;
+}
+</style>
+
+<script>
+(function() {
+    // Footer specific functionality
+    console.log(&#39;Pagoda footer component loaded&#39;);
+})();
+</script>
+
+    <script>
+(function() {
+    // Global navigation function
+    window.navigateTo = function(targetPageId) {
+        const isInIframe = window.self !== window.top;
+        const targetFileName = `${targetPageId}.html`;
+        
+        if (isInIframe) {
+            window.parent.postMessage({
+                type: &#39;iframeNavigation&#39;,
+                targetPageId: targetPageId
+            }, &#39;*&#39;);
+        } else {
+            window.location.href = targetFileName;
+        }
+    };
+
+    // Global utility functions for Pagoda app
+    window.PagodaUtils = {
+        // Toggle mobile menu
+        toggleMobileMenu: function() {
+            const menu = document.getElementById(&#39;mobile-menu&#39;);
+            if (menu) {
+                menu.classList.toggle(&#39;hidden&#39;);
+            }
+        },
+
+        // Handle search form submission
+        handleSearch: function(form) {
+            const formData = new FormData(form);
+            const searchQuery = formData.get(&#39;search&#39;) || formData.get(&#39;searchQuery&#39;);
+            const category = formData.get(&#39;category&#39;);
+            
+            if (searchQuery &amp;&amp; searchQuery.trim()) {
+                // Navigate to search results with parameters
+                navigateTo(&#39;search_page&#39;);
+                return true;
+            }
+            return false; // Prevent default form submission
+        },
+
+        // Handle language selection
+        handleLanguageChange: function(language) {
+            console.log(&#39;Language changed to:&#39;, language);
+            // Implementation for language change
+            localStorage.setItem(&#39;pagoda_language&#39;, language);
+        },
+
+        // Format numbers for donations and prices
+        formatCurrency: function(amount, currency = &#39;VND&#39;) {
+            if (currency === &#39;VND&#39;) {
+                return new Intl.NumberFormat(&#39;vi-VN&#39;, {
+                    style: &#39;currency&#39;,
+                    currency: &#39;VND&#39;
+                }).format(amount);
+            }
+            return new Intl.NumberFormat(&#39;en-US&#39;, {
+                style: &#39;currency&#39;,
+                currency: currency
+            }).format(amount);
+        },
+
+        // Format distance for temples and restaurants
+        formatDistance: function(distanceKm) {
+            if (distanceKm < 1) {
+                return `${Math.round(distanceKm * 1000)}m`;
+            }
+            return `${distanceKm.toFixed(1)}km`;
+        },
+
+        // Handle notification actions
+        toggleNotifications: function() {
+            // Implementation for notification toggle
+            console.log(&#39;Toggle notifications&#39;);
+        },
+
+        // Handle follow/unfollow temples
+        toggleTempleFollow: function(templeId) {
+            console.log(&#39;Toggle follow for temple:&#39;, templeId);
+            // Implementation for following temples
+        },
+
+        // Show toast messages
+        showToast: function(message, type = &#39;info&#39;) {
+            // Create and show toast notification
+            const toast = document.createElement(&#39;div&#39;);
+            toast.className = `toast toast-top toast-center z-50`;
+            toast.innerHTML = `
+                <div class="alert alert-${type}">
+                    <span>${message}</span>
+                </div>
+            `;
+            
+            document.body.appendChild(toast);
+            
+            // Auto remove after 3 seconds
+            setTimeout(() => {
+                if (document.body.contains(toast)) {
+                    document.body.removeChild(toast);
+                }
+            }, 3000);
+        }
+    };
+
+    // Initialize app globals
+    window.APP_GLOBALS = window.APP_GLOBALS || {};
+    window.APP_GLOBALS.currentUser = null;
+    window.APP_GLOBALS.currentLocation = null;
+    window.APP_GLOBALS.followedTemples = [];
+})();
+</script>
+    <script>
+document.addEventListener(&#39;DOMContentLoaded&#39;, function() {
+    // --- INITIALIZATION ---
+    // Set the active navigation link in the header
+    if (window.setActiveNavigation) {
+        window.setActiveNavigation(&#39;temples_list_page&#39;);
+    }
+
+    // Set the breadcrumbs for this page
+    if (window.setBreadcrumb &amp;&amp; window.BreadcrumbPatterns) {
+        setBreadcrumb(BreadcrumbPatterns.templesList());
+    }
+
+    // --- STUB FUNCTIONS FOR UI INTERACTIONS ---
+
+    // Handler for quick filter buttons
+    window.handleFilterClick = function(filterType) {
+        console.log(`Filtering by: ${filterType}`);
+        // In a real application, this would trigger an API call to refetch and render the temple list.
+        // For this demo, we can just provide visual feedback.
+        PagodaUtils.showToast(`Đang lọc theo: ${filterType}`, &#39;info&#39;);
+    };
+
+    // Handler for the "Load More" button
+    window.loadMoreTemples = function() {
+        const loadMoreBtn = event.target;
+        loadMoreBtn.classList.add(&#39;loading&#39;);
+        loadMoreBtn.textContent = &#39;Đang tải...&#39;;
+
+        // Simulate a network request
+        setTimeout(() => {
+            loadMoreBtn.classList.remove(&#39;loading&#39;);
+            loadMoreBtn.textContent = &#39;Tải thêm&#39;;
+            // In a real app, you would append new temple cards to the grid here.
+            PagodaUtils.showToast(&#39;Đã tải thêm chùa!&#39;, &#39;success&#39;);
+        }, 1500);
+    };
+
+});
+</script>
+
+</body></html>'></iframe>
+                    </div>
+                  </div>
+
+                </body>
+                </html>
+            

@@ -1,0 +1,517 @@
+
+                <!DOCTYPE html>
+                <html lang="zh">
+                <head>
+                  <meta charset="UTF-8">
+                  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                  <title>Bản đồ Chùa</title>
+                  <style>
+                    *,
+                    *::before,
+                    *::after {
+                      box-sizing: border-box;
+                      margin: 0;
+                    }
+                   .iframe-outer {
+                      position: fixed;
+                      inset: 0;
+                      display: flex;
+                      justify-content: center;
+                      background-color: #fff;
+                    }
+                    .iframe-wrapper {
+                      width: 100%;
+                      height: 100%;
+                      transform: none !important;
+                    }
+                    #dynamicIframe {
+                      border: none;
+                      width: 100%;
+                      height: 100%;
+                    }
+                  </style>
+                  <script>
+                const width = 1920
+                const height = 1080
+                const resolutionRatio = width && height ? width / height : 1
+                const pageNameMap = {
+                  'login_page': 'Đăng nhập',
+    'registration_page': 'Đăng ký',
+    'forgot_password_page': 'Quên mật khẩu',
+    'home_page': 'Trang chủ',
+    'temples_list_page': 'Danh sách Chùa',
+    'temple_detail_page': 'Chi tiết Chùa',
+    'temples_map_view_page': 'Bản đồ Chùa',
+    'events_list_page': 'Danh sách Sự kiện',
+    'event_detail_page': 'Chi tiết Sự kiện',
+    'community_hub_page': 'Trung tâm Cộng đồng',
+    'community_news_page': 'Tin tức Cộng đồng',
+    'community_livestream_page': 'Phát trực tiếp Cộng đồng',
+    'community_forum_main_page': 'Diễn đàn Cộng đồng',
+    'shops_list_page': 'Danh sách Cửa hàng',
+    'shop_product_detail_page': 'Chi tiết Sản phẩm',
+    'checkout_page': 'Thanh toán',
+    'payment_confirmation_page': 'Xác nhận Thanh toán',
+    'eats_list_page': 'Danh sách Món chay',
+    'eats_detail_page': 'Chi tiết Món chay',
+    'charity_list_page': 'Danh sách Từ thiện',
+    'charity_detail_page': 'Chi tiết Tổ chức Từ thiện',
+    'donation_page': 'Quyên góp',
+    'donation_confirmation_page': 'Xác nhận Quyên góp',
+    'search_page': 'Tìm kiếm',
+    'notifications_page': 'Thông báo',
+    'user_profile_page': 'Hồ sơ người dùng',
+    'account_settings_page': 'Cài đặt tài khoản',
+    'about_us_page': 'Về chúng tôi',
+    'contact_us_page': 'Liên hệ',
+    'privacy_policy_page': 'Chính sách bảo mật',
+    'terms_of_service_page': 'Điều khoản dịch vụ'
+                }
+                function setIframeSize(w, h) {
+                  const currentContainerRadio = w / h
+                  let widthValue = w
+                  let heightValue = h
+                  let zoom = 1
+                  if (currentContainerRadio > resolutionRatio) {
+                    widthValue = h * resolutionRatio
+                    heightValue = h
+                  } else {
+                    widthValue = w
+                    heightValue = w / resolutionRatio
+                  }
+                  zoom = width ? widthValue / width : 1
+                  return {
+                    width: widthValue / zoom + 'px',
+                    height: heightValue / zoom + 'px',
+                    zoom,
+                  }
+                }
+                function adjustIframeSize() {
+                  const iframeWrapper = document.querySelector(".iframe-wrapper")
+                  const { width, height, zoom } = setIframeSize(window.innerWidth, window.innerHeight)
+                  iframeWrapper.style.height = height
+                  iframeWrapper.style.width = width
+                  iframeWrapper.style.transform = 'scale(' + zoom + ')'
+                }
+                function sanitizeFilename(name) {
+                  return name.replace(/[\/:*?"<>|]/g, '_')
+                }
+                function handlePostMessage(event) {
+                  if (!event.data) {
+                    return
+                  }
+                  const { type, targetPageId } = event.data
+                  const targetPageName = pageNameMap[targetPageId]
+                  if (type === "iframeNavigation" && targetPageId && targetPageName) {
+                    window.location.href = targetPageName + '.html'
+                  }
+                }
+                window.addEventListener('message', handlePostMessage)
+                window.onload = adjustIframeSize
+                window.onresize = adjustIframeSize
+                window.onunload = () => {
+                  window.removeEventListener('message', handlePostMessage)
+                }
+              </script>
+                </head>
+                <body>
+                  <div class="iframe-outer">
+                    <div class="iframe-wrapper">
+                      <iframe id="dynamicIframe" srcdoc='<html lang="vi" data-theme="light"><head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bản đồ Chùa - Pagoda</title>
+    <link href="./assets/aec0181c/npm/daisyui@5.css" rel="stylesheet" type="text/css">
+    <script src="./assets/1f17f226/npm/@tailwindcss/browser@4.js"></script>
+    <link href="./assets/npm/daisyui@5/themes.css" rel="stylesheet" type="text/css">
+    <script src="./assets/3/3.1.1/iconify.min.js"></script>
+    <style>
+/* Import Inter font family */
+@import url(&#39;https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;display=swap&#39;);
+
+/* daisyUI Theme Variables Customization
+ * Based on the Pagoda Buddhist app requirements and UI guidance
+ */
+:root {
+    /* Brand colors from Pagoda design document */
+    --color-primary: rgba(142, 68, 173, 1); /* #8E44AD purple lotus */
+    --color-primary-content: rgba(255, 255, 255, 1);
+    --color-secondary: rgba(241, 196, 15, 1); /* #F1C40F earth yellow */
+    --color-secondary-content: rgba(26, 39, 50, 1);
+    --color-accent: rgba(142, 68, 173, 1);
+    --color-accent-content: rgba(255, 255, 255, 1);
+
+    /* Background colors - clean and serene */
+    --color-base-100: rgba(255, 255, 255, 1); /* Pure white for cards */
+    --color-base-200: rgba(248, 249, 250, 1); /* Light neutral #F8F9FA */
+    --color-base-300: rgba(229, 231, 235, 1);
+    --color-base-content: rgba(46, 58, 69, 1); /* Dark charcoal #2E3A45 */
+
+    /* Semantic colors */
+    --color-success: rgba(67, 160, 71, 1); /* #43A047 */
+    --color-success-content: rgba(255, 255, 255, 1);
+    --color-warning: rgba(253, 216, 53, 1); /* #FDD835 */
+    --color-warning-content: rgba(26, 39, 50, 1);
+    --color-error: rgba(229, 57, 53, 1); /* #E53935 */
+    --color-error-content: rgba(255, 255, 255, 1);
+    --color-info: rgba(142, 68, 173, 1);
+    --color-info-content: rgba(255, 255, 255, 1);
+
+    /* Typography and styling */
+    --radius-box: 0.5rem; /* 8px border radius for Buddhist serenity */
+    --radius-btn: 0.5rem;
+    --border: 1px;
+}
+
+/* Typography settings */
+body {
+    font-family: &#39;Inter&#39;, sans-serif;
+    font-size: 16px;
+    line-height: 1.6;
+    color: var(--color-base-content);
+    letter-spacing: 0.02em;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: &#39;Inter&#39;, sans-serif;
+    font-weight: 600;
+    line-height: 1.3;
+    color: rgba(26, 39, 50, 1); /* #1A2732 for headings */
+    letter-spacing: 0.02em;
+}
+
+h1 { font-size: 2rem; } /* 32px */
+h2 { font-size: 1.5rem; } /* 24px */
+h3 { font-size: 1.25rem; } /* 20px */
+
+/* Custom shadow for floating panels - subtle and serene */
+.custom-shadow {
+    box-shadow: 0px 4px 12px rgba(142, 68, 173, 0.08);
+}
+
+/* Smooth transitions */
+.smooth-transition {
+    transition: all 0.2s ease-out;
+}
+
+.smooth-transition-long {
+    transition: all 0.3s ease-in-out;
+}
+
+/* Buddhist-inspired decorative elements */
+.lotus-gradient {
+    background: linear-gradient(135deg, var(--color-primary), var(--color-secondary));
+}
+
+.serene-bg {
+    background: linear-gradient(180deg, rgba(248, 249, 250, 1), rgba(255, 255, 255, 1));
+}
+</style> <style>
+    @keyframes pulse-marker {
+        0%, 100% {
+            transform: scale(1);
+            opacity: 1;
+        }
+        50% {
+            transform: scale(1.3);
+            opacity: 0.8;
+        }
+    }
+
+    .map-marker-pulse {
+        animation: pulse-marker 2s ease-in-out infinite;
+    }
+
+    #info-popup {
+        transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
+    }
+
+    #info-popup.hidden {
+        opacity: 0;
+        transform: translate(-50%, -50%) scale(0.95);
+        pointer-events: none;
+    }
+
+    /* Style for dropdown menu to prevent closing on checkbox click */
+    .dropdown-content .form-control {
+        padding: 0.25rem 0.5rem;
+        border-radius: var(--radius-box);
+    }
+    .dropdown-content .form-control:hover {
+        background-color: var(--color-base-200);
+    }
+
+    .btn-neutral:not(.btn-circle){
+        color: var(--color-base-content);
+    }
+</style>
+  </head>
+  <body class="flex flex-col min-h-screen bg-base-200 font-sans">
+    <main class="relative flex-1">
+      <section id="MapInteractionSection" class="w-full h-full">
+        <!-- Map Placeholder -->
+        <div data-type="container" class="absolute inset-0 bg-base-300" style="background-image: url(&amp;quot;https://spark-builder.s3.us-east-1.amazonaws.com/image/2025/8/13/66d2824f-870f-4aba-b38c-1865484e5837.png&amp;quot;); background-size: cover; background-position: center center;" id="ioxx">
+          <!-- Mock Map Marker Example -->
+          <div data-type="container" class="absolute" id="imgk" style="top: 50%; left: 50%; transform: translate(-50%, -50%);">
+            <button class="btn btn-ghost btn-circle map-marker-pulse" onclick="toggleInfoPopup(true)">
+              <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" width="1em" height="1em" viewBox="0 0 24 24" data-original="&amp;lt;span class=&amp;quot;iconify text-primary text-4xl&amp;quot; data-icon=&amp;quot;mdi:temple-buddhist&amp;quot;&amp;gt;&amp;lt;/span&amp;gt;" class="iconify text-primary text-4xl">
+                <path fill="currentColor" d="M21 9c0 1.1-.9 2-2 2H5c-1.1 0-2-.9-2-2H1c0 1.9 1.3 3.4 3 3.8V22h6v-3c0-1.1.9-2 2-2s2 .9 2 2v3h6v-9.1c.5-.1 3-1 3-3.9zM6 8.9V10h12V8.9c.5-.1 3-1 3-3.9h-2c0 1.1-.9 2-2 2H7c-1.1 0-2-.9-2-2H3c0 1.9 1.3 3.4 3 3.9M12 1L8.2 6h7.5z"></path>
+              </svg>
+            </button>
+          </div>
+          <div data-type="container" class="absolute" id="iz0tz" style="top: 40%; left: 60%; transform: translate(-50%, -50%);">
+            <button class="btn btn-ghost btn-circle" onclick="toggleInfoPopup(true)">
+              <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" width="1em" height="1em" viewBox="0 0 24 24" data-original="&amp;lt;span class=&amp;quot;iconify text-primary/80 text-4xl&amp;quot; data-icon=&amp;quot;mdi:temple-buddhist-outline&amp;quot;&amp;gt;&amp;lt;/span&amp;gt;" class="iconify text-primary/80 text-4xl">
+                <path fill="currentColor" d="M21 9c0 1.1-.9 2-2 2h-1V8.9c1.7-.4 3-2 3-3.8h-2c0 1.1-.9 2-2 2h-.5L12 1L7.5 7H7c-1.1 0-2-.9-2-2H3c0 1.9 1.3 3.4 3 3.8V11H5c-1.1 0-2-.9-2-2H1c0 1.9 1.3 3.4 3 3.8V22h7v-4c0-.5.4-1 1-1s1 .5 1 1v4h7v-9.1c1.7-.4 3-2 3-3.8zm-9-4.7L14 7h-4zM8 9h8v2H8zm10 11h-3v-2c0-1.6-1.4-3-3-3s-3 1.4-3 3v2H6v-7h12z"></path>
+              </svg>
+            </button>
+          </div>
+          <div data-type="container" class="absolute" id="inswt" style="top: 65%; left: 45%; transform: translate(-50%, -50%);">
+            <button class="btn btn-ghost btn-circle" onclick="toggleInfoPopup(true)">
+              <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" width="1em" height="1em" viewBox="0 0 24 24" data-original="&amp;lt;span class=&amp;quot;iconify text-primary/80 text-4xl&amp;quot; data-icon=&amp;quot;mdi:temple-buddhist-outline&amp;quot;&amp;gt;&amp;lt;/span&amp;gt;" class="iconify text-primary/80 text-4xl">
+                <path fill="currentColor" d="M21 9c0 1.1-.9 2-2 2h-1V8.9c1.7-.4 3-2 3-3.8h-2c0 1.1-.9 2-2 2h-.5L12 1L7.5 7H7c-1.1 0-2-.9-2-2H3c0 1.9 1.3 3.4 3 3.8V11H5c-1.1 0-2-.9-2-2H1c0 1.9 1.3 3.4 3 3.8V22h7v-4c0-.5.4-1 1-1s1 .5 1 1v4h7v-9.1c1.7-.4 3-2 3-3.8zm-9-4.7L14 7h-4zM8 9h8v2H8zm10 11h-3v-2c0-1.6-1.4-3-3-3s-3 1.4-3 3v2H6v-7h12z"></path>
+              </svg>
+            </button>
+          </div>
+        </div>
+        <!-- Back Button -->
+        <div data-type="container" class="absolute top-6 left-6 z-10">
+          <button data-type="button" class="btn btn-neutral gap-2 shadow-lg bg-base-100/80 backdrop-blur-sm border-base-300/50 hover:bg-base-100" onclick="navigateTo(&#39;temples_list_page&#39;)">
+            <span class="iconify" data-icon="heroicons:arrow-left-20-solid" data-width="20"></span><span data-type="text">Quay lại Danh sách</span>
+          </button>
+        </div>
+        <!-- Filter Controls -->
+        <div data-type="container" class="absolute top-6 right-6 z-10">
+          <div class="dropdown dropdown-end">
+            <button data-type="button" tabindex="0" role="button" class="btn btn-neutral gap-2 shadow-lg bg-base-100/80 backdrop-blur-sm border-base-300/50 hover:bg-base-100">
+              <span class="iconify" data-icon="heroicons:funnel-20-solid" data-width="20"></span><span data-type="text">Chủng loại Chùa</span><span class="iconify" data-icon="heroicons:chevron-down-20-solid" data-width="16"></span>
+            </button>
+            <div tabindex="0" class="dropdown-content menu p-4 shadow-lg bg-base-100/90 backdrop-blur-sm rounded-box w-64 mt-2 space-y-2 border border-base-300/50">
+              <h3 data-type="text" class="font-bold text-base px-2">
+                Lọc theo chủng loại
+              </h3>
+              <div data-repeatable="true" class="form-control">
+                <label class="label cursor-pointer justify-start gap-3"><input type="checkbox" checked="checked" class="checkbox checkbox-primary"><span data-type="text" class="label-text">Phật giáo Bắc tông</span></label>
+              </div>
+              <div data-repeatable="true" class="form-control">
+                <label class="label cursor-pointer justify-start gap-3"><input type="checkbox" class="checkbox checkbox-primary"><span data-type="text" class="label-text">Phật giáo Nam tông</span></label>
+              </div>
+              <div data-repeatable="true" class="form-control">
+                <label class="label cursor-pointer justify-start gap-3"><input type="checkbox" class="checkbox checkbox-primary"><span data-type="text" class="label-text">Thiền viện</span></label>
+              </div>
+              <div class="divider my-1"></div>
+              <button data-type="button" class="btn btn-primary btn-sm" onclick="applyFilters()">
+                Áp dụng
+              </button>
+            </div>
+          </div>
+        </div>
+        <!-- Map Tools -->
+        <div data-type="container" class="absolute bottom-6 right-6 z-10 flex flex-col gap-2">
+          <div class="btn-group btn-group-vertical shadow-lg">
+            <button data-type="button" class="btn btn-neutral bg-base-100/80 backdrop-blur-sm border-b-base-300/25 border-x-0" onclick="zoomIn()">
+              <span class="iconify" data-icon="heroicons:plus-20-solid" data-width="20"></span></button><button data-type="button" class="btn btn-neutral bg-base-100/80 backdrop-blur-sm border-t-base-300/25 border-x-0" onclick="zoomOut()">
+              <span class="iconify" data-icon="heroicons:minus-20-solid" data-width="20"></span>
+            </button>
+          </div>
+          <button data-type="button" aria-label="Vị trí của tôi" class="btn btn-neutral btn-circle shadow-lg bg-base-100/80 backdrop-blur-sm border-base-300/50" onclick="locateUser()">
+            <span class="iconify" data-icon="heroicons:map-pin-20-solid" data-width="20"></span>
+          </button>
+        </div>
+        <!-- Temple Info Popup -->
+        <div id="info-popup" data-type="container" class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-20 hidden card w-[24rem] bg-base-100/80 backdrop-blur-md shadow-2xl border border-base-300/50 smooth-transition">
+          <button class="btn btn-sm btn-circle btn-ghost absolute -top-3 -right-3 bg-base-200/90" onclick="toggleInfoPopup(false)">
+            ✕
+          </button>
+          <figure class="h-48">
+            <img data-type="image" src="https://images.unsplash.com/photo-1520283451192-c3b05d7db25b?crop=entropy&amp;amp;cs=tinysrgb&amp;amp;fit=crop&amp;amp;fm=jpg&amp;amp;ixid=M3w3MjkzNDZ8MHwxfHNlYXJjaHwyfHxhbmNpZW50JTIwdGVtcGxlfGVufDB8fHx8MTc1NTA1Mzg2Mnww&amp;amp;ixlib=rb-4.1.0&amp;amp;q=80&amp;amp;w=400&amp;amp;h=200" alt="Hình ảnh ngôi chùa" class="object-cover w-full h-full">
+          </figure>
+          <div class="card-body p-6">
+            <h2 data-type="text" class="card-title text-xl font-bold">
+              Chùa Trấn Quốc
+            </h2>
+            <p data-type="text" class="text-base-content/80 mt-1">
+              Khoảng cách: 2.5 km. Ngôi chùa cổ nhất tại Hà Nội với hơn 1,500
+              năm lịch sử.
+            </p>
+            <div class="card-actions justify-end mt-4">
+              <button data-type="button" class="btn btn-ghost" onclick="openDirections()">
+                <span class="iconify" data-icon="heroicons:map-solid" data-width="20"></span><span data-type="text">Chỉ đường</span></button><button data-type="button" class="btn btn-primary" onclick="navigateTo(&#39;temple_detail_page&#39;)">
+                <span class="iconify" data-icon="heroicons:arrow-right-circle-solid" data-width="20"></span><span data-type="text">Xem chi tiết</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+    <script>
+(function() {
+    // Global navigation function
+    window.navigateTo = function(targetPageId) {
+        const isInIframe = window.self !== window.top;
+        const targetFileName = `${targetPageId}.html`;
+        
+        if (isInIframe) {
+            window.parent.postMessage({
+                type: &#39;iframeNavigation&#39;,
+                targetPageId: targetPageId
+            }, &#39;*&#39;);
+        } else {
+            window.location.href = targetFileName;
+        }
+    };
+
+    // Global utility functions for Pagoda app
+    window.PagodaUtils = {
+        // Toggle mobile menu
+        toggleMobileMenu: function() {
+            const menu = document.getElementById(&#39;mobile-menu&#39;);
+            if (menu) {
+                menu.classList.toggle(&#39;hidden&#39;);
+            }
+        },
+
+        // Handle search form submission
+        handleSearch: function(form) {
+            const formData = new FormData(form);
+            const searchQuery = formData.get(&#39;search&#39;) || formData.get(&#39;searchQuery&#39;);
+            const category = formData.get(&#39;category&#39;);
+            
+            if (searchQuery &amp;&amp; searchQuery.trim()) {
+                // Navigate to search results with parameters
+                navigateTo(&#39;search_page&#39;);
+                return true;
+            }
+            return false; // Prevent default form submission
+        },
+
+        // Handle language selection
+        handleLanguageChange: function(language) {
+            console.log(&#39;Language changed to:&#39;, language);
+            // Implementation for language change
+            localStorage.setItem(&#39;pagoda_language&#39;, language);
+        },
+
+        // Format numbers for donations and prices
+        formatCurrency: function(amount, currency = &#39;VND&#39;) {
+            if (currency === &#39;VND&#39;) {
+                return new Intl.NumberFormat(&#39;vi-VN&#39;, {
+                    style: &#39;currency&#39;,
+                    currency: &#39;VND&#39;
+                }).format(amount);
+            }
+            return new Intl.NumberFormat(&#39;en-US&#39;, {
+                style: &#39;currency&#39;,
+                currency: currency
+            }).format(amount);
+        },
+
+        // Format distance for temples and restaurants
+        formatDistance: function(distanceKm) {
+            if (distanceKm < 1) {
+                return `${Math.round(distanceKm * 1000)}m`;
+            }
+            return `${distanceKm.toFixed(1)}km`;
+        },
+
+        // Handle notification actions
+        toggleNotifications: function() {
+            // Implementation for notification toggle
+            console.log(&#39;Toggle notifications&#39;);
+        },
+
+        // Handle follow/unfollow temples
+        toggleTempleFollow: function(templeId) {
+            console.log(&#39;Toggle follow for temple:&#39;, templeId);
+            // Implementation for following temples
+        },
+
+        // Show toast messages
+        showToast: function(message, type = &#39;info&#39;) {
+            // Create and show toast notification
+            const toast = document.createElement(&#39;div&#39;);
+            toast.className = `toast toast-top toast-center z-50`;
+            toast.innerHTML = `
+                <div class="alert alert-${type}">
+                    <span>${message}</span>
+                </div>
+            `;
+            
+            document.body.appendChild(toast);
+            
+            // Auto remove after 3 seconds
+            setTimeout(() => {
+                if (document.body.contains(toast)) {
+                    document.body.removeChild(toast);
+                }
+            }, 3000);
+        }
+    };
+
+    // Initialize app globals
+    window.APP_GLOBALS = window.APP_GLOBALS || {};
+    window.APP_GLOBALS.currentUser = null;
+    window.APP_GLOBALS.currentLocation = null;
+    window.APP_GLOBALS.followedTemples = [];
+})();
+</script><script>
+    // Stub functions for map interactions.
+    // In a real application, these would interact with a mapping library like Google Maps or Leaflet.
+
+    function toggleInfoPopup(show) {
+        const popup = document.getElementById(&#39;info-popup&#39;);
+        if (show) {
+            popup.classList.remove(&#39;hidden&#39;);
+        } else {
+            popup.classList.add(&#39;hidden&#39;);
+        }
+    }
+
+    function applyFilters() {
+        console.log("Applying filters...");
+        // This would typically re-query the data and update map markers.
+        PagodaUtils.showToast(&#39;Đã áp dụng bộ lọc.&#39;, &#39;success&#39;);
+        // Close dropdown after applying
+        const dropdown = document.querySelector(&#39;.dropdown.dropdown-open&#39;);
+        if (dropdown) {
+           dropdown.removeAttribute(&#39;open&#39;);
+        }
+    }
+
+    function locateUser() {
+        console.log("Locating user...");
+        PagodaUtils.showToast(&#39;Đang xác định vị trí của bạn...&#39;, &#39;info&#39;);
+        // This would use the browser&#39;s Geolocation API.
+    }
+
+    function zoomIn() {
+        console.log("Zooming in...");
+         PagodaUtils.showToast(&#39;Phóng to bản đồ&#39;, &#39;info&#39;);
+    }
+
+    function zoomOut() {
+        console.log("Zooming out...");
+        PagodaUtils.showToast(&#39;Thu nhỏ bản đồ&#39;, &#39;info&#39;);
+    }
+    
+    function openDirections() {
+        console.log("Opening directions in external map application...");
+        PagodaUtils.showToast(&#39;Đang mở chỉ đường trong ứng dụng bản đồ...&#39;, &#39;info&#39;);
+        // This could open a URL like `https://www.google.com/maps/dir/?api=1&amp;destination=...`
+    }
+
+    document.addEventListener(&#39;DOMContentLoaded&#39;, () => {
+        // Hide popup by default
+        toggleInfoPopup(false);
+    });
+
+</script>
+  
+
+</body></html>'></iframe>
+                    </div>
+                  </div>
+
+                </body>
+                </html>
+            
